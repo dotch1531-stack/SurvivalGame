@@ -5,5 +5,5 @@ comment1.target=MyWorld()
 comment2.params=
 comment2.target=void\ act()
 comment3.params=
-comment3.target=void\ getItems()
+comment3.target=void\ getItemsInventory()
 numComments=4

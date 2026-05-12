@@ -1,9 +1,13 @@
 import greenfoot.*;
 import java.util.*;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.IOException;
+import org.json.*;
 
 public class MyWorld extends World
 {
+    boolean firstRead = false;
     private TreeMap<String, Integer> inventory = new TreeMap<>();
     public MyWorld()
     {    
@@ -12,14 +16,24 @@ public class MyWorld extends World
         
     }
     public void act(){
-        getItems();
+        if(!firstRead){
+            getItemsInventory();
+        }
     }
-    private void getItems(){
-        inventory.put("Holz", 20);
-        inventory.put("Stein", 1);
-        
-        for(String i : inventory.keySet()){
-            System.out.println(i + " , " + inventory.getOrDefault(i, 0));
+    private void getItemsInventory(){
+        try{
+            String json = new String(Files.readAllBytes(Paths.get("items/inventar/inventory.json")));
+            
+            JSONObject inventoryJSON = new JSONObject(json);
+            
+            for(String i : inventoryJSON.keySet()){
+                inventory.put(i, inventoryJSON.getInt(i));
+            }
+            firstRead = true;
+            System.out.println(inventory);
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 }
