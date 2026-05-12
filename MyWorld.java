@@ -1,6 +1,6 @@
 import greenfoot.*;
 import java.util.*;
-import org.json.simple.JSONObject;
+
 
 public class MyWorld extends World
 {
