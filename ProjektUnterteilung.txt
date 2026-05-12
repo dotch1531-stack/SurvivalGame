@@ -1,0 +1,9 @@
+Survival Game auf Insel
+
+-Player
+-Storry -> Ende
+-Waffen
+-Gegner / Tiere
+-Crafting menu
+-Chests / Lootdrops
+-(saves)
