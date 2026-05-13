@@ -5,11 +5,11 @@ import java.nio.file.Paths;
 import java.io.IOException;
 import org.json.*;
 
-public class MyWorld extends World
+public class Inventory extends World
 {
     boolean firstRead = false;
     private TreeMap<String, Integer> inventory = new TreeMap<>();
-    public MyWorld()
+    public Inventory()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1); 
