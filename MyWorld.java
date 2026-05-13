@@ -9,6 +9,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MyWorld extends World
 {
     public boolean inventoryOpen = false;
+    
+    private InventorySlots inventorySlot1;
+    private InventoryScreen inventoryScreen;
+    
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -16,14 +20,27 @@ public class MyWorld extends World
     public MyWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1); 
+        super(800, 800, 1); 
     }
-    public void act(){
-        if(Greenfoot.isKeyDown("tab") && !inventoryOpen){
+    public void act()
+    {
+        if(Greenfoot.isKeyDown("tab") && !inventoryOpen)
+        {
             inventoryOpen = true;
-            
-            InventoryScreen inventoryScreen = new InventoryScreen();
-            addObject(inventoryScreen, 0, 0);
+
+            inventoryScreen = new InventoryScreen();
+            addObject(inventoryScreen, 400, 400);
+
+            inventorySlot1 = new InventorySlots();
+            addObject(inventorySlot1, 400, 400);
+        }
+
+        if(Greenfoot.isKeyDown("tab") && inventoryOpen)
+        {
+            inventoryOpen = false;
+
+            removeObject(inventoryScreen);
+            removeObject(inventorySlot1);
         }
     }
 }

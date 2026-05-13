@@ -16,7 +16,7 @@ public class InventoryScreen extends Actor
 {
     
     boolean firstRead = false;
-    private TreeMap<String, Integer> inventory = new TreeMap<>();
+    protected TreeMap<String, Integer> inventory = new TreeMap<>();
     
     /**
      * Act - do whatever the InventoryScreen wants to do. This method is called whenever
@@ -24,15 +24,15 @@ public class InventoryScreen extends Actor
      */
     public void act()
     {
+        Greenfoot.delay(10);
         if(!firstRead){
             getItemsInventory();
         }
         if(Greenfoot.isKeyDown("tab")){
             firstRead = false;
             setItemsInventory();
-            Greenfoot.setWorld(new MyWorld());
+
         }
-        Greenfoot.delay(3);
     }
     private void getItemsInventory(){
         try{
