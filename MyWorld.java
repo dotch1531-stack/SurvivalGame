@@ -33,14 +33,22 @@ public class MyWorld extends World
 
             inventorySlot1 = new InventorySlots();
             addObject(inventorySlot1, 400, 400);
+            
+            inventoryScreen.getItemsInventory();
+            
+            Greenfoot.delay(10);
         }
-
-        if(Greenfoot.isKeyDown("tab") && inventoryOpen)
-        {
+        else if(Greenfoot.isKeyDown("tab") && inventoryOpen)
+        {   
             inventoryOpen = false;
+            
+            inventoryScreen.firstRead = false;
+            inventoryScreen.setItemsInventory();
 
             removeObject(inventoryScreen);
             removeObject(inventorySlot1);
+            
+            Greenfoot.delay(10);
         }
     }
 }

@@ -15,7 +15,7 @@ import org.json.*;
 public class InventoryScreen extends Actor
 {
     
-    boolean firstRead = false;
+    public boolean firstRead = false;
     protected TreeMap<String, Integer> inventory = new TreeMap<>();
     
     /**
@@ -24,17 +24,9 @@ public class InventoryScreen extends Actor
      */
     public void act()
     {
-        Greenfoot.delay(10);
-        if(!firstRead){
-            getItemsInventory();
-        }
-        if(Greenfoot.isKeyDown("tab")){
-            firstRead = false;
-            setItemsInventory();
-
-        }
+        
     }
-    private void getItemsInventory(){
+    public void getItemsInventory(){
         try{
             String json = new String(Files.readAllBytes(Paths.get("items/inventar/inventory.json")));
             
@@ -44,13 +36,12 @@ public class InventoryScreen extends Actor
                 inventory.put(i, inventoryJSON.getInt(i));
             }
             firstRead = true;
-            System.out.println(inventory);
         }
         catch (IOException e){
             e.printStackTrace();
         }
     }
-    private void setItemsInventory(){
+    public void setItemsInventory(){
         JSONObject json = new JSONObject(inventory);
         
         try{
