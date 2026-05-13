@@ -1,8 +1,16 @@
 #Greenfoot project file
+<<<<<<< Updated upstream
 editor.fx.0.height=0
 editor.fx.0.width=0
 editor.fx.0.x=0
 editor.fx.0.y=0
+=======
+class.Player.image=Characteranimation.png
+editor.fx.0.height=1026
+editor.fx.0.width=1696
+editor.fx.0.x=-8
+editor.fx.0.y=-8
+>>>>>>> Stashed changes
 height=1026
 package.numDependencies=0
 package.numTargets=5
@@ -60,4 +68,4 @@ version=3.1.0
 width=1696
 world.lastInstantiated=MyWorld
 xPosition=0
-yPosition=282
+yPosition=0
