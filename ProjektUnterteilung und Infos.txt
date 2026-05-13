@@ -1,0 +1,18 @@
+Survival Game auf Insel
+
+-Player
+-Storry -> Ende
+-Waffen
+-Gegner / Tiere
+-Crafting menu
+-Chests / Lootdrops
+-(saves)
+
+Story vorschlag:
+- Gestranded auf einer insel nach Helikopter Crash
+- schlüssel von mini Bossen
+- (mehrere) schlüssel um Endboss angreifen zu können
+  nach Sieg -> bedingung zum verlassen der insel erfüllt
+- Endboss dropt crafting Material für repairkit
+- craften von repairkit zum Helikopter reparieren
+   (repairkit braucht auch andere materialien um mit crafting zu interagieren)
