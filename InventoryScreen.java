@@ -36,9 +36,15 @@ public class InventoryScreen extends Actor
                 inventory.put(i, inventoryJSON.getInt(i));
             }
             firstRead = true;
+            System.out.println(inventory);
         }
         catch (IOException e){
             e.printStackTrace();
+        }
+        
+        if(inventory.getOrDefault("Holz", 0) > 0){
+            MyWorld w = (MyWorld) getWorld();
+            w.drawWood();
         }
     }
     public void setItemsInventory(){
@@ -53,5 +59,8 @@ public class InventoryScreen extends Actor
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+    public void showItemsInventory(){
+        
     }
 }

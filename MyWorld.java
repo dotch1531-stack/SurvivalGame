@@ -12,6 +12,7 @@ public class MyWorld extends World
     
     private InventorySlots inventorySlot1;
     private InventoryScreen inventoryScreen;
+    private Wood wood;
     
     /**
      * Constructor for objects of class MyWorld.
@@ -22,10 +23,14 @@ public class MyWorld extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 800, 1); 
     }
+    public void drawWood(){
+        wood = new Wood();
+        addObject(wood, 100, 90);
+    }
     public void act()
     {
         if(Greenfoot.isKeyDown("tab") && !inventoryOpen)
-        {
+        {            
             inventoryOpen = true;
 
             inventoryScreen = new InventoryScreen();
@@ -47,6 +52,7 @@ public class MyWorld extends World
 
             removeObject(inventoryScreen);
             removeObject(inventorySlot1);
+            removeObject(wood);
             
             Greenfoot.delay(10);
         }

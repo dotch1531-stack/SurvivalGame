@@ -1,22 +1,20 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.*;
 
 /**
- * Write a description of class InventorySlots here.
+ * Write a description of class Wood here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class InventorySlots extends InventoryScreen
+public class Wood extends InventorySlots
 {
     /**
-     * Act - do whatever the InventorySlots wants to do. This method is called whenever
+     * Act - do whatever the Wood wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public InventorySlots(){
-        
-    }
     public void act()
     {
-        // Add your action code here.
+
     }
 }
