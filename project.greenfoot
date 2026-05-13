@@ -1,9 +1,10 @@
 #Greenfoot project file
-editor.fx.0.height=739
-editor.fx.0.width=816
-editor.fx.0.x=432
-editor.fx.0.y=88
-height=1018
+class.Player.image=bee.png
+editor.fx.0.height=0
+editor.fx.0.width=0
+editor.fx.0.x=0
+editor.fx.0.y=0
+height=1026
 package.numDependencies=0
 package.numTargets=4
 project.charset=UTF-8
