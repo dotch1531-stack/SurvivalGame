@@ -4,6 +4,7 @@ public class MyWorld extends World
 {
     // ===== INVENTORY =====
     public boolean inventoryOpen = false;
+<<<<<<< HEAD
 
     private InventorySlots inventorySlot1;
     private InventoryScreen inventoryScreen;
@@ -34,6 +35,20 @@ public class MyWorld extends World
     }
 
     // ===== MAIN LOOP =====
+=======
+    
+    private InventoryScreen inventoryScreen;
+    
+    /**
+     * Constructor for objects of class MyWorld.
+     * 
+     */
+    public MyWorld()
+    {    
+        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
+        super(800, 800, 1); 
+    }
+>>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
     public void act()
     {
         handleInventory();
@@ -146,10 +161,14 @@ public class MyWorld extends World
 
             inventoryScreen = new InventoryScreen();
             addObject(inventoryScreen, 400, 400);
+<<<<<<< HEAD
 
             inventorySlot1 = new InventorySlots();
             addObject(inventorySlot1, 400, 400);
 
+=======
+            
+>>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
             inventoryScreen.getItemsInventory();
 
             Greenfoot.delay(1000);
@@ -162,9 +181,14 @@ public class MyWorld extends World
             inventoryScreen.setItemsInventory();
 
             removeObject(inventoryScreen);
+<<<<<<< HEAD
             //removeObject(inventorySlot1);   
 
             Greenfoot.delay(1000);
+=======
+            
+            Greenfoot.delay(10);
+>>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
         }
     }
 

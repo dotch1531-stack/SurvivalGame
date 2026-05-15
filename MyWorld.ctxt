@@ -4,6 +4,7 @@ comment1.params=
 comment1.target=MyWorld()
 comment2.params=
 comment2.target=void\ act()
+<<<<<<< HEAD
 comment3.params=
 comment3.target=void\ handleMovement()
 comment4.params=
@@ -15,3 +16,6 @@ comment6.target=void\ handleInventory()
 comment7.params=
 comment7.target=void\ drawWood()
 numComments=8
+=======
+numComments=3
+>>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
