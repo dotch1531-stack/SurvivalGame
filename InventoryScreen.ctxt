@@ -2,27 +2,23 @@
 comment0.target=InventoryScreen
 comment1.params=
 comment1.target=void\ act()
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ InventoryScreen\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
 comment2.params=
 comment2.target=void\ getItemsInventory()
 comment3.params=
 comment3.target=void\ setItemsInventory()
-comment4.params=
-<<<<<<< HEAD
-comment4.target=void\ updateVisualItems()
+comment4.params=item\ amount
+comment4.target=void\ addItem(java.lang.String,\ int)
 comment5.params=item\ amount
-comment5.target=void\ addItem(java.lang.String,\ int)
-comment6.params=item\ amount
-comment6.target=void\ removeItem(java.lang.String,\ int)
-comment7.params=item
-comment7.target=int\ getItemAmount(java.lang.String)
-numComments=8
-=======
-comment4.target=void\ setImageMap()
-comment4.text=2
-comment5.params=
-comment5.target=void\ scaleImages()
-comment5.text=4
-comment6.params=
-comment6.target=void\ showItemsInventory()
-numComments=7
->>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
+comment5.target=void\ removeItem(java.lang.String,\ int)
+comment6.params=item
+comment6.target=int\ getItemAmount(java.lang.String)
+comment7.params=
+comment7.target=void\ setImageMap()
+comment7.text=2
+comment8.params=
+comment8.target=void\ scaleImages()
+comment8.text=4
+comment9.params=
+comment9.target=void\ showItemsInventory()
+numComments=10

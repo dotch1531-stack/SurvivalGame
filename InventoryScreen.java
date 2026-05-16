@@ -9,18 +9,11 @@ import org.json.*;
 public class InventoryScreen extends Actor
 {
     public boolean firstRead = false;
-<<<<<<< HEAD
 
     protected TreeMap<String, Integer> inventory = new TreeMap<>();
 
-    private final String INVENTORY_PATH =
-        "items/inventar/inventory.json";
+    private final String INVENTORY_PATH = "items/inventar/inventory.json";
 
-=======
-    
-    protected TreeMap<String, Integer> inventory = new TreeMap<>();
-    
-    
     /**
      * Falls ihr neue Items selber hinzufügen wollt:
      * 
@@ -36,41 +29,37 @@ public class InventoryScreen extends Actor
      * weil die angegebenen Positionen gelten nur für die einzelnen Slots und nicht für die Items, die alphabetisch geordnet sind.
      * außerdem werden items die man nicht hat(also 0 sind) übergangen und nicht angezeigt
      */
-    
+
     /*  1  */
     GreenfootImage woodImg = new GreenfootImage("wood.png");
     GreenfootImage stoneImg = new GreenfootImage("stein.png");
     GreenfootImage ironImg = new GreenfootImage("iron.png");
-    
+
     TreeMap<String, GreenfootImage> images = new TreeMap<>();
-    
+
     /*  3  */
     int[] x = {25, 225, 425};
     int[] y = {-5, -5, -5};
-    
-    
+
     /**
      * Act - do whatever the InventoryScreen wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
->>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
     public void act()
     {
 
     }
-<<<<<<< HEAD
 
     public void getItemsInventory()
     {
         inventory.clear();
 
+        setImageMap();
+        scaleImages();
+
         try
         {
-            String jsonText = new String(
-                Files.readAllBytes(
-                    Paths.get(INVENTORY_PATH)
-                )
-            );
+            String jsonText = new String(Files.readAllBytes(Paths.get(INVENTORY_PATH)));
 
             // Prevent crash if file empty
             if(jsonText.trim().isEmpty())
@@ -83,45 +72,26 @@ public class InventoryScreen extends Actor
 
             for(String key : inventoryJSON.keySet())
             {
-                inventory.put(
-                    key,
-                    inventoryJSON.getInt(key)
-                );
+                inventory.put(key, inventoryJSON.getInt(key));
             }
 
             firstRead = true;
 
             System.out.println("Inventory loaded:");
             System.out.println(inventory);
-=======
-    public void getItemsInventory(){
-        setImageMap();
-        scaleImages();
-        
-        try{
-            String json = new String(Files.readAllBytes(Paths.get("items/inventar/inventory.json")));
-            JSONObject inventoryJSON = new JSONObject(json);
-            
-            for(String i : inventoryJSON.keySet()){
-                inventory.put(i, inventoryJSON.getInt(i));
-            }
-            
-            firstRead = true;
->>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
         }
         catch(IOException e)
         {
             System.out.println("Could not read inventory file.");
             e.printStackTrace();
         }
-<<<<<<< HEAD
         catch(JSONException e)
         {
             System.out.println("Inventory JSON invalid.");
             e.printStackTrace();
         }
 
-        updateVisualItems();
+        showItemsInventory();
     }
 
     public void setItemsInventory()
@@ -130,8 +100,7 @@ public class InventoryScreen extends Actor
 
         try
         {
-            FileWriter writer =
-                new FileWriter(INVENTORY_PATH);
+            FileWriter writer = new FileWriter(INVENTORY_PATH);
 
             writer.write(json.toString(4));
 
@@ -147,35 +116,14 @@ public class InventoryScreen extends Actor
         }
     }
 
-    public void updateVisualItems()
-    {
-        MyWorld w = (MyWorld)getWorld();
-
-        if(w == null)
-            return;
-
-        if(inventory.getOrDefault("Holz", 0) > 0)
-        {
-            w.drawWood();
-        }
-=======
-        
-        showItemsInventory();
->>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
-    }
-
     public void addItem(String item, int amount)
     {
-        inventory.put(
-            item,
-            inventory.getOrDefault(item, 0) + amount
-        );
+        inventory.put(item, inventory.getOrDefault(item, 0) + amount);
     }
 
     public void removeItem(String item, int amount)
     {
-        int current =
-            inventory.getOrDefault(item, 0);
+        int current = inventory.getOrDefault(item, 0);
 
         current -= amount;
 
@@ -188,39 +136,42 @@ public class InventoryScreen extends Actor
             inventory.put(item, current);
         }
     }
-<<<<<<< HEAD
 
     public int getItemAmount(String item)
     {
         return inventory.getOrDefault(item, 0);
-=======
-    
+    }
+
     /*  2  */
-    public void setImageMap(){
+    public void setImageMap()
+    {
         /*  Schlüssel (erster Parameter) mus gleich mit JSON name(schlüssel) sein & zweiter Parameter das Bild  */
         images.put("Holz", woodImg);
         images.put("Stein", stoneImg);
         images.put("Eisen", ironImg);
     }
-    
+
     /*  4  */
-    public void scaleImages(){
+    public void scaleImages()
+    {
         stoneImg.scale(150, 150);
         ironImg.scale(150, 150);
         woodImg.scale(150, 150);
     }
-    
-    
-    public void showItemsInventory(){
+
+    public void showItemsInventory()
+    {
         GreenfootImage img = getImage();
-        
+
         int loop = 0;
-        for(String i : inventory.keySet()){
-            if(inventory.getOrDefault(i, 0) > 0){
+
+        for(String i : inventory.keySet())
+        {
+            if(inventory.getOrDefault(i, 0) > 0)
+            {
                 img.drawImage(images.get(i), x[loop], y[loop]);
                 loop++;
             }
         }
->>>>>>> e9e27a4180a3493152b2cef86b9abc18a5689836
     }
 }
