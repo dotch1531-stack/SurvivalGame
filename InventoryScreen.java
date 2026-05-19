@@ -13,6 +13,22 @@ public class InventoryScreen extends Actor
     protected TreeMap<String, Integer> inventory = new TreeMap<>();
 
     private final String INVENTORY_PATH = "items/inventar/inventory.json";
+    
+    GreenfootImage zero = new GreenfootImage("0.png");
+    GreenfootImage one = new GreenfootImage("1.png");
+    GreenfootImage two = new GreenfootImage("2.png");
+    GreenfootImage three = new GreenfootImage("3.png");
+    GreenfootImage four = new GreenfootImage("4.png");
+    GreenfootImage five = new GreenfootImage("5.png");
+    GreenfootImage six = new GreenfootImage("6.png");
+    GreenfootImage seven = new GreenfootImage("7.png");
+    GreenfootImage eight = new GreenfootImage("8.png");
+    GreenfootImage nine = new GreenfootImage("9.png");
+    
+    GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
+    int[] numbersX = {30, 50, 230, 250, 430, 450};
+    int[] numbersY = {20, 20, 20, 20, 20, 20};
+    
 
     /**
      * Falls ihr neue Items selber hinzufügen wollt:
@@ -67,8 +83,7 @@ public class InventoryScreen extends Actor
                 jsonText = "{}";
             }
 
-            JSONObject inventoryJSON =
-                new JSONObject(jsonText);
+            JSONObject inventoryJSON = new JSONObject(jsonText);
 
             for(String key : inventoryJSON.keySet())
             {
@@ -76,9 +91,6 @@ public class InventoryScreen extends Actor
             }
 
             firstRead = true;
-
-            System.out.println("Inventory loaded:");
-            System.out.println(inventory);
         }
         catch(IOException e)
         {
@@ -106,8 +118,6 @@ public class InventoryScreen extends Actor
 
             writer.flush();
             writer.close();
-
-            System.out.println("Inventory saved.");
         }
         catch(IOException e)
         {
@@ -171,6 +181,24 @@ public class InventoryScreen extends Actor
             {
                 img.drawImage(images.get(i), x[loop], y[loop]);
                 loop++;
+            }
+        }
+        addNumbers();
+    }
+    
+    public void addNumbers(){
+        int loop = 0;
+        for(String key : inventory.keySet()){
+            String intToString = Integer.toString(inventory.getOrDefault(key, 0));
+            
+            if(intToString.length() < 2){
+                intToString = "0" + intToString;
+            }
+            
+            for(int i = 0; i < intToString.length(); i++){
+                int number = Integer.parseInt(String.valueOf(intToString.charAt(i)));
+                getImage().drawImage(numberArray[number], numbersX[loop], numbersY[loop]);
+                loop += 1;
             }
         }
     }
