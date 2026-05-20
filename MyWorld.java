@@ -8,8 +8,10 @@ public class MyWorld extends World
     
     // ===== INVENTORY =====
     public boolean inventoryOpen = false;
+    public boolean craftOpen = false;
 
     private InventoryScreen inventoryScreen;
+    private CraftingScreen craftingScreen;
 
     
     // ===== WORLD =====
@@ -42,8 +44,9 @@ public class MyWorld extends World
     public void act()
     {
         handleInventory();
+        handleCraft();
 
-        if(!inventoryOpen)
+        if(!inventoryOpen && !craftOpen)
         {
             handleMovement();
             renderWorld();
@@ -164,6 +167,28 @@ public class MyWorld extends World
             inventoryScreen.setItemsInventory();
 
             removeObject(inventoryScreen);
+
+            Greenfoot.delay(10);
+        }
+    }
+    public void handleCraft()
+    {
+        if(Greenfoot.isKeyDown("e") && !craftOpen)
+        {
+            craftOpen = true;
+
+            craftingScreen = new CraftingScreen();
+            addObject(craftingScreen, 400, 400);
+            
+            craftingScreen.setCraftingImages();
+            
+            Greenfoot.delay(10);
+        }
+        else if(Greenfoot.isKeyDown("e") && craftOpen)
+        {
+            craftOpen = false;
+
+            removeObject(craftingScreen);
 
             Greenfoot.delay(10);
         }
