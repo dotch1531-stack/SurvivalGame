@@ -8,21 +8,32 @@ public class Player extends Actor
     int frameWidth = 120;
     int totalFrames = 2;
 
-    int animationSpeed = 15;
+    int animationSpeed = 12;
     int counter = 0;
 
     public Player()
     {
-        spriteSheet = new GreenfootImage("JoeIdle.png");
+        spriteSheet = new GreenfootImage("Player/JoeIdle.png");
     }
 
     public void act()
     {
-        animate();
+        movement();
+    }
+    
+    public void movement()
+    {
+        if(Greenfoot.isKeyDown("w")){animate("Up");}
+        else if(Greenfoot.isKeyDown("s")){animate("Down");}
+        else if(Greenfoot.isKeyDown("a")){animate("Left");}
+        else if(Greenfoot.isKeyDown("d")){animate("Right");}
+        else {setImage(new GreenfootImage("Player/JoeIdle.png"));}
     }
 
-    public void animate()
+    public void animate(String where)
     {
+        spriteSheet = new GreenfootImage("Player/Joe" + where + ".png");
+        
         counter++;
 
         if(counter >= animationSpeed)

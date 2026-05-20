@@ -23,6 +23,8 @@ public class MyWorld extends World
 
     private int waterFrame = 0;
     private int animationTimer = 1;
+    
+    
 
     /**
      * Constructor for objects of class MyWorld.
@@ -49,6 +51,8 @@ public class MyWorld extends World
                 0
             );
         }
+        Player player = new Player();
+        addObject(player, 400, 400);
     }
 
     public void act()
