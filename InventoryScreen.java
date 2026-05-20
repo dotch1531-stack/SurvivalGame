@@ -26,8 +26,8 @@ public class InventoryScreen extends Actor
     GreenfootImage nine = new GreenfootImage("9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    int[] numbersX = {30, 50, 230, 250, 430, 450};
-    int[] numbersY = {20, 20, 20, 20, 20, 20};
+    int[] numbersX = {123, 140, 323, 340, 523, 540};
+    int[] numbersY = {130, 130, 130, 130, 130, 130};
     
 
     /**
@@ -167,6 +167,10 @@ public class InventoryScreen extends Actor
         stoneImg.scale(150, 150);
         ironImg.scale(150, 150);
         woodImg.scale(150, 150);
+        
+        for(int i = 0; i < 10; i++){
+            numberArray[i].scale(15, 30);
+        }
     }
 
     public void showItemsInventory()
