@@ -102,45 +102,50 @@ public class MyWorld extends World
 
     // ===== FIXED TILE GENERATION =====
     public int getTile(int x, int y)
-    {
-        int n = x * 73856093
-              ^ y * 19349663
-              ^ worldSeed;
+{
+    // ===== LARGE SCALE TERRAIN =====
+    double largeNoise =
+        Math.sin((x + worldSeed) * 0.01) +
+        Math.cos((y - worldSeed) * 0.01);
 
-        n = Math.abs(n);
+    largeNoise = (largeNoise + 2) / 4.0;
 
-        // ===== LAKES =====
-        double lake = Math.sin(n * 0.00001) + Math.cos(n * 0.00002);
-        lake = (lake + 2) / 4.0;
+    // ===== SMALL DETAIL NOISE =====
+    double detailNoise =
+        Math.sin(x * 0.08) *
+        Math.cos(y * 0.08);
 
-        if(lake > 0.80)
-            return 2;
+    detailNoise = (detailNoise + 1) / 2.0;
 
-        // ===== RIVER =====
-        double riverWave =
-            Math.sin((y + worldSeed) * 0.02) * 60;
+    // ===== COMBINED HEIGHT =====
+    double height =
+        largeNoise * 0.8 +
+        detailNoise * 0.2;
 
-        double riverX = 400 + riverWave;
+    // ===== RIVER =====
+    double river =
+        400 +
+        Math.sin((y + worldSeed) * 0.02) * 80 +
+        Math.sin(y * 0.05) * 20;
 
-        if(Math.abs(x - riverX) < 3)
-            return 2;
+    if(Math.abs(x - river) < 4)
+        return 2;
 
-        // ===== ROCK BIOME =====
-        double terrain =
-            Math.sin(x * 0.06 + worldSeed * 0.001) +
-            Math.cos(y * 0.06 - worldSeed * 0.001);
+    // ===== LAKES =====
+    if(height < 0.28)
+        return 2;
 
-        terrain = (terrain + 2) / 4.0;
+    // ===== ROCK BIOME =====
+    double rockNoise =
+        Math.sin(x * 0.15 + worldSeed) *
+        Math.cos(y * 0.15 - worldSeed);
 
-        double rockNoise =
-            Math.sin(x * 0.08 + worldSeed) *
-            Math.cos(y * 0.08 - worldSeed);
+    if(height > 0.68 && rockNoise > -0.1)
+        return 1;
 
-        if(terrain > 0.72 && rockNoise > 0.2)
-            return 1;
-
-        return 0;
-    }
+    // ===== GRASS =====
+    return 0;
+}
 
     // ===== INVENTORY SYSTEM =====
     public void handleInventory()
