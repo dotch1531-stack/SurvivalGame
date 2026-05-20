@@ -1,22 +1,17 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import org.json.*;
 
-/**
- * Write a description of class craftingScreen here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class CraftingScreen extends Actor
 {
-    /**
-     * Act - do whatever the craftingScreen wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    
+    private GreenfootImage swordButton = new GreenfootImage("SwordButton.png");
+
+    
     public void act()
     {
         // Add your action code here.
     }
     public void setCraftingImages(){
-        
+        getImage().drawImage(swordButton, 10, 10);
     }
 }
