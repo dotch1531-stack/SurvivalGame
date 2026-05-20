@@ -4,16 +4,16 @@ public class Player extends Actor
     GreenfootImage spriteSheet;
 
     int frame = 0;
-    int frameHeight = 64;
-    int frameWidth = 64;
-    int totalFrames = 4;
+    int frameHeight = 120;
+    int frameWidth = 120;
+    int totalFrames = 2;
 
-    int animationSpeed = 5;
+    int animationSpeed = 15;
     int counter = 0;
 
     public Player()
     {
-        spriteSheet = new GreenfootImage("Characteranimation.png");
+        spriteSheet = new GreenfootImage("JoeIdle.png");
     }
 
     public void act()
