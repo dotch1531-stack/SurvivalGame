@@ -396,7 +396,7 @@ public class MyWorld extends World
 
             inventoryScreen.getItemsInventory();
 
-            Greenfoot.delay(40);
+            Greenfoot.delay(20);
         }
         else if(Greenfoot.isKeyDown("tab") && inventoryOpen)
         {
@@ -407,7 +407,7 @@ public class MyWorld extends World
 
             removeObject(inventoryScreen);
 
-            Greenfoot.delay(40);
+            Greenfoot.delay(20);
         }
     }
 
