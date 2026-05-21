@@ -1,10 +1,4 @@
 {
     "name": "Holz",
-    "stackSize": 50,
-    "recipie": {
-        "planks": 20,
-        "log": 1
-    },
-    "minable": true,
-    "tool": "axe"
+    "stackSize": 99
 }

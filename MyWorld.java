@@ -2,16 +2,11 @@ import greenfoot.*;
 
 public class MyWorld extends World
 {
-    //              BITTE KEINE MERGE-KONFLIKTE MEHR
-    //              HAT NE GUTE HALBE STUNDE GEBRAUCHT DEN ZU LÖSEN
-    
-    
     // ===== INVENTORY =====
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
 
-    
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
 
@@ -20,45 +15,223 @@ public class MyWorld extends World
     public int cameraX = 0;
     public int cameraY = 0;
 
-    private GreenfootImage grass;
-    private GreenfootImage rock;
-    private GreenfootImage water;
+    private GreenfootImage tileSet;
+    private GreenfootImage[] tiles;
+
+    private int waterFrame = 0;
+    private int animationTimer = 1;
+
+    Player player = new Player();
+
+    // ===== TILE TYPES =====
+    public static final int GRASS = 0;
+    public static final int ROCK = 2;
+    public static final int WATER = 3;
+
+    // ===== BIOMES =====
+    public static final int BIOME_GRASS = 0;
+    public static final int BIOME_STONE = 1;
+    public static final int BIOME_WATER = 2;
+
+    // ===== CACHE =====
+    private java.util.HashMap<String, Integer> tileCache =
+        new java.util.HashMap<>();
+
+    private java.util.HashMap<String, Integer> biomeCache =
+        new java.util.HashMap<>();
+
+    // ===== TREE CACHE =====
+    private java.util.HashSet<String> generatedTreeTiles =
+    new java.util.HashSet<>();
+        
+    private java.util.HashSet<String> spawnedObjects =
+    new java.util.HashSet<>();
+    
+    //=======INVISIBLE=====
+    GreenfootImage invisible = new GreenfootImage("invisible.png");
 
     /**
      * Constructor for objects of class MyWorld.
-     * 
      */
     public MyWorld()
-    {    
+    {
         super(800, 800, 1);
 
         worldSeed = Greenfoot.getRandomNumber(1000000);
 
-        grass = new GreenfootImage("grass.png");
-        rock  = new GreenfootImage("rock.png");
-        water = new GreenfootImage("water.png");
+        tileSet = new GreenfootImage("tileset.png");
+
+        tiles = new GreenfootImage[6];
+
+        // ===== LOAD TILES =====
+        for(int i = 0; i < 6; i++)
+        {
+            tiles[i] = new GreenfootImage(TILE_SIZE, TILE_SIZE);
+
+            tiles[i].drawImage(
+                tileSet,
+                -i * TILE_SIZE,
+                0
+            );
+        }
+
+        addObject(player, 400, 400);
+
+    }
+    
+    public void generateVisibleObjects()
+    {
+        int startX = Math.floorDiv(cameraX, TILE_SIZE) - 10;
+        int startY = Math.floorDiv(cameraY, TILE_SIZE) - 10;
+    
+        int endX = startX + 40;
+        int endY = startY + 40;
+    
+        for(int x = startX; x < endX; x++)
+        {
+            for(int y = startY; y < endY; y++)
+            {
+                String key = x + "," + y;
+    
+                if(spawnedObjects.contains(key))
+                    continue;
+    
+                spawnedObjects.add(key);
+    
+                int biome = getBiome(x, y);
+    
+                // 🌳 TREES
+                if(biome == BIOME_GRASS && Greenfoot.getRandomNumber(1000) < 8)
+                {
+                    spawnObject(new Tree(), x, y);
+                }
+    
+                /* 🪨 ROCKS (example)
+                if(biome == BIOME_STONE && Greenfoot.getRandomNumber(1000) < 5)
+                {
+                    spawnObject(new Rock(), x, y);
+                }
+                */
+            }
+        }
+    }
+    
+    public void spawnObject(WorldObject obj, int tileX, int tileY)
+    {
+        obj.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
+        obj.worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
+    
+        addObject(obj,
+            obj.worldX - cameraX,
+            obj.worldY - cameraY
+        );
+    }
+    
+    public void updateObjects()
+    {
+        java.util.List<WorldObject> objects = getObjects(WorldObject.class);
+        for(WorldObject obj : objects)
+        {
+            obj.updateScreenPosition(cameraX, cameraY);
+            
+            
+            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
+
+        }
+    }
+
+    
+    public boolean collidesWithSolid(int newCameraX, int newCameraY)
+    {
+        int playerX = newCameraX + player.getX();
+        int playerY = newCameraY + player.getY();
+    
+        for(Tree tree : getObjects(Tree.class))
+        {
+            int dx = playerX - tree.worldX;
+            int dy = playerY - tree.worldY;
+    
+            if(dx * dx + dy * dy < 30 * 30)
+                return true;
+        }
+    
+        return false;
     }
 
     public void act()
     {
         handleInventory();
-
+        updateObjects();
         if(!inventoryOpen)
         {
             handleMovement();
+
+            
+            updateWaterAnimation();
+
             renderWorld();
         }
+        
+        generateVisibleObjects();
+        updateObjects();
+        
+        for(WorldObject obj : getNearbyObjects(80))
+        {
+            if(obj instanceof Tree && Greenfoot.isKeyDown("e"))
+            {
+                removeObject(obj);
+            }
+        }
+
+        // ===== WATER DETECTION =====
+        if(getCurrentTile() == WATER)
+            player.inWater();
+        else
+            player.notInWater();
     }
 
     // ===== MOVEMENT =====
     public void handleMovement()
     {
-        int speed = 5;
+        int speed = 4;
+    
+        int newX = cameraX;
+        int newY = cameraY;
+    
+        if(Greenfoot.isKeyDown("w")) newY -= speed;
+        if(Greenfoot.isKeyDown("s")) newY += speed;
+        if(Greenfoot.isKeyDown("a")) newX -= speed;
+        if(Greenfoot.isKeyDown("d")) newX += speed;
+    
+        if(!collidesWithSolid(newX, cameraY))
+            cameraX = newX;
+    
+        if(!collidesWithSolid(cameraX, newY))
+            cameraY = newY;
+    }
 
-        if(Greenfoot.isKeyDown("w")) cameraY -= speed;
-        if(Greenfoot.isKeyDown("s")) cameraY += speed;
-        if(Greenfoot.isKeyDown("a")) cameraX -= speed;
-        if(Greenfoot.isKeyDown("d")) cameraX += speed;
+    
+
+    // ===== PLAYER TILE =====
+    public int getPlayerTileX()
+    {
+        return Math.floorDiv(cameraX + player.getX(), TILE_SIZE);
+    }
+
+    public int getPlayerTileY()
+    {
+        return Math.floorDiv(cameraY + player.getY(), TILE_SIZE);
+    }
+
+    public int getCurrentTile()
+    {
+        return getTile(getPlayerTileX(), getPlayerTileY());
+    }
+
+    // ===== CURRENT BIOME =====
+    public int getCurrentBiome()
+    {
+        return getBiome(getPlayerTileX(), getPlayerTileY());
     }
 
     // ===== WORLD RENDERING =====
@@ -67,8 +240,9 @@ public class MyWorld extends World
         getBackground().setColor(Color.BLACK);
         getBackground().fill();
 
-        int tilesX = 22;
-        int tilesY = 22;
+        // EXTRA TILES FIXES EDGE OUTLINE
+        int tilesX = 24;
+        int tilesY = 24;
 
         int startX = Math.floorDiv(cameraX, TILE_SIZE);
         int startY = Math.floorDiv(cameraY, TILE_SIZE);
@@ -87,9 +261,15 @@ public class MyWorld extends World
 
                 GreenfootImage img;
 
-                if(tile == 0) img = grass;
-                else if(tile == 1) img = rock;
-                else img = water;
+                // ===== WATER ANIMATION =====
+                if(tile == WATER)
+                {
+                    img = tiles[3 + waterFrame];
+                }
+                else
+                {
+                    img = tiles[tile];
+                }
 
                 getBackground().drawImage(
                     img,
@@ -100,46 +280,108 @@ public class MyWorld extends World
         }
     }
 
-    // ===== FIXED TILE GENERATION =====
+    // ===== BIOME GENERATION =====
+    public int getBiome(int x, int y)
+    {
+        String key = x + "," + y;
+
+        if(biomeCache.containsKey(key))
+            return biomeCache.get(key);
+
+        double continent =
+            Math.sin((x + worldSeed) * 0.003) +
+            Math.cos((y - worldSeed) * 0.003);
+
+        continent = (continent + 2) * 0.25;
+
+        double detail =
+            Math.sin(x * 0.02) *
+            Math.cos(y * 0.02);
+
+        detail = (detail + 1) * 0.5;
+
+        double value =
+            continent * 0.75 +
+            detail * 0.25;
+
+        double river =
+            400 +
+            Math.sin((y + worldSeed) * 0.02) * 80 +
+            Math.sin(y * 0.05) * 20;
+
+        int biome;
+
+        if(Math.abs(x - river) < 4 || value < 0.30)
+        {
+            biome = BIOME_WATER;
+        }
+        else if(value > 0.62)
+        {
+            biome = BIOME_STONE;
+        }
+        else
+        {
+            biome = BIOME_GRASS;
+        }
+
+        biomeCache.put(key, biome);
+
+        return biome;
+    }
+    
+    public java.util.List<WorldObject> getNearbyObjects(int radius)
+    {
+        java.util.List<WorldObject> nearby = new java.util.ArrayList<>();
+    
+        int playerWorldX = cameraX + player.getX();
+        int playerWorldY = cameraY + player.getY();
+    
+        int r2 = radius * radius;
+    
+        for(WorldObject obj : getObjects(WorldObject.class))
+        {
+            int dx = obj.worldX - playerWorldX;
+            int dy = obj.worldY - playerWorldY;
+    
+            if(dx * dx + dy * dy <= r2)
+            {
+                nearby.add(obj);
+            }
+        }
+    
+        return nearby;
+    }
+
+    // ===== TILE GENERATION =====
     public int getTile(int x, int y)
     {
-        int n = x * 73856093
-              ^ y * 19349663
-              ^ worldSeed;
+        String key = x + "," + y;
 
-        n = Math.abs(n);
+        if(tileCache.containsKey(key))
+            return tileCache.get(key);
 
-        // ===== LAKES =====
-        double lake = Math.sin(n * 0.00001) + Math.cos(n * 0.00002);
-        lake = (lake + 2) / 4.0;
+        int biome = getBiome(x, y);
 
-        if(lake > 0.80)
-            return 2;
+        int tile;
 
-        // ===== RIVER =====
-        double riverWave =
-            Math.sin((y + worldSeed) * 0.02) * 60;
+        switch(biome)
+        {
+            case BIOME_WATER:
+                tile = WATER;
+                break;
 
-        double riverX = 400 + riverWave;
+            case BIOME_STONE:
+                tile = ROCK;
+                break;
 
-        if(Math.abs(x - riverX) < 3)
-            return 2;
+            default:
+                tile = GRASS;
+                break;
+        }
 
-        // ===== ROCK BIOME =====
-        double terrain =
-            Math.sin(x * 0.06 + worldSeed * 0.001) +
-            Math.cos(y * 0.06 - worldSeed * 0.001);
+        tileCache.put(key, tile);
 
-        terrain = (terrain + 2) / 4.0;
-
-        double rockNoise =
-            Math.sin(x * 0.08 + worldSeed) *
-            Math.cos(y * 0.08 - worldSeed);
-
-        if(terrain > 0.72 && rockNoise > 0.2)
-            return 1;
-
-        return 0;
+        return tile;
     }
 
     // ===== INVENTORY SYSTEM =====
@@ -153,8 +395,8 @@ public class MyWorld extends World
             addObject(inventoryScreen, 400, 400);
 
             inventoryScreen.getItemsInventory();
-            
-            Greenfoot.delay(10);
+
+            Greenfoot.delay(20);
         }
         else if(Greenfoot.isKeyDown("tab") && inventoryOpen)
         {
@@ -165,7 +407,23 @@ public class MyWorld extends World
 
             removeObject(inventoryScreen);
 
-            Greenfoot.delay(10);
+            Greenfoot.delay(20);
+        }
+    }
+
+    // ===== WATER ANIMATION =====
+    public void updateWaterAnimation()
+    {
+        animationTimer++;
+
+        if(animationTimer >= 120)
+        {
+            animationTimer = 0;
+
+            waterFrame++;
+
+            if(waterFrame > 2)
+                waterFrame = 0;
         }
     }
 }

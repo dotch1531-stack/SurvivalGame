@@ -26,8 +26,8 @@ public class InventoryScreen extends Actor
     GreenfootImage nine = new GreenfootImage("9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    int[] numbersX = {125, 140, 325, 340, 525, 540, 725, 740};
-    int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130};
+    int[] numbersX = {123, 140, 323, 340, 523, 540};
+    int[] numbersY = {130, 130, 130, 130, 130, 130};
     
 
     /**
@@ -126,9 +126,16 @@ public class InventoryScreen extends Actor
         }
     }
 
-    public void addItem(String item, int amount)
+    public void addItem(String item, int amount, int stackSize)
     {
-        inventory.put(item, inventory.getOrDefault(item, 0) + amount);
+        if((inventory.getOrDefault(item, 0) + amount) > stackSize){
+            inventory.put(item, stackSize);
+            
+            //  überschuss muss hier ausgeworfen werden
+        }
+        else{
+            inventory.put(item, inventory.getOrDefault(item, 0) + amount);
+        }
     }
 
     public void removeItem(String item, int amount)
@@ -137,9 +144,12 @@ public class InventoryScreen extends Actor
 
         current -= amount;
 
-        if(current <= 0)
+        if(current == 0)
         {
             inventory.remove(item);
+        }
+        else if(current < 0){
+            System.out.println("zu viel Items weggenommen");
         }
         else
         {
@@ -169,8 +179,7 @@ public class InventoryScreen extends Actor
         woodImg.scale(150, 150);
         
         for(int i = 0; i < 10; i++){
-            numberArray[i].scale(10, 20);
-            numberArray[i].setColor(Color.WHITE);
+            numberArray[i].scale(15, 30);
         }
     }
 
