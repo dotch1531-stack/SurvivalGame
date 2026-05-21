@@ -6,6 +6,13 @@ public class MyWorld extends World
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
+    
+    // ===== CRAFTING =====
+    public boolean craftingMenuOpen = false;
+    
+    private CraftingScreen craftingScreen;
+    
+    public SwordButton swordButton;
 
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
@@ -161,14 +168,14 @@ public class MyWorld extends World
     public void act()
     {
         handleInventory();
+        handleCraftingMenu();
+        
         updateObjects();
-        if(!inventoryOpen)
+        
+        if(!inventoryOpen && !craftingMenuOpen)
         {
             handleMovement();
-
-            
             updateWaterAnimation();
-
             renderWorld();
         }
         
@@ -384,7 +391,7 @@ public class MyWorld extends World
         return tile;
     }
 
-    // ===== INVENTORY SYSTEM =====
+    // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
     {
         if(Greenfoot.isKeyDown("tab") && !inventoryOpen)
@@ -406,6 +413,30 @@ public class MyWorld extends World
             inventoryScreen.setItemsInventory();
 
             removeObject(inventoryScreen);
+
+            Greenfoot.delay(20);
+        }
+    }
+    
+    public void handleCraftingMenu()
+    {
+        if(Greenfoot.isKeyDown("c") && !craftingMenuOpen)
+        {
+            craftingMenuOpen = true;
+
+            craftingScreen = new CraftingScreen();
+            addObject(craftingScreen, 400, 400);
+            
+            swordButton = new SwordButton();
+            addObject(swordButton, 150, 70);
+
+            Greenfoot.delay(20);
+        }
+        else if(Greenfoot.isKeyDown("c") && craftingMenuOpen)
+        {
+            craftingMenuOpen = false;
+
+            removeObject(craftingScreen);
 
             Greenfoot.delay(20);
         }

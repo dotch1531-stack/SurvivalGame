@@ -2,16 +2,16 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import org.json.*;
 
 public class CraftingScreen extends Actor
-{
-    
-    private GreenfootImage swordButton = new GreenfootImage("SwordButton.png");
-
-    
+{   
     public void act()
-    {
-        // Add your action code here.
+    {   
+        handleCraftButtons();
     }
-    public void setCraftingImages(){
-        getImage().drawImage(swordButton, 10, 10);
+    public void handleCraftButtons(){
+        MyWorld world = (MyWorld)getWorld();
+        
+        if(Greenfoot.mousePressed(world.swordButton)){
+            System.out.println("swordButton Pressed");
+        }
     }
 }
