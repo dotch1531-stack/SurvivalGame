@@ -175,7 +175,7 @@ public class MyWorld extends World
         generateVisibleObjects();
         updateObjects();
         
-        for(WorldObject obj : getNearbyObjects(50))
+        for(WorldObject obj : getNearbyObjects(80))
         {
             if(obj instanceof Tree && Greenfoot.isKeyDown("e"))
             {
