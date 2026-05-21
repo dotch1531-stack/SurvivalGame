@@ -10,6 +10,12 @@ public class Player extends Actor
 
     int animationSpeed = 12;
     int counter = 0;
+    
+    String up = "Up";
+    String down = "Down";
+    String left = "Left";
+    String right = "Right";
+    String idle = "Idle";
 
     public Player()
     {
@@ -18,16 +24,26 @@ public class Player extends Actor
 
     public void act()
     {
-        movement();
+        movementAnimation();
+        
+        if(Greenfoot.isKeyDown("e")){Greenfoot.delay(10);}
     }
     
-    public void movement()
+    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
+    public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
+    
+    public void movementAnimation()
     {
-        if(Greenfoot.isKeyDown("w")){animate("Up");}
-        else if(Greenfoot.isKeyDown("s")){animate("Down");}
-        else if(Greenfoot.isKeyDown("a")){animate("Left");}
-        else if(Greenfoot.isKeyDown("d")){animate("Right");}
-        else {setImage(new GreenfootImage("Player/JoeIdle.png"));}
+        if(Greenfoot.isKeyDown("w")){animate(up);}
+        else if(Greenfoot.isKeyDown("s")){animate(down);}
+        else if(Greenfoot.isKeyDown("a")){animate(left);}
+        else if(Greenfoot.isKeyDown("d")){animate(right);}
+        else {setImage(new GreenfootImage("Player/Joe"+idle+".png"));}
+    }
+    
+    public boolean isNearObject(Class<? extends Actor> cls, int radius)
+    {
+        return !getObjectsInRange(radius, cls).isEmpty();
     }
 
     public void animate(String where)
