@@ -13,6 +13,7 @@ public class MyWorld extends World
     private CraftingScreen craftingScreen;
     
     public SwordButton swordButton;
+    public CommitButton commitButton;
 
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
@@ -438,6 +439,8 @@ public class MyWorld extends World
             
             swordButton = new SwordButton();
             addObject(swordButton, 150, 70);
+            
+            drawCommitCraft();
 
             Greenfoot.delay(20);
         }
@@ -446,9 +449,18 @@ public class MyWorld extends World
             craftingMenuOpen = false;
 
             removeObject(craftingScreen);
+            removeObject(swordButton);
+            deleteCommitCraft();
 
             Greenfoot.delay(20);
         }
+    }
+    public void drawCommitCraft(){
+        commitButton = new CommitButton();
+        addObject(commitButton, 600, 500);
+    }
+    public void deleteCommitCraft(){
+        removeObject(commitButton);
     }
 
     // ===== WATER ANIMATION =====
