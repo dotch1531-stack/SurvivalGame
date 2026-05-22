@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=BreakProgress
+comment1.params=
+comment1.target=BreakProgress()
+comment2.params=stage
+comment2.target=void\ setStage(int)
+numComments=3

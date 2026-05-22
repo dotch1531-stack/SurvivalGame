@@ -193,9 +193,10 @@ public class MyWorld extends World
         
         for(WorldObject obj : getNearbyObjects(80))
         {
-            if(obj instanceof Tree && Greenfoot.isKeyDown("e"))
+            if(obj != null && obj.breakable && Greenfoot.isKeyDown("e"))
             {
-                removeObject(obj);
+                obj.damage(1);
+                Greenfoot.delay(10);
             }
         }
 

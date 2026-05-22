@@ -6,5 +6,9 @@ public class Tree extends WorldObject
         hitboxWidth = 20;
         hitboxHeight = 20;
         solid = true;
+        breakable = true;
+
+        maxHealth = 5;
+        health = maxHealth;
     }
 }
