@@ -54,6 +54,8 @@ public class MyWorld extends World
     private java.util.HashSet<String> spawnedObjects =
     new java.util.HashSet<>();
     
+    
+    
 
     /**
      * Constructor for objects of class MyWorld.
@@ -146,21 +148,24 @@ public class MyWorld extends World
     }
 
     
-    public boolean collidesWithSolid(int newCameraX, int newCameraY)
+   public boolean collidesWithSolid(int newCameraX, int newCameraY)
     {
         int playerX = newCameraX + player.getX();
         int playerY = newCameraY + player.getY();
     
-        for(Tree tree : getObjects(Tree.class))
-        {
-            int dx = playerX - tree.worldX;
-            int dy = playerY - tree.worldY;
+        int playerHitboxWidth = player.hitboxWidth;
+        int playerHitboxHeight = player.hitboxHeight;
     
-            int collisionWidth = 40;
-            int collisionHeight = 60;
-            
-            if(Math.abs(dx) < collisionWidth &&
-               Math.abs(dy) < collisionHeight)
+        for(WorldObject obj : getObjects(WorldObject.class))
+        {
+            if(!obj.solid)
+                continue;
+    
+            int dx = Math.abs(playerX - obj.worldX);
+            int dy = Math.abs(playerY - obj.worldY);
+    
+            if(dx < playerHitboxWidth + obj.hitboxWidth &&
+               dy < playerHitboxHeight + obj.hitboxHeight)
             {
                 return true;
             }

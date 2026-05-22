@@ -1,7 +1,10 @@
 public class Tree extends WorldObject
 {
+    
     public Tree()
     {
-        collisionRadius = 30;
+        hitboxWidth = 20;
+        hitboxHeight = 20;
+        solid = true;
     }
 }
