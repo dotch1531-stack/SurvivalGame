@@ -1,5 +1,5 @@
 #Greenfoot project file
-class.CommitButton.image=rock.png
+class.CommitButton.image=Craftbutton_Enabled.png
 class.CraftingScreen.image=craft.png
 class.InventoryScreen.image=inventoryBackground.png
 class.SwordButton.image=SwordButton.png

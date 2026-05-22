@@ -457,7 +457,7 @@ public class MyWorld extends World
     }
     public void drawCommitCraft(){
         commitButton = new CommitButton();
-        addObject(commitButton, 600, 500);
+        addObject(commitButton, 550, 700);
     }
     public void deleteCommitCraft(){
         removeObject(commitButton);
@@ -468,7 +468,7 @@ public class MyWorld extends World
     {
         animationTimer++;
 
-        if(animationTimer >= 120)
+        if(animationTimer >= 15)
         {
             animationTimer = 0;
 
