@@ -17,13 +17,12 @@ public class Player extends Actor
     String right = "Right";
     String idle = "Idle";
     
-
+    int hitboxWidth = 12;
+    int hitboxHeight = 18;
 
     public Player()
     {
         spriteSheet = new GreenfootImage("Player/JoeIdle.png");
-        int hitboxWidth = 12;
-        int hitboxHeight = 18;
     }
 
     public void act()
