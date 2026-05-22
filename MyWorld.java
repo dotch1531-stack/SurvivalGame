@@ -437,6 +437,7 @@ public class MyWorld extends World
             craftingMenuOpen = false;
 
             removeObject(craftingScreen);
+            removeObject(swordButton);
 
             Greenfoot.delay(20);
         }
