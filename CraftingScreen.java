@@ -9,6 +9,8 @@ public class CraftingScreen extends Actor
 {   
     private TreeMap<String, Integer> itemsNeeded = new TreeMap<>();
     
+    private boolean selectedCraft = false;
+    
     public void act()
     {   
         handleCraftButtons();
@@ -17,18 +19,17 @@ public class CraftingScreen extends Actor
         MyWorld world = (MyWorld)getWorld();
         
         if(Greenfoot.mousePressed(world.swordButton)){
+            selectedCraft = true;
             craftItem("Schwert");
             Greenfoot.delay(20);
         }
-        if(Greenfoot.mousePressed(world.commitButton)){
+        if(Greenfoot.mousePressed(world.commitButton) && selectedCraft){
             System.out.println("craft");
+            selectedCraft = false;
         }
     }
     public void craftItem(String itemToCraft){
-        MyWorld world = (MyWorld)getWorld();
-        
         getItemsNeeded(itemToCraft);
-        world.drawCommitCraft();
     }
     public void getItemsNeeded(String item){
         itemsNeeded.clear();

@@ -439,6 +439,8 @@ public class MyWorld extends World
             
             swordButton = new SwordButton();
             addObject(swordButton, 150, 70);
+            
+            drawCommitCraft();
 
             Greenfoot.delay(20);
         }
