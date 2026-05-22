@@ -54,8 +54,6 @@ public class MyWorld extends World
     private java.util.HashSet<String> spawnedObjects =
     new java.util.HashSet<>();
     
-    //=======INVISIBLE=====
-    GreenfootImage invisible = new GreenfootImage("invisible.png");
 
     /**
      * Constructor for objects of class MyWorld.
@@ -158,8 +156,14 @@ public class MyWorld extends World
             int dx = playerX - tree.worldX;
             int dy = playerY - tree.worldY;
     
-            if(dx * dx + dy * dy < 30 * 30)
+            int collisionWidth = 40;
+            int collisionHeight = 60;
+            
+            if(Math.abs(dx) < collisionWidth &&
+               Math.abs(dy) < collisionHeight)
+            {
                 return true;
+            }
         }
     
         return false;
