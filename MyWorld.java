@@ -27,7 +27,7 @@ public class MyWorld extends World
     private GreenfootImage[] tiles;
 
     private int waterFrame = 0;
-    private int animationTimer = 1;
+    private int animationTimer = 10;
 
     Player player = new Player();
 
@@ -55,8 +55,8 @@ public class MyWorld extends World
     private java.util.HashSet<String> spawnedObjects =
     new java.util.HashSet<>();
     
-    //=======INVISIBLE=====
-    GreenfootImage invisible = new GreenfootImage("invisible.png");
+    
+    
 
     /**
      * Constructor for objects of class MyWorld.
@@ -149,18 +149,27 @@ public class MyWorld extends World
     }
 
     
-    public boolean collidesWithSolid(int newCameraX, int newCameraY)
+   public boolean collidesWithSolid(int newCameraX, int newCameraY)
     {
         int playerX = newCameraX + player.getX();
         int playerY = newCameraY + player.getY();
     
-        for(Tree tree : getObjects(Tree.class))
-        {
-            int dx = playerX - tree.worldX;
-            int dy = playerY - tree.worldY;
+        int playerHitboxWidth = player.hitboxWidth;
+        int playerHitboxHeight = player.hitboxHeight;
     
-            if(dx * dx + dy * dy < 30 * 30)
+        for(WorldObject obj : getObjects(WorldObject.class))
+        {
+            if(!obj.solid)
+                continue;
+    
+            int dx = Math.abs(playerX - obj.worldX);
+            int dy = Math.abs(playerY - obj.worldY);
+    
+            if(dx < playerHitboxWidth + obj.hitboxWidth &&
+               dy < playerHitboxHeight + obj.hitboxHeight)
+            {
                 return true;
+            }
         }
     
         return false;
