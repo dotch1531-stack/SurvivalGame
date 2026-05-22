@@ -51,15 +51,14 @@ public class MyWorld extends World
     private java.util.HashSet<String> generatedTreeTiles =
     new java.util.HashSet<>();
         
-    private java.util.HashSet<String> spawnedObjects =
-    new java.util.HashSet<>();
+    private java.util.HashSet<String> spawnedObjects = new java.util.HashSet<>();
     
     
     
 
     /**
      * Constructor for objects of class MyWorld.
-     */
+     */
     public MyWorld()
     {
         super(800, 800, 1);
