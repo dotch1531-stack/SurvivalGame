@@ -126,9 +126,16 @@ public class InventoryScreen extends Actor
         }
     }
 
-    public void addItem(String item, int amount)
+    public void addItem(String item, int amount, int stackSize)
     {
-        inventory.put(item, inventory.getOrDefault(item, 0) + amount);
+        if((inventory.getOrDefault(item, 0) + amount) > stackSize){
+            inventory.put(item, stackSize);
+            
+            //  überschuss muss hier ausgeworfen werden
+        }
+        else{
+            inventory.put(item, inventory.getOrDefault(item, 0) + amount);
+        }
     }
 
     public void removeItem(String item, int amount)
@@ -137,9 +144,12 @@ public class InventoryScreen extends Actor
 
         current -= amount;
 
-        if(current <= 0)
+        if(current == 0)
         {
             inventory.remove(item);
+        }
+        else if(current < 0){
+            System.out.println("zu viel Items weggenommen");
         }
         else
         {
