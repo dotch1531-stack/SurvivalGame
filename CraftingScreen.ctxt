@@ -1,11 +1,15 @@
 #BlueJ class context
 comment0.target=CraftingScreen
 comment1.params=
-comment1.target=void\ act()
+comment1.target=CraftingScreen()
 comment2.params=
-comment2.target=void\ handleCraftButtons()
-comment3.params=itemToCraft
-comment3.target=void\ craftItem(java.lang.String)
-comment4.params=item
-comment4.target=void\ getItemsNeeded(java.lang.String)
-numComments=5
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ handleCraftButtons()
+comment4.params=
+comment4.target=void\ craftItem()
+comment5.params=itemToCraft
+comment5.target=void\ selectedCraftItem(java.lang.String)
+comment6.params=item
+comment6.target=void\ getItemsNeeded(java.lang.String)
+numComments=7

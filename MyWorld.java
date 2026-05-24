@@ -412,7 +412,7 @@ public class MyWorld extends World
             inventoryScreen = new InventoryScreen();
             addObject(inventoryScreen, 400, 400);
 
-            inventoryScreen.getItemsInventory();
+            inventoryScreen.getItemsInventory(true);
 
             Greenfoot.delay(20);
         }
@@ -439,7 +439,7 @@ public class MyWorld extends World
             addObject(craftingScreen, 400, 400);
             
             swordButton = new SwordButton();
-            addObject(swordButton, 150, 70);
+            addObject(swordButton, 145, 70);
             
             drawCommitCraft();
 

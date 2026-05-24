@@ -50,12 +50,13 @@ public class InventoryScreen extends Actor
     GreenfootImage woodImg = new GreenfootImage("wood.png");
     GreenfootImage stoneImg = new GreenfootImage("stein.png");
     GreenfootImage ironImg = new GreenfootImage("iron.png");
+    GreenfootImage swordImg = new GreenfootImage("sword_placeholder.png");
 
     TreeMap<String, GreenfootImage> images = new TreeMap<>();
 
     /*  3  */
-    int[] x = {25, 225, 425};
-    int[] y = {-5, -5, -5};
+    int[] x = {25, 225, 425, 625};
+    int[] y = {-5, -5, -5, -5};
 
     /**
      * Act - do whatever the InventoryScreen wants to do. This method is called whenever
@@ -66,12 +67,9 @@ public class InventoryScreen extends Actor
 
     }
 
-    public void getItemsInventory()
+    public void getItemsInventory(boolean executedToShowItemsInInventory)
     {
         inventory.clear();
-
-        setImageMap();
-        scaleImages();
 
         try
         {
@@ -102,8 +100,12 @@ public class InventoryScreen extends Actor
             System.out.println("Inventory JSON invalid.");
             e.printStackTrace();
         }
-
-        showItemsInventory();
+        
+        if(executedToShowItemsInInventory){
+            setImageMap();
+            scaleImages();
+            showItemsInventory();
+        }
     }
 
     public void setItemsInventory()
@@ -128,6 +130,8 @@ public class InventoryScreen extends Actor
 
     public void addItem(String item, int amount, int stackSize)
     {
+        getItemsInventory(false);
+        
         if((inventory.getOrDefault(item, 0) + amount) > stackSize){
             inventory.put(item, stackSize);
             
@@ -136,25 +140,38 @@ public class InventoryScreen extends Actor
         else{
             inventory.put(item, inventory.getOrDefault(item, 0) + amount);
         }
+        setItemsInventory();
     }
 
-    public void removeItem(String item, int amount)
+    public boolean checkIfItemCanBeRemoved(String item, int amount)
     {
+        getItemsInventory(false);
+        System.out.println(inventory);
+        
         int current = inventory.getOrDefault(item, 0);
 
         current -= amount;
+        
+        System.out.println(current);
+        
+        if(current < 0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    
+    public void removeItems(String item, int amount){
+        getItemsInventory(false);
+        
+        int current = inventory.getOrDefault(item, 0);
 
-        if(current == 0)
-        {
-            inventory.remove(item);
-        }
-        else if(current < 0){
-            System.out.println("zu viel Items weggenommen");
-        }
-        else
-        {
-            inventory.put(item, current);
-        }
+        current -= amount;
+        
+        inventory.put(item, current);
+        
+        setItemsInventory();
     }
 
     public int getItemAmount(String item)
@@ -169,6 +186,7 @@ public class InventoryScreen extends Actor
         images.put("Holz", woodImg);
         images.put("Stein", stoneImg);
         images.put("Eisen", ironImg);
+        images.put("Schwert", swordImg);
     }
 
     /*  4  */
@@ -177,6 +195,7 @@ public class InventoryScreen extends Actor
         stoneImg.scale(150, 150);
         ironImg.scale(150, 150);
         woodImg.scale(150, 150);
+        swordImg.scale(150, 150);
         
         for(int i = 0; i < 10; i++){
             numberArray[i].scale(15, 30);

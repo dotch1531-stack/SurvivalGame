@@ -2,7 +2,7 @@
     "schaden" : 5,
     "stackSize" : 1,
     "recipe" : {
-        "eisen" : 3,
-        "holz" : 2
+        "Eisen" : 3,
+        "Holz" : 2
     }
 }
