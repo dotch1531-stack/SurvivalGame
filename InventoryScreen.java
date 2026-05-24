@@ -26,8 +26,8 @@ public class InventoryScreen extends Actor
     GreenfootImage nine = new GreenfootImage("9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    int[] numbersX = {123, 140, 323, 340, 523, 540};
-    int[] numbersY = {130, 130, 130, 130, 130, 130};
+    int[] numbersX = {123, 140, 323, 340, 523, 540, 723, 740};
+    int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130};
     
 
     /**
@@ -222,16 +222,18 @@ public class InventoryScreen extends Actor
     public void addNumbers(){
         int loop = 0;
         for(String key : inventory.keySet()){
-            String intToString = Integer.toString(inventory.getOrDefault(key, 0));
+            if(inventory.getOrDefault(key, 0) > 0){
+                String intToString = Integer.toString(inventory.getOrDefault(key, 0));
+                
+                if(intToString.length() < 2){
+                    intToString = "0" + intToString;
+                }
             
-            if(intToString.length() < 2){
-                intToString = "0" + intToString;
-            }
-            
-            for(int i = 0; i < intToString.length(); i++){
-                int number = Integer.parseInt(String.valueOf(intToString.charAt(i)));
-                getImage().drawImage(numberArray[number], numbersX[loop], numbersY[loop]);
-                loop += 1;
+                for(int i = 0; i < intToString.length(); i++){
+                    int number = Integer.parseInt(String.valueOf(intToString.charAt(i)));
+                    getImage().drawImage(numberArray[number], numbersX[loop], numbersY[loop]);
+                    loop += 1;
+                }
             }
         }
     }
