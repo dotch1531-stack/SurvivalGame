@@ -113,7 +113,7 @@ public class MyWorld extends World
                 }
 
                 // 🐄 COW HERDS
-                if(biome == BIOME_GRASS && Greenfoot.getRandomNumber(1000) < 2)
+                if(biome == BIOME_GRASS && Greenfoot.getRandomNumber(1000) < 1)
                 {
                     // HERD SIZE
                     int herdSize = 3;
