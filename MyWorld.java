@@ -141,7 +141,7 @@ public class MyWorld extends World
                             {
                                 spawnedObjects.add(cowKey);
 
-                                spawnObject(
+                                spawnEntity(
                                     new Cow(),
                                     herdTileX,
                                     herdTileY
@@ -165,6 +165,17 @@ public class MyWorld extends World
             obj.worldY - cameraY
         );
     }
+    
+    public void spawnEntity(Entity ent, int tileX, int tileY)
+    {
+        ent.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
+        ent.worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
+
+        addObject(ent,
+            ent.worldX - cameraX,
+            ent.worldY - cameraY
+        );
+    }
 
     public void updateObjects()
     {
@@ -177,9 +188,35 @@ public class MyWorld extends World
         }
         
         java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
+        for(BreakProgress bar : bars)
+        {
+            bar.updateScreenPosition(cameraX, cameraY);
+            if(bar.getX() >= 799 || bar.getX()<=0 || bar.getY() >= 799 || bar.getY()<=0){bar.getImage().setTransparency(0);}else{bar.getImage().setTransparency(255);}
+        }
+        
+        java.util.List<Entity> entitys = getObjects(Entity.class);
+        for(Entity ent : entitys)
+        {
+            ent.updateScreenPosition(cameraX, cameraY);
+            if(ent.getX() >= 799 || ent.getX()<=0 || ent.getY() >= 799 || ent.getY()<=0){ent.getImage().setTransparency(0);}else{ent.getImage().setTransparency(255);}
+        }
+    }
+    
+    public void updateEntitys()
+    {
+
+        
+        java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
         for(BreakProgress obj : bars)
         {
 
+            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
+        }
+        
+        java.util.List<Entity> entitys = getObjects(Entity.class);
+        for(Entity obj : entitys)
+        {
+            
             if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
         }
     }
@@ -202,6 +239,21 @@ public class MyWorld extends World
 
             if(dx < playerHitboxWidth + obj.hitboxWidth &&
             dy < playerHitboxHeight + obj.hitboxHeight)
+            {
+                return true;
+            }
+        }
+        
+        for(Entity entity : getObjects(Entity.class))
+        {
+            if(!entity.solid)
+                continue;
+
+            int dx = Math.abs(playerX - entity.worldX);
+            int dy = Math.abs(playerY - entity.worldY);
+
+            if(dx < playerHitboxWidth + entity.hitboxWidth &&
+            dy < playerHitboxHeight + entity.hitboxHeight)
             {
                 return true;
             }
@@ -391,6 +443,29 @@ public class MyWorld extends World
         int r2 = radius * radius;
 
         for(WorldObject obj : getObjects(WorldObject.class))
+        {
+            int dx = obj.worldX - playerWorldX;
+            int dy = obj.worldY - playerWorldY;
+
+            if(dx * dx + dy * dy <= r2)
+            {
+                nearby.add(obj);
+            }
+        }
+
+        return nearby;
+    }
+    
+    public java.util.List<Entity> getNearbyEntitys(int radius)
+    {
+        java.util.List<Entity> nearby = new java.util.ArrayList<>();
+
+        int playerWorldX = cameraX + player.getX();
+        int playerWorldY = cameraY + player.getY();
+
+        int r2 = radius * radius;
+
+        for(Entity obj : getObjects(Entity.class))
         {
             int dx = obj.worldX - playerWorldX;
             int dy = obj.worldY - playerWorldY;

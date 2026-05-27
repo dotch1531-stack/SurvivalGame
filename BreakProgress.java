@@ -8,12 +8,21 @@ public class BreakProgress extends Actor
     private int frameHeight = 13;
 
     private int totalFrames = 17;
+    
+    public int worldX;
+    public int worldY;
 
     public BreakProgress()
     {
         sheet = new GreenfootImage("breakbar.png");
 
         setStage(0);
+    }
+    
+    
+    public void updateScreenPosition(int cameraX, int cameraY)
+    {
+        setLocation(worldX - cameraX, worldY - cameraY);
     }
 
     public void setStage(int stage)

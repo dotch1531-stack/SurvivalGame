@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class Cow extends WorldObject
+public class Cow extends Entity
 {
     // ===== MOVEMENT =====
     private int dirX;

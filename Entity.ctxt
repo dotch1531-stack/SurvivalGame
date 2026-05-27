@@ -1,5 +1,9 @@
 #BlueJ class context
 comment0.target=Entity
-comment1.params=
-comment1.target=void\ act()
-numComments=2
+comment1.params=cameraX\ cameraY
+comment1.target=void\ updateScreenPosition(int,\ int)
+comment2.params=amount
+comment2.target=void\ damage(int)
+comment3.params=x\ y
+comment3.target=boolean\ isNear(int,\ int)
+numComments=4
