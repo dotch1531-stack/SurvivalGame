@@ -17,8 +17,8 @@ public class Player extends Actor
     String right = "Right";
     String idle = "Idle";
     
-    int hitboxWidth = 12;
-    int hitboxHeight = 18;
+    int hitboxWidth = 20;
+    int hitboxHeight = 90;
 
     public Player()
     {
