@@ -6,12 +6,12 @@ public class MyWorld extends World
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
-    
+
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
-    
+
     private CraftingScreen craftingScreen;
-    
+
     public SwordButton swordButton;
     public CommitButton commitButton;
 
@@ -50,14 +50,12 @@ public class MyWorld extends World
 
     // ===== TREE CACHE =====
     private java.util.HashSet<String> generatedTreeTiles =
-    new java.util.HashSet<>();
-        
-    private java.util.HashSet<String> spawnedObjects =
-    new java.util.HashSet<>();
-    
-    
-    
+        new java.util.HashSet<>();
 
+    private java.util.HashSet<String> spawnedObjects =
+        new java.util.HashSet<>();
+
+    
     /**
      * Constructor for objects of class MyWorld.
      */
@@ -86,92 +84,119 @@ public class MyWorld extends World
         addObject(player, 400, 400);
 
     }
-    
+
     public void generateVisibleObjects()
     {
         int startX = Math.floorDiv(cameraX, TILE_SIZE) - 10;
         int startY = Math.floorDiv(cameraY, TILE_SIZE) - 10;
-    
+
         int endX = startX + 40;
         int endY = startY + 40;
-    
+
         for(int x = startX; x < endX; x++)
         {
             for(int y = startY; y < endY; y++)
             {
                 String key = x + "," + y;
-    
+
                 if(spawnedObjects.contains(key))
                     continue;
-    
+
                 spawnedObjects.add(key);
-    
+
                 int biome = getBiome(x, y);
-    
+
                 // 🌳 TREES
                 if(biome == BIOME_GRASS && Greenfoot.getRandomNumber(1000) < 8)
                 {
                     spawnObject(new Tree(), x, y);
                 }
-    
-                /* 🪨 ROCKS (example)
-                if(biome == BIOME_STONE && Greenfoot.getRandomNumber(1000) < 5)
+
+                // 🐄 COW HERDS
+                if(biome == BIOME_GRASS && Greenfoot.getRandomNumber(1000) < 2)
                 {
-                    spawnObject(new Rock(), x, y);
+                    // HERD SIZE
+                    int herdSize = 3;
+
+                    for(int i = 0; i < herdSize; i++)
+                    {
+                        // kleine zufällige tile offsets
+                        int offsetX = Greenfoot.getRandomNumber(5) - 2;
+                        int offsetY = Greenfoot.getRandomNumber(5) - 2;
+
+                        int herdTileX = x + offsetX;
+                        int herdTileY = y + offsetY;
+
+                        String cowKey =
+                            herdTileX + "," + herdTileY + "_cow";
+
+                        // NICHT doppelt spawnen
+                        if(!spawnedObjects.contains(cowKey))
+                        {
+                            // nur auf grass
+                            if(getBiome(herdTileX, herdTileY) == BIOME_GRASS)
+                            {
+                                spawnedObjects.add(cowKey);
+
+                                spawnObject(
+                                    new Cow(),
+                                    herdTileX,
+                                    herdTileY
+                                );
+                            }
+                        }
+                    }
                 }
-                */
+
             }
         }
     }
-    
+
     public void spawnObject(WorldObject obj, int tileX, int tileY)
     {
         obj.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
         obj.worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
-    
+
         addObject(obj,
             obj.worldX - cameraX,
             obj.worldY - cameraY
         );
     }
-    
+
     public void updateObjects()
     {
         java.util.List<WorldObject> objects = getObjects(WorldObject.class);
         for(WorldObject obj : objects)
         {
             obj.updateScreenPosition(cameraX, cameraY);
-            
-            
-            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
 
+            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
         }
     }
 
-    
-   public boolean collidesWithSolid(int newCameraX, int newCameraY)
+    public boolean collidesWithSolid(int newCameraX, int newCameraY)
     {
         int playerX = newCameraX + player.getX();
         int playerY = newCameraY + player.getY();
-    
+
         int playerHitboxWidth = player.hitboxWidth;
         int playerHitboxHeight = player.hitboxHeight;
-    
+
         for(WorldObject obj : getObjects(WorldObject.class))
         {
             if(!obj.solid)
                 continue;
-    
+
             int dx = Math.abs(playerX - obj.worldX);
             int dy = Math.abs(playerY - obj.worldY);
-    
+
             if(dx < playerHitboxWidth + obj.hitboxWidth &&
-               dy < playerHitboxHeight + obj.hitboxHeight)
+            dy < playerHitboxHeight + obj.hitboxHeight)
             {
                 return true;
             }
         }
-    
+
         return false;
     }
 
@@ -179,19 +204,19 @@ public class MyWorld extends World
     {
         handleInventory();
         handleCraftingMenu();
-        
+
         updateObjects();
-        
+
         if(!inventoryOpen && !craftingMenuOpen)
         {
             handleMovement();
             updateWaterAnimation();
             renderWorld();
         }
-        
+
         generateVisibleObjects();
         updateObjects();
-        
+
         for(WorldObject obj : getNearbyObjects(80))
         {
             if(obj != null && obj.breakable && Greenfoot.isKeyDown("e"))
@@ -212,23 +237,22 @@ public class MyWorld extends World
     public void handleMovement()
     {
         int speed = 4;
-    
+
         int newX = cameraX;
         int newY = cameraY;
-    
+
         if(Greenfoot.isKeyDown("w")) newY -= speed;
         if(Greenfoot.isKeyDown("s")) newY += speed;
         if(Greenfoot.isKeyDown("a")) newX -= speed;
         if(Greenfoot.isKeyDown("d")) newX += speed;
-    
+
         if(!collidesWithSolid(newX, cameraY))
             cameraX = newX;
-    
+
         if(!collidesWithSolid(cameraX, newY))
             cameraY = newY;
     }
 
-    
 
     // ===== PLAYER TILE =====
     public int getPlayerTileX()
@@ -346,27 +370,27 @@ public class MyWorld extends World
 
         return biome;
     }
-    
+
     public java.util.List<WorldObject> getNearbyObjects(int radius)
     {
         java.util.List<WorldObject> nearby = new java.util.ArrayList<>();
-    
+
         int playerWorldX = cameraX + player.getX();
         int playerWorldY = cameraY + player.getY();
-    
+
         int r2 = radius * radius;
-    
+
         for(WorldObject obj : getObjects(WorldObject.class))
         {
             int dx = obj.worldX - playerWorldX;
             int dy = obj.worldY - playerWorldY;
-    
+
             if(dx * dx + dy * dy <= r2)
             {
                 nearby.add(obj);
             }
         }
-    
+
         return nearby;
     }
 
@@ -428,7 +452,7 @@ public class MyWorld extends World
             Greenfoot.delay(20);
         }
     }
-    
+
     public void handleCraftingMenu()
     {
         if(Greenfoot.isKeyDown("c") && !craftingMenuOpen)
@@ -437,10 +461,10 @@ public class MyWorld extends World
 
             craftingScreen = new CraftingScreen();
             addObject(craftingScreen, 400, 400);
-            
+
             swordButton = new SwordButton();
             addObject(swordButton, 145, 70);
-            
+
             drawCommitCraft();
 
             Greenfoot.delay(20);
@@ -456,10 +480,12 @@ public class MyWorld extends World
             Greenfoot.delay(20);
         }
     }
+
     public void drawCommitCraft(){
         commitButton = new CommitButton();
         addObject(commitButton, 550, 700);
     }
+
     public void deleteCommitCraft(){
         removeObject(commitButton);
     }
