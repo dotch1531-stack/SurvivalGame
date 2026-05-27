@@ -22,13 +22,12 @@ public class Cow extends WorldObject
 
         // ===== COLLISION =====
 
-
         // ===== BREAKABLE =====
         breakable = false;
 
         // ===== HITBOX =====
-        hitboxWidth = 240;
-        hitboxHeight = 120;
+        hitboxWidth = 120;
+        hitboxHeight = 60;
 
         // ===== MOVEMENT =====
         dirX = 0;
@@ -58,8 +57,25 @@ public class Cow extends WorldObject
         }
 
         // ===== MOVE =====
-        worldX += dirX * speed;
-        worldY += dirY * speed;
+        int nextX = worldX + dirX * speed;
+        int nextY = worldY + dirY * speed;
+
+        MyWorld world = (MyWorld)getWorld();
+
+        int tileX = nextX / MyWorld.TILE_SIZE;
+        int tileY = nextY / MyWorld.TILE_SIZE;
+
+        if(world.getTile(tileX, tileY) != MyWorld.WATER)
+        {
+            worldX = nextX;
+            worldY = nextY;
+        }
+        else
+        {
+            // Wasser vermeiden → Richtung ändern
+            dirX = Greenfoot.getRandomNumber(3) - 1;
+            dirY = Greenfoot.getRandomNumber(3) - 1;
+        }
 
         walkTimer--;
 
@@ -98,7 +114,6 @@ public class Cow extends WorldObject
                 dirX = Greenfoot.getRandomNumber(3) - 1;
                 dirY = Greenfoot.getRandomNumber(3) - 1;
 
-                
             }
         }
     }
