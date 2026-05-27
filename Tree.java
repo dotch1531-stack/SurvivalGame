@@ -8,7 +8,7 @@ public class Tree extends WorldObject
         solid = true;
         breakable = true;
 
-        maxHealth = 5;
+        maxHealth = 15;
         health = maxHealth;
     }
 }
