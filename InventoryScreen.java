@@ -211,9 +211,9 @@ public class InventoryScreen extends Actor
 
         int loop = 0;
 
-        for(String i : inventory.keySet())
+        for (String i : inventory.keySet())
         {
-            if(inventory.getOrDefault(i, 0) > 0)
+            if (inventory.getOrDefault(i, 0) > 0)
             {
                 img.drawImage(images.get(i), x[loop], y[loop]);
                 loop++;

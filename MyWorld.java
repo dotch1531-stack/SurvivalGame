@@ -112,7 +112,8 @@ public class MyWorld extends World
                 int biome = getBiome(x, y);
 
                 // 🌳 TREES
-                spawnResourceDroppingObjects(biome,x,y,BIOME_GRASS,8, Tree::new);
+                spawnObjects(biome,x,y,BIOME_GRASS,8, Tree::new);
+
 
                 // 🐄 COW HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1, Cow::new);
@@ -181,12 +182,12 @@ public class MyWorld extends World
         }
     }
     
-    public void spawnResourceDroppingObjects(int biome,
+    public void spawnObjects(int biome,
         int x,
         int y,
         int desiredBiome,
         int spawnChance,
-        ResourceObjectFactory factory)
+        ObjectFactory factory)
     {
         if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < spawnChance)
             {
