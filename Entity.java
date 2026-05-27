@@ -25,11 +25,11 @@ public abstract class Entity extends Actor
     public void updateScreenPosition(int cameraX, int cameraY)
     {
         setLocation(worldX - cameraX, worldY - cameraY);
-
-        // keep progress bar attached
+        
         if(progress != null)
         {
-            progress.setLocation(getX(), getY() + 40);
+            progress.worldX = worldX;
+            progress.worldY = worldY + 40;
         }
     }
 

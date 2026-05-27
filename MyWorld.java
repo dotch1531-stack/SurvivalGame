@@ -33,6 +33,8 @@ public class MyWorld extends World
     private int animationTimer = 10;
 
     Player player = new Player();
+    Entity cow = new Cow();
+    Entity ent;
 
     // ===== TILE TYPES =====
     public static final int GRASS = 0;
@@ -116,40 +118,7 @@ public class MyWorld extends World
                 }
 
                 // 🐄 COW HERDS
-                if(biome == BIOME_GRASS && Greenfoot.getRandomNumber(1000) < 1)
-                {
-                    // HERD SIZE
-                    int herdSize = 3;
-
-                    for(int i = 0; i < herdSize; i++)
-                    {
-                        // kleine zufällige tile offsets
-                        int offsetX = Greenfoot.getRandomNumber(5) - 2;
-                        int offsetY = Greenfoot.getRandomNumber(5) - 2;
-
-                        int herdTileX = x + offsetX;
-                        int herdTileY = y + offsetY;
-
-                        String cowKey =
-                            herdTileX + "," + herdTileY + "_cow";
-
-                        // NICHT doppelt spawnen
-                        if(!spawnedObjects.contains(cowKey))
-                        {
-                            // nur auf grass
-                            if(getBiome(herdTileX, herdTileY) == BIOME_GRASS)
-                            {
-                                spawnedObjects.add(cowKey);
-
-                                spawnEntity(
-                                    new Cow(),
-                                    herdTileX,
-                                    herdTileY
-                                );
-                            }
-                        }
-                    }
-                }
+                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3, Cow::new);
 
             }
         }
@@ -176,6 +145,43 @@ public class MyWorld extends World
             ent.worldY - cameraY
         );
     }
+    
+    public void spawnFrendlyHerds(
+        int biome,
+        int x,
+        int y,
+        int desiredBiome,
+        int herdSize,
+        EntityFactory factory
+    )
+    {
+        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < 1)
+        {
+            for(int i = 0; i < herdSize; i++)
+            {
+                int offsetX = Greenfoot.getRandomNumber(5) - 2;
+                int offsetY = Greenfoot.getRandomNumber(5) - 2;
+    
+                int herdTileX = x + offsetX;
+                int herdTileY = y + offsetY;
+    
+                String entKey = herdTileX + "," + herdTileY + "_entity";
+    
+                if(spawnedObjects.contains(entKey)) continue;
+    
+                if(getBiome(herdTileX, herdTileY) == desiredBiome)
+                {
+                    spawnedObjects.add(entKey);
+    
+                    spawnEntity(
+                        factory.create(),
+                        herdTileX,
+                        herdTileY
+                    );
+                }
+            }
+        }
+    }
 
     public void updateObjects()
     {
@@ -190,7 +196,6 @@ public class MyWorld extends World
         java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
         for(BreakProgress bar : bars)
         {
-            bar.updateScreenPosition(cameraX, cameraY);
             if(bar.getX() >= 799 || bar.getX()<=0 || bar.getY() >= 799 || bar.getY()<=0){bar.getImage().setTransparency(0);}else{bar.getImage().setTransparency(255);}
         }
         
@@ -202,24 +207,7 @@ public class MyWorld extends World
         }
     }
     
-    public void updateEntitys()
-    {
-
-        
-        java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
-        for(BreakProgress obj : bars)
-        {
-
-            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
-        }
-        
-        java.util.List<Entity> entitys = getObjects(Entity.class);
-        for(Entity obj : entitys)
-        {
-            
-            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
-        }
-    }
+    
 
     public boolean collidesWithSolid(int newCameraX, int newCameraY)
     {
