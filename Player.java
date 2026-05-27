@@ -12,9 +12,7 @@ public class Player extends Actor
 
     int animationSpeed = 12;
     int counter = 0;
-    
-    int cameraX = world.cameraX;
-    int cameraY = world.cameraY;
+ 
     
     String up = "Up";
     String down = "Down";
@@ -41,7 +39,8 @@ public class Player extends Actor
         int my = mouse.getY();
     
         
-        
+        int cameraX = ((MyWorld)getWorld()).cameraX;
+        int cameraY = ((MyWorld)getWorld()).cameraY;
         
         
         int worldMouseX = mouse.getX() + cameraX;
@@ -71,7 +70,7 @@ public class Player extends Actor
             if (ex >= Math.min(px, worldMouseX) &&
                 ex <= Math.max(px, worldMouseX) &&
                 ey >= Math.min(py, worldMouseY) &&
-                ey <= Math.max(py, worldMouseY) && world.getNearbyEntitys(30).contains(e))
+                ey <= Math.max(py, worldMouseY) && ((MyWorld)getWorld()).getNearbyEntitys(120).contains(e))
             {
                 e.damage(1);
             }

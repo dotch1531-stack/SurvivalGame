@@ -62,7 +62,7 @@ public abstract class WorldObject extends Actor
             health = 0;
 
         // calculate stage from health %
-        int totalStages = 5;
+        int totalStages = 17;
 
         double percent =
             (double)(maxHealth - health) / (double)maxHealth;
