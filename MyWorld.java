@@ -112,13 +112,10 @@ public class MyWorld extends World
                 int biome = getBiome(x, y);
 
                 // 🌳 TREES
-                if(biome == BIOME_GRASS && Greenfoot.getRandomNumber(1000) < 8)
-                {
-                    spawnObject(new Tree(), x, y);
-                }
+                spawnResourceDroppingObjects(biome,x,y,BIOME_GRASS,8, Tree::new);
 
                 // 🐄 COW HERDS
-                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3, Cow::new);
+                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1, Cow::new);
 
             }
         }
@@ -152,10 +149,11 @@ public class MyWorld extends World
         int y,
         int desiredBiome,
         int herdSize,
+        int spawnChance,
         EntityFactory factory
     )
     {
-        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < 1)
+        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < spawnChance)
         {
             for(int i = 0; i < herdSize; i++)
             {
@@ -182,6 +180,19 @@ public class MyWorld extends World
             }
         }
     }
+    
+    public void spawnResourceDroppingObjects(int biome,
+        int x,
+        int y,
+        int desiredBiome,
+        int spawnChance,
+        ResourceObjectFactory factory)
+    {
+        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < spawnChance)
+            {
+                spawnObject(factory.create(), x,y);
+            }
+    }
 
     public void updateObjects()
     {
@@ -196,7 +207,7 @@ public class MyWorld extends World
         java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
         for(BreakProgress bar : bars)
         {
-            if(bar.getX() >= 799 || bar.getX()<=0 || bar.getY() >= 799 || bar.getY()<=0){bar.getImage().setTransparency(0);}else{bar.getImage().setTransparency(255);}
+            if(bar.getX() >= 799 || bar.getX()<=0 || bar.getY() >= 779 || bar.getY()<=40){bar.getImage().setTransparency(0);}else{bar.getImage().setTransparency(255);}
         }
         
         java.util.List<Entity> entitys = getObjects(Entity.class);
@@ -249,6 +260,8 @@ public class MyWorld extends World
 
         return false;
     }
+    
+    
 
     public void act()
     {
@@ -269,7 +282,7 @@ public class MyWorld extends World
 
         for(WorldObject obj : getNearbyObjects(80))
         {
-            if(obj != null && obj.breakable && Greenfoot.isKeyDown("e"))
+            if(obj != null && obj.breakable && Greenfoot.mousePressed(null))
             {
                 obj.damage(1);
                 Greenfoot.delay(10);

@@ -17,9 +17,9 @@ public class BreakProgress extends Actor
         setStage(0);
     }
 
-    public void updateScreenPosition(int cameraX, int cameraY)
+    public void updateScreenPosition(int cameraX, int cameraY, int wx, int wy)
     {
-        setLocation(worldX - cameraX, worldY - cameraY);
+        setLocation(wx - cameraX, wy - cameraY + 40);
     }
 
     public void setStage(int stage)

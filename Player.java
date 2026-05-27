@@ -2,6 +2,8 @@ import greenfoot.*;
 public class Player extends Actor
 {
     GreenfootImage spriteSheet;
+    
+    MyWorld world = (MyWorld)getWorld();
 
     int frame = 0;
     int frameHeight = 120;
@@ -10,6 +12,9 @@ public class Player extends Actor
 
     int animationSpeed = 12;
     int counter = 0;
+    
+    int cameraX = world.cameraX;
+    int cameraY = world.cameraY;
     
     String up = "Up";
     String down = "Down";
@@ -24,11 +29,60 @@ public class Player extends Actor
     {
         spriteSheet = new GreenfootImage("Player/JoeIdle.png");
     }
+    
+    public void hitCheck() {
 
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+        if (mouse == null) return;
+    
+        if(!Greenfoot.mousePressed(null)) return;
+    
+        int mx = mouse.getX();
+        int my = mouse.getY();
+    
+        
+        
+        
+        
+        int worldMouseX = mouse.getX() + cameraX;
+        int worldMouseY = mouse.getY() + cameraY;
+        
+        
+        
+        int px = 400 + cameraX;
+        int py = 400 + cameraY;
+        
+        int left = Math.min(px, mx);
+        int top = Math.min(py, my);
+    
+        int width = Math.abs(px - mx);
+        int height = Math.abs(py - my);
+        
+        int worldLeft = left + cameraX;
+        int worldTop = top + cameraY;
+        int worldRight = worldLeft + width;
+        int worldBottom = worldTop + height;
+    
+        for (Entity e : getWorld().getObjects(Entity.class)) {
+
+            int ex = e.worldX;
+            int ey = e.worldY;
+        
+            if (ex >= Math.min(px, worldMouseX) &&
+                ex <= Math.max(px, worldMouseX) &&
+                ey >= Math.min(py, worldMouseY) &&
+                ey <= Math.max(py, worldMouseY) && world.getNearbyEntitys(30).contains(e))
+            {
+                e.damage(1);
+            }
+        }
+}
+    
+    
     public void act()
     {
         movementAnimation();
-        
+        hitCheck();
         if(Greenfoot.isKeyDown("e")){Greenfoot.delay(10);}
     }
     
@@ -44,10 +98,7 @@ public class Player extends Actor
         else {setImage(new GreenfootImage("Player/Joe"+idle+".png"));}
     }
     
-    public boolean isNearObject(Class<? extends Actor> cls, int radius)
-    {
-        return !getObjectsInRange(radius, cls).isEmpty();
-    }
+    
 
     public void animate(String where)
     {
@@ -80,4 +131,6 @@ public class Player extends Actor
             }
         }
     }
+    
+    
 }

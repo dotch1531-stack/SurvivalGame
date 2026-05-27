@@ -8,6 +8,4 @@ comment3.params=
 comment3.target=void\ naturalMovement()
 comment4.params=
 comment4.target=void\ animate()
-comment5.params=amount
-comment5.target=void\ damage(int)
-numComments=6
+numComments=5

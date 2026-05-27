@@ -20,10 +20,6 @@ public class Cow extends Entity
         worldX = 0;
         worldY = 0;
 
-
-        // ===== BREAKABLE =====
-        breakable = false;
-
         // ===== HITBOX =====
         hitboxWidth = 240;
         hitboxHeight = 120;
@@ -36,14 +32,20 @@ public class Cow extends Entity
         idleTimer = 0;
 
         speed = 1;
+
+        breakable = true;
+
+        maxHealth = 15;
+        health = maxHealth;
     }
 
     public void act()
     {
         naturalMovement();
-
         animate();
     }
+
+    
 
     // ===== NATURAL MOVEMENT =====
     private void naturalMovement()
@@ -74,6 +76,8 @@ public class Cow extends Entity
             if(dirY > 1) dirY = 1;
             if(dirY < -1) dirY = -1;
         }
+        
+        
 
         // ===== CHOOSE NEW ACTION =====
         if(walkTimer <= 0)
@@ -107,9 +111,5 @@ public class Cow extends Entity
         // später animationen hier
     }
 
-    // ===== DAMAGE =====
-    public void damage(int amount)
-    {
-        // später hp system
-    }
+    
 }

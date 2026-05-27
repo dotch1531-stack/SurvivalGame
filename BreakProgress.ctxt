@@ -2,8 +2,8 @@
 comment0.target=BreakProgress
 comment1.params=
 comment1.target=BreakProgress()
-comment2.params=cameraX\ cameraY
-comment2.target=void\ updateScreenPosition(int,\ int)
+comment2.params=cameraX\ cameraY\ wx\ wy
+comment2.target=void\ updateScreenPosition(int,\ int,\ int,\ int)
 comment3.params=stage
 comment3.target=void\ setStage(int)
 numComments=4
