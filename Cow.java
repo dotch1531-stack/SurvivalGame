@@ -27,8 +27,8 @@ public class Cow extends WorldObject
         breakable = false;
 
         // ===== HITBOX =====
-        hitboxWidth = 80;
-        hitboxHeight = 80;
+        hitboxWidth = 240;
+        hitboxHeight = 120;
 
         // ===== MOVEMENT =====
         dirX = 0;
