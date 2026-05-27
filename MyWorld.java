@@ -175,6 +175,13 @@ public class MyWorld extends World
 
             if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
         }
+        
+        java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
+        for(BreakProgress obj : bars)
+        {
+
+            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
+        }
     }
 
     public boolean collidesWithSolid(int newCameraX, int newCameraY)

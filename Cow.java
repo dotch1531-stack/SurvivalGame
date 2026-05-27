@@ -20,8 +20,6 @@ public class Cow extends WorldObject
         worldX = 0;
         worldY = 0;
 
-        // ===== COLLISION =====
-
 
         // ===== BREAKABLE =====
         breakable = false;
