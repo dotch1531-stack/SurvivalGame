@@ -50,7 +50,7 @@ public class InventoryScreen extends Actor
     GreenfootImage woodImg = new GreenfootImage("wood.png");
     GreenfootImage stoneImg = new GreenfootImage("stein.png");
     GreenfootImage ironImg = new GreenfootImage("iron.png");
-    GreenfootImage swordImg = new GreenfootImage("sword_placeholder.png");
+    GreenfootImage swordImg = new GreenfootImage("Sword_Inventory.png");
 
     TreeMap<String, GreenfootImage> images = new TreeMap<>();
 

@@ -13,6 +13,8 @@ public class CraftingScreen extends Actor
     private int stackSize;
     private String itemToBeCrafted;
     
+    private int[] itemsNeededCountNumberX = {400, 407, 600, 607};
+    
     private boolean selectedCraft = false;
     
     private InventoryScreen inventoryScreen;
@@ -37,6 +39,17 @@ public class CraftingScreen extends Actor
             selectedCraftItem("Schwert");
             Greenfoot.delay(20);
         }
+        if(Greenfoot.mousePressed(world.axeButton)){
+            selectedCraft = true;
+            selectedCraftItem("Axt");
+            Greenfoot.delay(20);
+        }
+        if(Greenfoot.mousePressed(world.picaxeButton)){
+            selectedCraft = true;
+            selectedCraftItem("Spitzhacke");
+            Greenfoot.delay(20);
+        }
+        
         
         //craft button
         if(Greenfoot.mousePressed(world.commitButton) && selectedCraft){

@@ -1,0 +1,8 @@
+{
+    "schaden" : 1,
+    "stackSize" : 1,
+    "recipe" : {
+        "Eisen" : 4,
+        "Holz" : 2
+    }
+}

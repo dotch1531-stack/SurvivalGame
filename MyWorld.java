@@ -13,6 +13,9 @@ public class MyWorld extends World
     private CraftingScreen craftingScreen;
     
     public SwordButton swordButton;
+    public AxeButton axeButton;
+    public PicaxeButton picaxeButton;
+    
     public CommitButton commitButton;
 
     // ===== WORLD =====
@@ -441,6 +444,12 @@ public class MyWorld extends World
             swordButton = new SwordButton();
             addObject(swordButton, 145, 70);
             
+            axeButton = new AxeButton();
+            addObject(axeButton, 145, 215);
+            
+            picaxeButton = new PicaxeButton();
+            addObject(picaxeButton, 145, 365);
+            
             drawCommitCraft();
 
             Greenfoot.delay(20);
@@ -451,6 +460,8 @@ public class MyWorld extends World
 
             removeObject(craftingScreen);
             removeObject(swordButton);
+            removeObject(axeButton);
+            removeObject(picaxeButton);
             deleteCommitCraft();
 
             Greenfoot.delay(20);
