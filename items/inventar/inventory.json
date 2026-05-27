@@ -1,6 +1,7 @@
 {
-    "Eisen": 0,
+    "Eisen": 65,
     "Schwert": 1,
     "Stein": 6,
-    "Holz": 0
+    "Holz": 89,
+    "Axt": 1
 }

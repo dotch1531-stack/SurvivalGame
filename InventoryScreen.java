@@ -26,8 +26,8 @@ public class InventoryScreen extends Actor
     GreenfootImage nine = new GreenfootImage("9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    int[] numbersX = {123, 140, 323, 340, 523, 540, 723, 740};
-    int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130};
+    int[] numbersX = {123, 140, 323, 340, 523, 540, 723, 740, 123, 140};
+    int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130, 310, 310};
     
 
     /**
@@ -51,12 +51,13 @@ public class InventoryScreen extends Actor
     GreenfootImage stoneImg = new GreenfootImage("stein.png");
     GreenfootImage ironImg = new GreenfootImage("iron.png");
     GreenfootImage swordImg = new GreenfootImage("Sword_Inventory.png");
+    GreenfootImage axeImg = new GreenfootImage("Axe_Inventory.png");
 
     TreeMap<String, GreenfootImage> images = new TreeMap<>();
 
     /*  3  */
-    int[] x = {25, 225, 425, 625};
-    int[] y = {-5, -5, -5, -5};
+    int[] x = {25, 225, 425, 625, 25};
+    int[] y = {-5, -5, -5, -5, 190};
 
     /**
      * Act - do whatever the InventoryScreen wants to do. This method is called whenever
@@ -187,6 +188,7 @@ public class InventoryScreen extends Actor
         images.put("Stein", stoneImg);
         images.put("Eisen", ironImg);
         images.put("Schwert", swordImg);
+        images.put("Axt", axeImg);
     }
 
     /*  4  */
@@ -196,6 +198,7 @@ public class InventoryScreen extends Actor
         ironImg.scale(150, 150);
         woodImg.scale(150, 150);
         swordImg.scale(150, 150);
+        axeImg.scale(150, 150);
         
         for(int i = 0; i < 10; i++){
             numberArray[i].scale(15, 30);
