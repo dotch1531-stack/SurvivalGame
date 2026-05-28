@@ -30,115 +30,6 @@ public class Player extends Actor
         spriteSheet = new GreenfootImage("Player/JoeIdle.png");
     }
     
-    /*
-    public void hitCheck()
-    {
-        MouseInfo mouse = Greenfoot.getMouseInfo();
-    
-        if (mouse == null || !Greenfoot.mousePressed(null))
-            return;
-    
-        MyWorld world = (MyWorld)getWorld();
-    
-        int px = 400;
-        int py = 400;
-    
-        int mx = mouse.getX();
-        int my = mouse.getY();
-    
-         ===== ATTACK SETTINGS =====
-        double range = 120 range;
-        double coneAngle = Math.toRadians(45) /*hit width;
-    
-        
-        double dirX = mx - px;
-        double dirY = my - py;
-    
-        // normalize direction
-        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY);
-    
-        if (dirLength == 0)
-            return;
-    
-        dirX /= dirLength;
-        dirY /= dirLength;
-    
-        // precompute cosine threshold
-        double cosThreshold = Math.cos(coneAngle / 2);
-    
-        // squared range (faster than sqrt)
-        double rangeSquared = range * range;
-    
-        double offset = 40; // distance in front of player
-
-        double originX = px + dirX * offset;
-        double originY = py + dirY * offset;
-        
-        // get nearby entities ONCE
-        java.util.List<Entity> nearby =
-            world.getNearbyEntitys((int)range);
-    
-        for (Entity e : nearby)
-        {
-            double dx = e.getX() - originX;
-            double dy = e.getY() - originY;
-    
-            // ===== DISTANCE CHECK =====
-            double distSquared = dx * dx + dy * dy;
-    
-            if (distSquared > rangeSquared)
-                continue;
-    
-            // normalize entity direction
-            double dist = Math.sqrt(distSquared);
-    
-            if (dist == 0)
-                continue;
-    
-            dx /= dist;
-            dy /= dist;
-    
-            // ===== DOT PRODUCT =====
-            double dot = dx * dirX + dy * dirY;
-    
-            // inside cone
-            if (dot >= cosThreshold)
-            {
-                
-                e.damage(1 /*damage);
-            }
-        }
-
-        // ===== GET WORLD OBJECTS =====
-    java.util.List<WorldObject> nearbyObjects =
-        world.getNearbyWorldObjects((int)range);
-
-    for (WorldObject o : nearbyObjects)
-    {
-        double dx = o.worldX - originX;
-        double dy = o.worldY - originY;
-
-        double distSquared = dx * dx + dy * dy;
-
-        if (distSquared > rangeSquared)
-            continue;
-
-        double dist = Math.sqrt(distSquared);
-
-        if (dist == 0)
-            continue;
-
-        dx /= dist;
-        dy /= dist;
-
-        double dot = dx * dirX + dy * dirY;
-
-        if (dot >= cosThreshold)
-        {
-            o.damage(1);
-        }
-    }
-    }*/
     
         public void hitCheck()
         {
@@ -170,7 +61,7 @@ public class Player extends Actor
         double offset = 40;
         
         
-    
+        
         
         for (Entity e : getWorld().getObjects(Entity.class))
         {
@@ -247,26 +138,27 @@ public class Player extends Actor
     double dirX, double dirY,
     double range,
     double cosThreshold)
-{
-    double dx = ox - originX;
-    double dy = oy - originY;
-
-    double distSquared = dx * dx + dy * dy;
-
-    if (distSquared > range * range)
-        return false;
-
-    double dist = Math.sqrt(distSquared);
-    if (dist == 0)
-        return true;
-
-    dx /= dist;
-    dy /= dist;
-
-    double dot = dx * dirX + dy * dirY;
-
-    return dot >= cosThreshold;
-}
+    {
+        double dx = ox - originX;
+        double dy = oy - originY;
+    
+        double distSquared = dx * dx + dy * dy;
+    
+        if (distSquared > range * range)
+            return false;
+    
+        double dist = Math.sqrt(distSquared);
+        if (dist == 0)
+            return true;
+        
+    
+        dx /= dist;
+        dy /= dist;
+    
+        double dot = dx * dirX + dy * dirY;
+    
+        return dot >= cosThreshold;
+    }
     
     public void act()
     {
