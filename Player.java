@@ -27,7 +27,7 @@ public class Player extends Actor
     {
         spriteSheet = new GreenfootImage("Player/JoeIdle.png");
     }
-    
+    /*
     public void hitCheck() {
 
         MouseInfo mouse = Greenfoot.getMouseInfo();
@@ -75,7 +75,80 @@ public class Player extends Actor
                 e.damage(1);
             }
         }
-}
+}*/
+
+    public void hitCheck()
+    {
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+    
+        if (mouse == null || !Greenfoot.mousePressed(null))
+            return;
+    
+        MyWorld world = (MyWorld)getWorld();
+    
+        int px = 400;
+        int py = 400;
+    
+        int mx = mouse.getX();
+        int my = mouse.getY();
+    
+        // ===== ATTACK SETTINGS =====
+        double range = 120 /*range*/;
+        double coneAngle = Math.toRadians(45) /*hit width*/;
+    
+        // ===== DIRECTION VECTOR =====
+        double dirX = mx - px;
+        double dirY = my - py;
+    
+        // normalize direction
+        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY);
+    
+        if (dirLength == 0)
+            return;
+    
+        dirX /= dirLength;
+        dirY /= dirLength;
+    
+        // precompute cosine threshold
+        double cosThreshold = Math.cos(coneAngle / 2);
+    
+        // squared range (faster than sqrt)
+        double rangeSquared = range * range;
+    
+        // get nearby entities ONCE
+        java.util.List<Entity> nearby =
+            world.getNearbyEntitys((int)range);
+    
+        for (Entity e : nearby)
+        {
+            double dx = e.getX() - px;
+            double dy = e.getY() - py;
+    
+            // ===== DISTANCE CHECK =====
+            double distSquared = dx * dx + dy * dy;
+    
+            if (distSquared > rangeSquared)
+                continue;
+    
+            // normalize entity direction
+            double dist = Math.sqrt(distSquared);
+    
+            if (dist == 0)
+                continue;
+    
+            dx /= dist;
+            dy /= dist;
+    
+            // ===== DOT PRODUCT =====
+            double dot = dx * dirX + dy * dirY;
+    
+            // inside cone
+            if (dot >= cosThreshold)
+            {
+                e.damage(1 /*damage*/);
+            }
+        }
+    }
     
     
     public void act()

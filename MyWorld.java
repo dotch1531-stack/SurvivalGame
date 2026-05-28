@@ -33,7 +33,7 @@ public class MyWorld extends World
     private int animationTimer = 10;
 
     Player player = new Player();
-    Entity cow = new Cow();
+
     Entity ent;
 
     // ===== TILE TYPES =====
@@ -117,6 +117,9 @@ public class MyWorld extends World
 
                 // 🐄 COW HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1, Cow::new);
+                
+                // 🐄 PIG HERDS
+                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1, Pig::new);
 
             }
         }

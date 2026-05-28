@@ -16,8 +16,8 @@ public abstract class Entity extends Actor
     // ===== BREAKING SYSTEM =====
     public boolean breakable = true;
 
-    public int maxHealth = 1;
-    public int health = 1;
+    public double maxHealth = 1;
+    public double health = 1;
 
     public BreakProgress progress;
     
@@ -35,7 +35,7 @@ public abstract class Entity extends Actor
     }
 
     // ===== DAMAGE SYSTEM =====
-    public void damage(int amount)
+    public void damage(double amount)
     {
     if (!breakable)
         return;

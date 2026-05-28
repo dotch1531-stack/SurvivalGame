@@ -14,20 +14,20 @@ public class InventoryScreen extends Actor
 
     private final String INVENTORY_PATH = "items/inventar/inventory.json";
     
-    GreenfootImage zero = new GreenfootImage("0.png");
-    GreenfootImage one = new GreenfootImage("1.png");
-    GreenfootImage two = new GreenfootImage("2.png");
-    GreenfootImage three = new GreenfootImage("3.png");
-    GreenfootImage four = new GreenfootImage("4.png");
-    GreenfootImage five = new GreenfootImage("5.png");
-    GreenfootImage six = new GreenfootImage("6.png");
-    GreenfootImage seven = new GreenfootImage("7.png");
-    GreenfootImage eight = new GreenfootImage("8.png");
-    GreenfootImage nine = new GreenfootImage("9.png");
+    GreenfootImage zero = new GreenfootImage("Font/0.png");
+    GreenfootImage one = new GreenfootImage("Font/1.png");
+    GreenfootImage two = new GreenfootImage("Font/2.png");
+    GreenfootImage three = new GreenfootImage("Font/3.png");
+    GreenfootImage four = new GreenfootImage("Font/4.png");
+    GreenfootImage five = new GreenfootImage("Font/5.png");
+    GreenfootImage six = new GreenfootImage("Font/6.png");
+    GreenfootImage seven = new GreenfootImage("Font/7.png");
+    GreenfootImage eight = new GreenfootImage("Font/8.png");
+    GreenfootImage nine = new GreenfootImage("Font/9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    int[] numbersX = {123, 140, 323, 340, 523, 540, 723, 740, 123, 140};
-    int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130, 310, 310};
+    int[] numbersX = {123, 140, 323, 340, 523, 540, 723, 740, 123, 140, 323, 340, 523, 540, 723, 740};
+    int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130, 310, 310, 310, 310, 310, 310, 310, 310};
     
 
     /**
@@ -47,17 +47,18 @@ public class InventoryScreen extends Actor
      */
 
     /*  1  */
-    GreenfootImage woodImg = new GreenfootImage("wood.png");
-    GreenfootImage stoneImg = new GreenfootImage("stein.png");
-    GreenfootImage ironImg = new GreenfootImage("iron.png");
-    GreenfootImage swordImg = new GreenfootImage("Sword_Inventory.png");
-    GreenfootImage axeImg = new GreenfootImage("Axe_Inventory.png");
+    GreenfootImage woodImg = new GreenfootImage("InventorySprites/wood.png");
+    GreenfootImage stoneImg = new GreenfootImage("InventorySprites/stein.png");
+    GreenfootImage ironImg = new GreenfootImage("InventorySprites/iron.png");
+    GreenfootImage swordImg = new GreenfootImage("InventorySprites/Sword_Inventory.png");
+    GreenfootImage axeImg = new GreenfootImage("InventorySprites/Axe_Inventory.png");
+    GreenfootImage pickaxeImg = new GreenfootImage("InventorySprites/Pickaxe_Inventory_x150.png");
 
     TreeMap<String, GreenfootImage> images = new TreeMap<>();
 
     /*  3  */
-    int[] x = {25, 225, 425, 625, 25};
-    int[] y = {-5, -5, -5, -5, 190};
+    int[] x = {25, 225, 425, 625, 25, 225};
+    int[] y = {-5, -5, -5, -5, 190, 190};
 
     /**
      * Act - do whatever the InventoryScreen wants to do. This method is called whenever
@@ -189,6 +190,7 @@ public class InventoryScreen extends Actor
         images.put("Eisen", ironImg);
         images.put("Schwert", swordImg);
         images.put("Axt", axeImg);
+        images.put("Spitzhacke", pickaxeImg);
     }
 
     /*  4  */
@@ -199,6 +201,7 @@ public class InventoryScreen extends Actor
         woodImg.scale(150, 150);
         swordImg.scale(150, 150);
         axeImg.scale(150, 150);
+        pickaxeImg.scale(150, 150);
         
         for(int i = 0; i < 10; i++){
             numberArray[i].scale(15, 30);

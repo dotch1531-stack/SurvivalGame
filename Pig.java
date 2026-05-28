@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class Cow extends Entity
+public class Pig extends Entity
 {
     // ===== MOVEMENT =====
     private int dirX;
@@ -11,10 +11,10 @@ public class Cow extends Entity
 
     private int speed;
 
-    public Cow()
+    public Pig()
     {
         // ===== IMAGE =====
-        setImage("Animals/cow.png");
+        setImage("Animals/pig.png");
 
         // ===== POSITION =====
         worldX = 0;
