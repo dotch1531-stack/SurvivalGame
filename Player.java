@@ -27,55 +27,7 @@ public class Player extends Actor
     {
         spriteSheet = new GreenfootImage("Player/JoeIdle.png");
     }
-    /*
-    public void hitCheck() {
-
-        MouseInfo mouse = Greenfoot.getMouseInfo();
-        if (mouse == null) return;
     
-        if(!Greenfoot.mousePressed(null)) return;
-    
-        int mx = mouse.getX();
-        int my = mouse.getY();
-    
-        
-        int cameraX = ((MyWorld)getWorld()).cameraX;
-        int cameraY = ((MyWorld)getWorld()).cameraY;
-        
-        
-        int worldMouseX = mouse.getX() + cameraX;
-        int worldMouseY = mouse.getY() + cameraY;
-        
-        
-        
-        int px = 400 + cameraX;
-        int py = 400 + cameraY;
-        
-        int left = Math.min(px, mx);
-        int top = Math.min(py, my);
-    
-        int width = Math.abs(px - mx);
-        int height = Math.abs(py - my);
-        
-        int worldLeft = left + cameraX;
-        int worldTop = top + cameraY;
-        int worldRight = worldLeft + width;
-        int worldBottom = worldTop + height;
-    
-        for (Entity e : getWorld().getObjects(Entity.class)) {
-
-            int ex = e.worldX;
-            int ey = e.worldY;
-        
-            if (ex >= Math.min(px, worldMouseX) &&
-                ex <= Math.max(px, worldMouseX) &&
-                ey >= Math.min(py, worldMouseY) &&
-                ey <= Math.max(py, worldMouseY) && ((MyWorld)getWorld()).getNearbyEntitys(120).contains(e))
-            {
-                e.damage(1);
-            }
-        }
-}*/
 
     public void hitCheck()
     {
@@ -115,7 +67,7 @@ public class Player extends Actor
         // squared range (faster than sqrt)
         double rangeSquared = range * range;
     
-        double offset = 30; // distance in front of player
+        double offset = 40; // distance in front of player
 
         double originX = px + dirX * offset;
         double originY = py + dirY * offset;
