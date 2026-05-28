@@ -178,91 +178,23 @@ public class Player extends Actor
     
         int rightX = (int)(originX + Math.cos(rightAngle) * range);
         int rightY = (int)(originY + Math.sin(rightAngle) * range);
+        
+        
+        int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
+        int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
     
-        // ===== DRAW LINES =====
-        bg.drawLine((int)originX, (int)originY, leftX, leftY);
-        bg.drawLine((int)originX, (int)originY, rightX, rightY);
-        bg.drawLine(leftX, leftY, rightX, rightY);
+        
+        bg.fillPolygon(xHitScreen, yHitScreen, 3);
     
         // optional: draw origin point
         bg.fillOval((int)originX - 3, (int)originY - 3, 6, 6);
-    }
-    
-    public void act()
-    {
-        movementAnimation();
-        //hitCheck();
-        
-        drawConeDebug();
-        if(Greenfoot.isKeyDown("e")){Greenfoot.delay(10);}
-    }
-    
-    private boolean pointInTriangle(double px, double py,
-                                 double ax, double ay,
-                                 double bx, double by,
-                                 double cx, double cy)
-    {
-        double d1 = sign(px, py, ax, ay, bx, by);
-        double d2 = sign(px, py, bx, by, cx, cy);
-        double d3 = sign(px, py, cx, cy, ax, ay);
-    
-        boolean hasNeg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-        boolean hasPos = (d1 > 0) || (d2 > 0) || (d3 > 0);
-    
-        return !(hasNeg && hasPos);
-    }
-    
-    private double sign(double px, double py,
-                         double x1, double y1,
-                         double x2, double y2)
-    {
-        return (px - x2) * (y1 - y2) - (x1 - x2) * (py - y2);
-    }
-    
-    private void hitCheck()
-    {
-        double range = 120;
-        double coneAngle = Math.toRadians(45);
-        double offset = 30;
-        
-        double px = 400;
-        double py = 400;
-        
-        double mx = Greenfoot.getMouseInfo().getX();
-        double my = Greenfoot.getMouseInfo().getY();
-        
-        // direction
-        double dirX = mx - px;
-        double dirY = my - py;
-        
-        double len = Math.sqrt(dirX * dirX + dirY * dirY);
-        if (len == 0) return;
-        
-        dirX /= len;
-        dirY /= len;
-        
-        // origin (in front of player)
-        double originX = px + dirX * offset;
-        double originY = py + dirY * offset;
-        
-        // left/right directions
-        double baseAngle = Math.atan2(dirY, dirX);
-        
-        double leftX = originX + Math.cos(baseAngle - coneAngle / 2) * range;
-        double leftY = originY + Math.sin(baseAngle - coneAngle / 2) * range;
-        
-        double rightX = originX + Math.cos(baseAngle + coneAngle / 2) * range;
-        double rightY = originY + Math.sin(baseAngle + coneAngle / 2) * range;
         
         for (Entity e : getWorld().getObjects(Entity.class))
         {
             double ex = e.getX();
             double ey = e.getY();
         
-            if (pointInTriangle(ex, ey,
-                originX, originY,
-                leftX, leftY,
-                rightX, rightY))
+            if (objectsAndEbntitysInHitscreen(ex, ey,xHitScreen, yHitScreen))
             {
                 e.damage(1);
             }
@@ -273,14 +205,35 @@ public class Player extends Actor
             double ox = o.getX();
             double oy = o.getY();
         
-            if (pointInTriangle(ox, oy,
-                originX, originY,
-                leftX, leftY,
-                rightX, rightY))
+            if (objectsAndEbntitysInHitscreen(ox, oy,xHitScreen, yHitScreen))
             {
                 o.damage(1);
             }
         }
+    }
+
+    public boolean objectsAndEbntitysInHitscreen(double ox, double oy, int[] xHitScreen, int[] yHitScreen)
+    {
+        GreenfootImage bg = getWorld().getBackground();
+        if(true){return true;}
+        return true;
+    }
+    
+    public void act()
+    {
+        movementAnimation();
+        //hitCheck();
+    
+        drawConeDebug();
+        if(Greenfoot.isKeyDown("e")){Greenfoot.delay(10);}
+    }
+    
+    
+    
+    private void hitCheck()
+    {
+        
+        
     }
     
     public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
