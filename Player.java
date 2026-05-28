@@ -115,14 +115,19 @@ public class Player extends Actor
         // squared range (faster than sqrt)
         double rangeSquared = range * range;
     
+        double offset = 30; // distance in front of player
+
+        double originX = px + dirX * offset;
+        double originY = py + dirY * offset;
+        
         // get nearby entities ONCE
         java.util.List<Entity> nearby =
             world.getNearbyEntitys((int)range);
     
         for (Entity e : nearby)
         {
-            double dx = e.getX() - px;
-            double dy = e.getY() - py;
+            double dx = e.getX() - originX;
+            double dy = e.getY() - originY;
     
             // ===== DISTANCE CHECK =====
             double distSquared = dx * dx + dy * dy;
@@ -148,6 +153,36 @@ public class Player extends Actor
                 e.damage(1 /*damage*/);
             }
         }
+
+        // ===== GET WORLD OBJECTS =====
+    java.util.List<WorldObject> nearbyObjects =
+        world.getNearbyWorldObjects((int)range);
+
+    for (WorldObject o : nearbyObjects)
+    {
+        double dx = o.worldX - originX;
+        double dy = o.worldY - originY;
+
+        double distSquared = dx * dx + dy * dy;
+
+        if (distSquared > rangeSquared)
+            continue;
+
+        double dist = Math.sqrt(distSquared);
+
+        if (dist == 0)
+            continue;
+
+        dx /= dist;
+        dy /= dist;
+
+        double dot = dx * dirX + dy * dirY;
+
+        if (dot >= cosThreshold)
+        {
+            o.damage(1);
+        }
+    }
     }
     
     

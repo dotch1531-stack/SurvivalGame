@@ -6,82 +6,79 @@ public abstract class WorldObject extends Actor
     public int worldY;
 
     // ===== COLLISION =====
-    public boolean solid = false;
-
+    public boolean solid = true;
+    
     public int collisionRadius = 30;
 
-    public int hitboxWidth = 20;
-    public int hitboxHeight = 20;
+    public int hitboxWidth = 240;
+    public int hitboxHeight = 120;
 
     // ===== BREAKING SYSTEM =====
-    public boolean breakable = false;
+    public boolean breakable = true;
 
     public double maxHealth = 1;
     public double health = 1;
 
     public BreakProgress progress;
+    
+
 
     // ===== SCREEN POSITION =====
     public void updateScreenPosition(int cameraX, int cameraY)
     {
         setLocation(worldX - cameraX, worldY - cameraY);
-
-        // keep progress bar attached
-        if(progress != null)
+    
+        if (progress != null)
         {
-            progress.setLocation(getX(), getY() + 40);
+            progress.updateScreenPosition(cameraX, cameraY, worldX, worldY);
         }
     }
 
     // ===== DAMAGE SYSTEM =====
     public void damage(double amount)
     {
-        if(!breakable)
-            return;
+    if (!breakable)
+        return;
 
-        health -= amount;
+    health -= amount;
 
-        MyWorld world = (MyWorld)getWorld();
-        if(world == null)
-            return;
+    if (health < 0)
+        health = 0;
 
-        // create progress bar once
-        if(progress == null)
-        {
-            progress = new BreakProgress();
+    MyWorld world = (MyWorld)getWorld();
+    if (world == null)
+        return;
 
-            world.addObject(
-                progress,
-                getX(),
-                getY() + 40
-            );
-        }
-
-        // clamp health
-        if(health < 0)
-            health = 0;
-
-        // calculate stage from health %
-        int totalStages = 17;
-
-        double percent =
-            (double)(maxHealth - health) / (double)maxHealth;
-
-        int stage = (int)(percent * (totalStages - 1));
-
-        progress.setStage(stage);
-
-        // destroy object when dead
-        if(health <= 0)
-        {
-            if(progress != null)
-            {
-                world.removeObject(progress);
-            }
-
-            world.removeObject(this);
-        }
+    if (progress == null)
+    {
+        progress = new BreakProgress();
+        world.addObject(progress, worldX, worldY + 40);
     }
+
+    int totalStages = 17;
+
+    double percent =
+        (double)(maxHealth - health) / (double)maxHealth;
+
+    int stage = (int)(percent * (totalStages - 1));
+
+    if (progress != null)
+    {
+        progress.setStage(stage);
+    }
+
+    if (health <= 0)
+    {
+        if (progress != null)
+        {
+            world.removeObject(progress);
+            progress = null;
+        }
+
+        world.removeObject(this);
+        return;
+    }
+}
 
     // ===== PROXIMITY CHECK =====
     public boolean isNear(int x, int y)
@@ -92,4 +89,6 @@ public abstract class WorldObject extends Actor
         return dx * dx + dy * dy <
                collisionRadius * collisionRadius;
     }
+    
+    
 }

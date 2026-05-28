@@ -60,7 +60,10 @@ public class MyWorld extends World
     private java.util.HashSet<String> spawnedObjects =
         new java.util.HashSet<>();
 
-    
+    public java.util.List<WorldObject> getNearbyWorldObjects(int range)
+    {
+        return getObjects(WorldObject.class);
+    }
     /**
      * Constructor for objects of class MyWorld.
      */
