@@ -17,7 +17,7 @@ public class Tree extends WorldObject
 
         // ===== HITBOX =====
         hitboxWidth = 20;
-        hitboxHeight = 20;
+        hitboxHeight = 15;
 
         // ===== MOVEMENT =====
         dirX = 0;

@@ -22,6 +22,8 @@ public class Player extends Actor
     
     int hitboxWidth = 20;
     int hitboxHeight = 90;
+    
+    
 
     public Player()
     {
@@ -138,10 +140,11 @@ public class Player extends Actor
     }
     }*/
     
-        public void drawConeDebug()
-    {
+        public void hitCheck()
+        {
         MouseInfo mouse = Greenfoot.getMouseInfo();
         if (mouse == null) return;
+        if (!Greenfoot.mousePressed(null)) return;
     
         GreenfootImage bg = getWorld().getBackground();
     
@@ -164,37 +167,40 @@ public class Player extends Actor
         // ===== SETTINGS =====
         double range = 120;
         double coneAngle = Math.toRadians(45);
-        double offset = 30;
-    
-        // move cone forward
-        double originX = px + dirX * offset;
-        double originY = py + dirY * offset;
-    
-        double leftAngle = Math.atan2(dirY, dirX) - coneAngle / 2;
-        double rightAngle = Math.atan2(dirY, dirX) + coneAngle / 2;
-    
-        int leftX = (int)(originX + Math.cos(leftAngle) * range);
-        int leftY = (int)(originY + Math.sin(leftAngle) * range);
-    
-        int rightX = (int)(originX + Math.cos(rightAngle) * range);
-        int rightY = (int)(originY + Math.sin(rightAngle) * range);
+        double offset = 40;
         
         
-        int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
-        int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
     
-        
-        bg.fillPolygon(xHitScreen, yHitScreen, 3);
-    
-        // optional: draw origin point
-        bg.fillOval((int)originX - 3, (int)originY - 3, 6, 6);
         
         for (Entity e : getWorld().getObjects(Entity.class))
         {
             double ex = e.getX();
             double ey = e.getY();
+            
+            double originX = px + dirX;
+            double originY = py + dirY;
+            
+            double cosThreshold = Math.cos(coneAngle / 2);
         
-            if (objectsAndEbntitysInHitscreen(ex, ey,xHitScreen, yHitScreen))
+            double leftAngle = Math.atan2(dirY, dirX) - coneAngle / 2;
+            double rightAngle = Math.atan2(dirY, dirX) + coneAngle / 2;
+        
+            int leftX = (int)(originX + Math.cos(leftAngle) * range);
+            int leftY = (int)(originY + Math.sin(leftAngle) * range);
+        
+            int rightX = (int)(originX + Math.cos(rightAngle) * range);
+            int rightY = (int)(originY + Math.sin(rightAngle) * range);
+            
+            
+            int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
+            int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
+        
+            if (objectsAndEbntitysInHitscreen(
+            ex, ey,
+            originX, originY,
+            dirX, dirY,
+            range,
+            cosThreshold))
             {
                 e.damage(1);
             }
@@ -204,37 +210,72 @@ public class Player extends Actor
         {
             double ox = o.getX();
             double oy = o.getY();
+            
+            double originX = px + dirX * offset;
+            double originY = py + dirY * offset;
+            
+            double cosThreshold = Math.cos(coneAngle / 2);
         
-            if (objectsAndEbntitysInHitscreen(ox, oy,xHitScreen, yHitScreen))
-            {
-                o.damage(1);
+            double leftAngle = Math.atan2(dirY, dirX) - coneAngle / 2;
+            double rightAngle = Math.atan2(dirY, dirX) + coneAngle / 2;
+        
+            int leftX = (int)(originX + Math.cos(leftAngle) * range);
+            int leftY = (int)(originY + Math.sin(leftAngle) * range);
+        
+            int rightX = (int)(originX + Math.cos(rightAngle) * range);
+            int rightY = (int)(originY + Math.sin(rightAngle) * range);
+            
+            
+            int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
+            int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
+        
+            if (objectsAndEbntitysInHitscreen(
+                ox, oy,
+                originX, originY,
+                dirX, dirY,
+                range,
+                cosThreshold))
+        {
+            o.damage(1);
             }
         }
     }
 
-    public boolean objectsAndEbntitysInHitscreen(double ox, double oy, int[] xHitScreen, int[] yHitScreen)
-    {
-        GreenfootImage bg = getWorld().getBackground();
-        if(true){return true;}
+    public boolean objectsAndEbntitysInHitscreen(
+    double ox, double oy,
+    double originX, double originY,
+    double dirX, double dirY,
+    double range,
+    double cosThreshold)
+{
+    double dx = ox - originX;
+    double dy = oy - originY;
+
+    double distSquared = dx * dx + dy * dy;
+
+    if (distSquared > range * range)
+        return false;
+
+    double dist = Math.sqrt(distSquared);
+    if (dist == 0)
         return true;
-    }
+
+    dx /= dist;
+    dy /= dist;
+
+    double dot = dx * dirX + dy * dirY;
+
+    return dot >= cosThreshold;
+}
     
     public void act()
     {
         movementAnimation();
-        //hitCheck();
-    
-        drawConeDebug();
+        hitCheck();
         if(Greenfoot.isKeyDown("e")){Greenfoot.delay(10);}
     }
     
     
-    
-    private void hitCheck()
-    {
-        
-        
-    }
     
     public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
     public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
