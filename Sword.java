@@ -24,7 +24,11 @@ public class Sword extends Item
         getJsonFile();
         
         return objectJSON.getInt("schaden");
+    }
+    public int getMaxStackSize(){
+        getJsonFile();
         
+        return objectJSON.getInt("stackSize");
     }
     public void getJsonFile(){
         try{

@@ -15,17 +15,36 @@ public class CraftingScreen extends Actor
     
     private int[] itemsNeededCountNumberX = {400, 407, 600, 607};
     
+    private boolean firstRead = false;
+    
     private boolean selectedCraft = false;
     
     private InventoryScreen inventoryScreen;
-
-    public CraftingScreen()
-    {
-        inventoryScreen = new InventoryScreen();
-    }
+    
+    GreenfootImage zero = new GreenfootImage("Font/0.png");
+    GreenfootImage one = new GreenfootImage("Font/1.png");
+    GreenfootImage two = new GreenfootImage("Font/2.png");
+    GreenfootImage three = new GreenfootImage("Font/3.png");
+    GreenfootImage four = new GreenfootImage("Font/4.png");
+    GreenfootImage five = new GreenfootImage("Font/5.png");
+    GreenfootImage six = new GreenfootImage("Font/6.png");
+    GreenfootImage seven = new GreenfootImage("Font/7.png");
+    GreenfootImage eight = new GreenfootImage("Font/8.png");
+    GreenfootImage nine = new GreenfootImage("Font/9.png");
+    
+    GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
+    
+    int[] numbersX = {300, 317, 400, 417};
+    int[] numbersY = {300, 300, 300, 300};
+    
+    private GreenfootImage baseImage;
     
     public void act()
     {   
+        if(!firstRead){
+            scaleImages();
+        }
+        
         handleCraftButtons();
     }
     
@@ -59,6 +78,32 @@ public class CraftingScreen extends Actor
         }
     }
     
+    private void scaleImages()
+    {    
+        for(int i = 0; i < 10; i++){
+            numberArray[i].scale(15, 30);
+        }
+    }
+    
+    private void addNumbers(){       
+        int loop = 0;
+        for(String key : itemsNeeded.keySet()){
+            if(itemsNeeded.getOrDefault(key, 0) > 0){
+                String intToString = Integer.toString(itemsNeeded.getOrDefault(key, 0));
+                
+                if(intToString.length() < 2){
+                    intToString = "0" + intToString;
+                }
+            
+                for(int i = 0; i < intToString.length(); i++){
+                    int number = Integer.parseInt(String.valueOf(intToString.charAt(i)));
+                    getImage().drawImage(numberArray[number], numbersX[loop], numbersY[loop]);
+                    loop += 1;
+                }
+            }
+        }
+    }
+    
     private void craftItem(){
         boolean canCraft = true;
         
@@ -86,6 +131,8 @@ public class CraftingScreen extends Actor
         getItemsNeeded(itemToCraft);
         
         itemToBeCrafted = itemToCraft;
+        
+        addNumbers();
     }
     
     public void getItemsNeeded(String item){

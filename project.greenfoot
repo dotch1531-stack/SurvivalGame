@@ -1,12 +1,18 @@
 #Greenfoot project file
+class.Axe.image=Axe_Inventory_x150.png
 class.AxeButton.image=AxeButton.png
 class.CommitButton.image=Craftbutton_Enabled.png
 class.CraftButtons.image=Craftbutton_Disabled.png
 class.CraftingScreen.image=craft.png
 class.InventoryScreen.image=inventoryBackground.png
+class.Iron.image=iron.png
 class.PicaxeButton.image=spitzhacke_placeholder.png
+class.Pickaxe.image=Pickaxe_x150.png
+class.Stone.image=stein.png
+class.Sword.image=Sword_Inventory.png
 class.SwordButton.image=SwordButton.png
 class.Tree.image=tree.png
+class.Wood.image=wood.png
 dependency1.from=MyWorld
 dependency1.to=InventoryScreen
 dependency1.type=UsesDependency
@@ -58,6 +64,7 @@ dependency23.type=UsesDependency
 dependency24.from=Entity
 dependency24.to=MyWorld
 dependency24.type=UsesDependency
+<<<<<<< Updated upstream
 dependency25.from=Aggressiv_Entity
 dependency25.to=Player
 dependency25.type=UsesDependency
@@ -72,11 +79,28 @@ dependency28.to=MyWorld
 dependency28.type=UsesDependency
 dependency29.from=Player
 dependency29.to=MyWorld
+=======
+dependency25.from=Fellow_Survivor
+dependency25.to=Player
+dependency25.type=UsesDependency
+dependency26.from=WorldObject
+dependency26.to=BreakProgress
+dependency26.type=UsesDependency
+dependency27.from=WorldObject
+dependency27.to=MyWorld
+dependency27.type=UsesDependency
+dependency28.from=Player
+dependency28.to=MyWorld
+dependency28.type=UsesDependency
+dependency29.from=Player
+dependency29.to=Entity
+>>>>>>> Stashed changes
 dependency29.type=UsesDependency
 dependency3.from=MyWorld
 dependency3.to=Iron
 dependency3.type=UsesDependency
 dependency30.from=Player
+<<<<<<< Updated upstream
 dependency30.to=BreakProgress
 dependency30.type=UsesDependency
 dependency31.from=Player
@@ -100,6 +124,25 @@ dependency36.type=UsesDependency
 dependency37.from=EntityFactory
 dependency37.to=Entity
 dependency37.type=UsesDependency
+=======
+dependency30.to=WorldObject
+dependency30.type=UsesDependency
+dependency31.from=CraftingScreen
+dependency31.to=InventoryScreen
+dependency31.type=UsesDependency
+dependency32.from=CraftingScreen
+dependency32.to=MyWorld
+dependency32.type=UsesDependency
+dependency33.from=InventoryScreen
+dependency33.to=MyWorld
+dependency33.type=UsesDependency
+dependency34.from=ObjectFactory
+dependency34.to=WorldObject
+dependency34.type=UsesDependency
+dependency35.from=EntityFactory
+dependency35.to=Entity
+dependency35.type=UsesDependency
+>>>>>>> Stashed changes
 dependency4.from=MyWorld
 dependency4.to=Pickaxe
 dependency4.type=UsesDependency
@@ -118,12 +161,16 @@ dependency8.type=UsesDependency
 dependency9.from=MyWorld
 dependency9.to=SwordButton
 dependency9.type=UsesDependency
-editor.fx.0.height=1026
-editor.fx.0.width=1696
-editor.fx.0.x=-8
-editor.fx.0.y=-8
+editor.fx.0.height=739
+editor.fx.0.width=1117
+editor.fx.0.x=215
+editor.fx.0.y=94
 height=1026
+<<<<<<< Updated upstream
 package.numDependencies=37
+=======
+package.numDependencies=35
+>>>>>>> Stashed changes
 package.numTargets=30
 project.charset=UTF-8
 publish.hasSource=false
@@ -139,7 +186,11 @@ readme.width=49
 readme.x=10
 readme.y=10
 shm.size=40000000
+<<<<<<< Updated upstream
 simulation.speed=52
+=======
+simulation.speed=54
+>>>>>>> Stashed changes
 target1.height=70
 target1.name=Entity
 target1.showInterface=false
