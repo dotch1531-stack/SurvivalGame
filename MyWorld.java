@@ -67,6 +67,9 @@ public class MyWorld extends World
     /**
      * Constructor for objects of class MyWorld.
      */
+    
+    //FROM HERE...
+    
     public MyWorld()
     {
         super(800, 800, 1);
@@ -225,8 +228,6 @@ public class MyWorld extends World
         }
     }
     
-    
-
     public boolean collidesWithSolid(int newCameraX, int newCameraY)
     {
         int playerX = newCameraX + player.getX();
@@ -518,7 +519,28 @@ public class MyWorld extends World
 
         return tile;
     }
+    
+    // ===== WATER ANIMATION =====
+    public void updateWaterAnimation()
+    {
+        animationTimer++;
 
+        if(animationTimer >= 15)
+        {
+            animationTimer = 0;
+
+            waterFrame++;
+
+            if(waterFrame > 2)
+                waterFrame = 0;
+        }
+    }
+
+    
+    
+    // UNTIL HERE EVERYTHING WORKS
+    
+    
     // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
     {
@@ -591,19 +613,5 @@ public class MyWorld extends World
         removeObject(commitButton);
     }
 
-    // ===== WATER ANIMATION =====
-    public void updateWaterAnimation()
-    {
-        animationTimer++;
-
-        if(animationTimer >= 15)
-        {
-            animationTimer = 0;
-
-            waterFrame++;
-
-            if(waterFrame > 2)
-                waterFrame = 0;
-        }
-    }
+    
 }
