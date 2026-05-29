@@ -31,8 +31,8 @@ public class Aggressiv_Entity extends Entity
     private boolean justHit = false;
 
     // ===== SETTINGS =====
-    private int patrolRadius = 4 * 120;
-    private int detectionRange = 10 * 120;
+    private int patrolRadius = 1 * 120;
+    private int detectionRange = 3 * 120;
     
     
     protected void addedToWorld(World world)
