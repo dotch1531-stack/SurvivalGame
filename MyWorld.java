@@ -1,5 +1,6 @@
 import greenfoot.*;
 
+
 public class MyWorld extends World
 {
     // ===== INVENTORY =====
@@ -66,6 +67,8 @@ public class MyWorld extends World
 
     private java.util.HashSet<String> spawnedObjects =
         new java.util.HashSet<>();
+        
+    
 
     public java.util.List<WorldObject> getNearbyWorldObjects(int range)
     {

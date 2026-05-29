@@ -28,7 +28,7 @@ public class Aggressiv_Entity extends Entity
     // ===== TIMERS =====
     private int patrolTimer;
     
-    
+    private boolean justHit = false;
 
     // ===== SETTINGS =====
     private int patrolRadius = 4 * 120;
@@ -52,7 +52,7 @@ public class Aggressiv_Entity extends Entity
     {
         Player player = getPlayer();
     
-        if(player == null) return;
+        if(player == null || justHit){ justHit = false; return;}
     
         MyWorld world = (MyWorld)getWorld();
     
@@ -73,6 +73,7 @@ public class Aggressiv_Entity extends Entity
         {
             patrol();
         }
+        if(distanceToPlayer <= 20){player.damage(2);justHit = true;}
     
     }
 
