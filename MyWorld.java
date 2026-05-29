@@ -1,9 +1,6 @@
 import greenfoot.*;
 
-<<<<<<< Updated upstream
-=======
 // crashout counter: 3
->>>>>>> Stashed changes
 
 public class MyWorld extends World
 {
