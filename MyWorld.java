@@ -136,7 +136,7 @@ public class MyWorld extends World
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Cow::new);
                 
                 // 🐄 PIG HERDS
-                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Pig::new);
+                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,2,1000, Pig::new);
                 
                 //Fellow Survivor 
                 spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,1000, Fellow_Survivor::new);
