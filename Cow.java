@@ -25,9 +25,14 @@ public class Cow extends Passiv_Entity
 
         dirX = 0;
         dirY = 0;
-
+        
+        //=====Area=====
         walkTimer = 0;
         idleTimer = 0;
+        allowedTiles = new int[]
+        {
+            MyWorld.GRASS
+        };
     }
 
     @Override

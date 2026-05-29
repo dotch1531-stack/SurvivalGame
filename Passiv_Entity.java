@@ -10,6 +10,7 @@ public abstract class Passiv_Entity extends Entity
     protected int idleTimer;
 
     protected int speed;
+    protected int[] allowedTiles;
 
     public Passiv_Entity()
     {
@@ -20,6 +21,12 @@ public abstract class Passiv_Entity extends Entity
         idleTimer = 0;
 
         speed = 1;
+
+        // Standard: Gras
+        allowedTiles = new int[]
+        {
+            MyWorld.GRASS
+        };
     }
 
     @Override
@@ -45,8 +52,19 @@ public abstract class Passiv_Entity extends Entity
         }
 
         // ===== MOVE (WORLD SPACE) =====
-        worldX += dirX * speed;
-        worldY += dirY * speed;
+        int nextX = worldX + dirX * speed;
+        int nextY = worldY + dirY * speed;
+
+        if(canMoveTo(nextX, nextY))
+        {
+            worldX = nextX;
+            worldY = nextY;
+        }
+        else
+        {
+            dirX = Greenfoot.getRandomNumber(3) - 1;
+            dirY = Greenfoot.getRandomNumber(3) - 1;
+        }
 
         walkTimer--;
 
@@ -80,7 +98,32 @@ public abstract class Passiv_Entity extends Entity
             }
         }
     }
+    //Can Walk current tile
+    protected boolean canWalkOn(int tile)
+    {
+        for(int allowed : allowedTiles)
+        {
+            if(allowed == tile)
+                return true;
+        }
 
+        return false;
+    }
+    //Can Walk next tile
+    protected boolean canMoveTo(int worldX, int worldY)
+    {
+        MyWorld world = (MyWorld)getWorld();
+
+        if(world == null)
+            return false;
+
+        int tileX = Math.floorDiv(worldX, MyWorld.TILE_SIZE);
+        int tileY = Math.floorDiv(worldY, MyWorld.TILE_SIZE);
+
+        int tile = world.getTile(tileX, tileY);
+
+        return canWalkOn(tile);
+    }
     // ===== HELPER =====
     protected int clamp(int value)
     {

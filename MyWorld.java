@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-// crashout counter: 3
+// crashout counter: 4
 
 public class MyWorld extends World
 {

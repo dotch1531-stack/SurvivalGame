@@ -28,6 +28,13 @@ public class Pig extends Passiv_Entity
 
         walkTimer = 0;
         idleTimer = 0;
+        
+        //=====Area=====
+        allowedTiles = new int[]
+        {
+            MyWorld.GRASS,
+            MyWorld.ROCK
+        };
     }
 
     @Override
