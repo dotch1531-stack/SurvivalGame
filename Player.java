@@ -31,7 +31,67 @@ public class Player extends Actor
     }
     
     
-        public void hitCheck()
+    
+    
+    public void act()
+        {
+        movementAnimation();
+        hitCheck();
+        }
+    
+    
+        
+    
+    //ANIMATE WORKS - DO NOT TOUCH
+    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
+    public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
+    
+    public void movementAnimation()
+    {
+        if(Greenfoot.isKeyDown("w")){animate(up);}
+        else if(Greenfoot.isKeyDown("s")){animate(down);}
+        else if(Greenfoot.isKeyDown("a")){animate(left);}
+        else if(Greenfoot.isKeyDown("d")){animate(right);}
+        else {setImage(new GreenfootImage("Player/Joe"+idle+".png"));}
+    }
+    
+    
+    
+    public void animate(String where)
+    {
+        spriteSheet = new GreenfootImage("Player/Joe" + where + ".png");
+        
+        counter++;
+
+        if(counter >= animationSpeed)
+        {
+            counter = 0;
+
+            // Create image for one frame
+            GreenfootImage frameImage =
+                new GreenfootImage(frameWidth, frameHeight);
+
+            // Copy part of sprite sheet
+            frameImage.drawImage(
+                spriteSheet,
+                -frame * frameHeight,0
+            );
+
+            setImage(frameImage);
+
+            // Next frame
+            frame++;
+
+            if(frame >= totalFrames)
+            {
+                frame = 0;
+            }
+        }
+    }
+    
+    
+    //HITTING WORKS - DO NOT TOUCH
+    public void hitCheck()
         {
         MouseInfo mouse = Greenfoot.getMouseInfo();
         if (mouse == null) return;
@@ -86,7 +146,7 @@ public class Player extends Actor
             int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
             int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
         
-            if (objectsAndEbntitysInHitscreen(
+            if (objectsAndEntitysInHitscreen(
             ex, ey,
             originX, originY,
             dirX, dirY,
@@ -101,38 +161,51 @@ public class Player extends Actor
         {
             double ox = o.getX();
             double oy = o.getY();
-            
+        
             double originX = px + dirX * offset;
             double originY = py + dirY * offset;
-            
+        
             double cosThreshold = Math.cos(coneAngle / 2);
         
-            double leftAngle = Math.atan2(dirY, dirX) - coneAngle / 2;
-            double rightAngle = Math.atan2(dirY, dirX) + coneAngle / 2;
+            // NEW CHECK
+            if(!objectInFrontOfMouse(px, py, mx, my, ox, oy))
+            {
+                continue;
+            }
         
-            int leftX = (int)(originX + Math.cos(leftAngle) * range);
-            int leftY = (int)(originY + Math.sin(leftAngle) * range);
-        
-            int rightX = (int)(originX + Math.cos(rightAngle) * range);
-            int rightY = (int)(originY + Math.sin(rightAngle) * range);
-            
-            
-            int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
-            int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
-        
-            if (objectsAndEbntitysInHitscreen(
+            if (objectsAndEntitysInHitscreen(
                 ox, oy,
                 originX, originY,
                 dirX, dirY,
                 range,
                 cosThreshold))
-        {
-            o.damage(1);
+            {
+                o.damage(1);
             }
         }
     }
+    
+    public boolean objectInFrontOfMouse(
+    double px, double py,
+    double mx, double my,
+    double ox, double oy)
+    {
+        // player -> mouse
+        double mdx = mx - px;
+        double mdy = my - py;
+    
+        // player -> object
+        double odx = ox - px;
+        double ody = oy - py;
+    
+        // dot product
+        double dot = mdx * odx + mdy * ody;
+    
+        // if negative, object is behind player relative to mouse
+        return dot > 0;
+    }
 
-    public boolean objectsAndEbntitysInHitscreen(
+    public boolean objectsAndEntitysInHitscreen(
     double ox, double oy,
     double originX, double originY,
     double dirX, double dirY,
@@ -142,15 +215,23 @@ public class Player extends Actor
         double dx = ox - originX;
         double dy = oy - originY;
     
+        // ===== MUST BE IN FRONT =====
+        double forwardDot = dx * dirX + dy * dirY;
+    
+        if(forwardDot <= 0)
+        {
+            return false;
+        }
+    
         double distSquared = dx * dx + dy * dy;
     
         if (distSquared > range * range)
             return false;
     
         double dist = Math.sqrt(distSquared);
+    
         if (dist == 0)
             return true;
-        
     
         dx /= dist;
         dy /= dist;
@@ -159,61 +240,4 @@ public class Player extends Actor
     
         return dot >= cosThreshold;
     }
-    
-    public void act()
-    {
-        movementAnimation();
-        hitCheck();
-        if(Greenfoot.isKeyDown("e")){Greenfoot.delay(10);}
-    }
-    
-    
-    
-    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
-    public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
-    
-    public void movementAnimation()
-    {
-        if(Greenfoot.isKeyDown("w")){animate(up);}
-        else if(Greenfoot.isKeyDown("s")){animate(down);}
-        else if(Greenfoot.isKeyDown("a")){animate(left);}
-        else if(Greenfoot.isKeyDown("d")){animate(right);}
-        else {setImage(new GreenfootImage("Player/Joe"+idle+".png"));}
-    }
-    
-    
-
-    public void animate(String where)
-    {
-        spriteSheet = new GreenfootImage("Player/Joe" + where + ".png");
-        
-        counter++;
-
-        if(counter >= animationSpeed)
-        {
-            counter = 0;
-
-            // Create image for one frame
-            GreenfootImage frameImage =
-                new GreenfootImage(frameWidth, frameHeight);
-
-            // Copy part of sprite sheet
-            frameImage.drawImage(
-                spriteSheet,
-                -frame * frameHeight,0
-            );
-
-            setImage(frameImage);
-
-            // Next frame
-            frame++;
-
-            if(frame >= totalFrames)
-            {
-                frame = 0;
-            }
-        }
-    }
-    
-    
 }
