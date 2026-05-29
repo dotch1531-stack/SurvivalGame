@@ -30,40 +30,9 @@ public class InventoryScreen extends Actor
     int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130, 310, 310, 310, 310, 310, 310, 310, 310};
     
 
-    /**
-     * Falls ihr neue Items selber hinzufügen wollt:
-     * 
-     * Step by Step anleitung um neue Items im Inventar anzuzeigen (für dullies):
-     * 
-     * 1. Bild initialisieren (codestelle 1)
-     * 2. Bild mit dazugehörigem schlüssel in die Map eintragen (codestelle 2 + Anweisungen an codestelle befolgen)
-     * 3. Bildkoordinaten setzen (einfach als neue Integers in die arrays) (codestelle 3)
-     * 4. Bild gegebenenfalls scallieren (codestelle 4)
-     * 
-     * Falls es nicht klappt (ihr zu schlecht seid), fragt einfach mich (der Gott der das geschrieben hat)
-     * Noch ne ergänzung die bilder sollten am besten alle von Vecteezy sein und auf 150x150 scalliert sein,
-     * weil die angegebenen Positionen gelten nur für die einzelnen Slots und nicht für die Items, die alphabetisch geordnet sind.
-     * außerdem werden items die man nicht hat(also 0 sind) übergangen und nicht angezeigt
-     */
+    int[] x = {105, 300, 495, 700, 105, 300};
+    int[] y = {75, 75, 75, 75, 260, 260};
 
-    /*  1  */
-    GreenfootImage woodImg = new GreenfootImage("InventorySprites/wood.png");
-    GreenfootImage stoneImg = new GreenfootImage("InventorySprites/stein.png");
-    GreenfootImage ironImg = new GreenfootImage("InventorySprites/iron.png");
-    GreenfootImage swordImg = new GreenfootImage("InventorySprites/Sword_Inventory.png");
-    GreenfootImage axeImg = new GreenfootImage("InventorySprites/Axe_Inventory.png");
-    GreenfootImage pickaxeImg = new GreenfootImage("InventorySprites/Pickaxe_Inventory_x150.png");
-
-    TreeMap<String, GreenfootImage> images = new TreeMap<>();
-
-    /*  3  */
-    int[] x = {25, 225, 425, 625, 25, 225};
-    int[] y = {-5, -5, -5, -5, 190, 190};
-
-    /**
-     * Act - do whatever the InventoryScreen wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act()
     {
 
@@ -104,7 +73,6 @@ public class InventoryScreen extends Actor
         }
         
         if(executedToShowItemsInInventory){
-            setImageMap();
             scaleImages();
             showItemsInventory();
         }
@@ -181,28 +149,8 @@ public class InventoryScreen extends Actor
         return inventory.getOrDefault(item, 0);
     }
 
-    /*  2  */
-    public void setImageMap()
-    {
-        /*  Schlüssel (erster Parameter) mus gleich mit JSON name(schlüssel) sein & zweiter Parameter das Bild  */
-        images.put("Holz", woodImg);
-        images.put("Stein", stoneImg);
-        images.put("Eisen", ironImg);
-        images.put("Schwert", swordImg);
-        images.put("Axt", axeImg);
-        images.put("Spitzhacke", pickaxeImg);
-    }
-
-    /*  4  */
     public void scaleImages()
-    {
-        stoneImg.scale(150, 150);
-        ironImg.scale(150, 150);
-        woodImg.scale(150, 150);
-        swordImg.scale(150, 150);
-        axeImg.scale(150, 150);
-        pickaxeImg.scale(150, 150);
-        
+    {    
         for(int i = 0; i < 10; i++){
             numberArray[i].scale(15, 30);
         }
@@ -211,6 +159,7 @@ public class InventoryScreen extends Actor
     public void showItemsInventory()
     {
         GreenfootImage img = getImage();
+        MyWorld world = (MyWorld)getWorld();
 
         int loop = 0;
 
@@ -218,7 +167,7 @@ public class InventoryScreen extends Actor
         {
             if (inventory.getOrDefault(i, 0) > 0)
             {
-                img.drawImage(images.get(i), x[loop], y[loop]);
+                world.drawInventoryItems(i, x[loop], y[loop]);
                 loop++;
             }
         }

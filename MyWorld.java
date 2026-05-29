@@ -6,7 +6,14 @@ public class MyWorld extends World
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
-
+    
+    private Axe axe;
+    private Iron iron;
+    private Pickaxe pickaxe;
+    private Stone stone;
+    private Sword sword;
+    private Wood wood;
+    
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
 
@@ -67,6 +74,9 @@ public class MyWorld extends World
     /**
      * Constructor for objects of class MyWorld.
      */
+    
+    //FROM HERE...
+    
     public MyWorld()
     {
         super(800, 800, 1);
@@ -123,6 +133,9 @@ public class MyWorld extends World
                 
                 // 🐄 PIG HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1, Pig::new);
+                
+                //Fellow Survivor 
+                spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,1, Fellow_Survivor::new);
 
             }
         }
@@ -225,8 +238,6 @@ public class MyWorld extends World
         }
     }
     
-    
-
     public boolean collidesWithSolid(int newCameraX, int newCameraY)
     {
         int playerX = newCameraX + player.getX();
@@ -518,7 +529,28 @@ public class MyWorld extends World
 
         return tile;
     }
+    
+    // ===== WATER ANIMATION =====
+    public void updateWaterAnimation()
+    {
+        animationTimer++;
 
+        if(animationTimer >= 15)
+        {
+            animationTimer = 0;
+
+            waterFrame++;
+
+            if(waterFrame > 2)
+                waterFrame = 0;
+        }
+    }
+
+    
+    
+    // UNTIL HERE EVERYTHING WORKS
+    
+    
     // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
     {
@@ -539,7 +571,14 @@ public class MyWorld extends World
 
             inventoryScreen.firstRead = false;
             inventoryScreen.setItemsInventory();
-
+            
+            removeObject(axe);
+            removeObject(iron);
+            removeObject(pickaxe);
+            removeObject(stone);
+            removeObject(sword);
+            removeObject(wood);
+            
             removeObject(inventoryScreen);
 
             Greenfoot.delay(20);
@@ -581,6 +620,35 @@ public class MyWorld extends World
             Greenfoot.delay(20);
         }
     }
+    
+    public void drawInventoryItems(String item, int x, int y){
+        switch(item){
+            case "Axt":
+                axe = new Axe();
+                addObject(axe, x, y);
+                break;
+            case "Eisen":
+                iron = new Iron();
+                addObject(iron, x, y);
+                break;
+            case "Spitzhacke":
+                pickaxe = new Pickaxe();
+                addObject(pickaxe, x, y);
+                break;
+            case "Stein":
+                stone = new Stone();
+                addObject(stone, x, y);
+                break;
+            case "Schwert":
+                sword = new Sword();
+                addObject(sword, x, y);
+                break;
+            case "Holz":
+                wood = new Wood();
+                addObject(wood, x, y);
+                break;
+        }
+    }
 
     public void drawCommitCraft(){
         commitButton = new CommitButton();
@@ -591,19 +659,5 @@ public class MyWorld extends World
         removeObject(commitButton);
     }
 
-    // ===== WATER ANIMATION =====
-    public void updateWaterAnimation()
-    {
-        animationTimer++;
-
-        if(animationTimer >= 15)
-        {
-            animationTimer = 0;
-
-            waterFrame++;
-
-            if(waterFrame > 2)
-                waterFrame = 0;
-        }
-    }
+    
 }

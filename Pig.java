@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class Pig extends Entity
+public class Pig extends Passiv_Entity
 {
     // ===== MOVEMENT =====
     private int dirX;
