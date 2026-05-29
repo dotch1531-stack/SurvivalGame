@@ -23,6 +23,22 @@ public class Player extends Actor
     int hitboxWidth = 20;
     int hitboxHeight = 90;
     
+    public int worldX;
+    public int worldY;
+
+    // ===== COLLISION =====
+    public boolean solid = true;
+    
+    public int collisionRadius = 30;
+
+    // ===== BREAKING SYSTEM =====
+    public boolean breakable = true;
+
+    public double maxHealth = 15;
+    public double health = maxHealth;
+
+    public BreakProgress progress;
+    
     
 
     public Player()
@@ -39,6 +55,51 @@ public class Player extends Actor
         hitCheck();
         }
     
+        
+    public void damage(double amount)
+    {
+        if (!breakable)
+            return;
+    
+        health -= amount;
+    
+        if (health < 0)
+            health = 0;
+    
+        MyWorld world = (MyWorld)getWorld();
+        if (world == null)
+            return;
+    
+        if (progress == null)
+        {
+            progress = new BreakProgress();
+            world.addObject(progress, 400, 440);
+        }
+    
+        int totalStages = 17;
+    
+        double percent =
+            (double)(maxHealth - health) / (double)maxHealth;
+    
+        int stage = (int)(percent * (totalStages - 1));
+    
+        if (progress != null)
+        {
+            progress.setStage(stage);
+        }
+    
+        if (health <= 0)
+        {
+            if (progress != null)
+            {
+                world.removeObject(progress);
+                progress = null;
+            }
+    
+            world.removeObject(this);
+            return;
+        }
+    }
     
         
     
@@ -117,7 +178,7 @@ public class Player extends Actor
         dirY /= len;
     
         // ===== SETTINGS =====
-        double range = 120;
+        double range = 180;
         double coneAngle = Math.toRadians(45);
         double offset = 40;
         

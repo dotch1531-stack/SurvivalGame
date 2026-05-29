@@ -37,48 +37,48 @@ public abstract class WorldObject extends Actor
     // ===== DAMAGE SYSTEM =====
     public void damage(double amount)
     {
-    if (!breakable)
-        return;
-
-    health -= amount;
-
-    if (health < 0)
-        health = 0;
-
-    MyWorld world = (MyWorld)getWorld();
-    if (world == null)
-        return;
-
-    if (progress == null)
-    {
-        progress = new BreakProgress();
-        world.addObject(progress, worldX, worldY + 40);
-    }
-
-    int totalStages = 17;
-
-    double percent =
-        (double)(maxHealth - health) / (double)maxHealth;
-
-    int stage = (int)(percent * (totalStages - 1));
-
-    if (progress != null)
-    {
-        progress.setStage(stage);
-    }
-
-    if (health <= 0)
-    {
+        if (!breakable)
+            return;
+    
+        health -= amount;
+    
+        if (health < 0)
+            health = 0;
+    
+        MyWorld world = (MyWorld)getWorld();
+        if (world == null)
+            return;
+    
+        if (progress == null)
+        {
+            progress = new BreakProgress();
+            world.addObject(progress, worldX, worldY + 40);
+        }
+    
+        int totalStages = 17;
+    
+        double percent =
+            (double)(maxHealth - health) / (double)maxHealth;
+    
+        int stage = (int)(percent * (totalStages - 1));
+    
         if (progress != null)
         {
-            world.removeObject(progress);
-            progress = null;
+            progress.setStage(stage);
         }
-
-        world.removeObject(this);
-        return;
+    
+        if (health <= 0)
+        {
+            if (progress != null)
+            {
+                world.removeObject(progress);
+                progress = null;
+            }
+    
+            world.removeObject(this);
+            return;
+        }
     }
-}
 
     // ===== PROXIMITY CHECK =====
     public boolean isNear(int x, int y)
