@@ -11,6 +11,11 @@ public class Sword extends Item
     private String jsonText;
     private JSONObject objectJSON;
     
+    public Sword(){
+        GreenfootImage img = new GreenfootImage("InventorySprites/Sword_Inventory.png");
+        img.scale(150, 150);
+        setImage(img);
+    }
     public void act()
     {
         // Add your action code here.
