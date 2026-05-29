@@ -6,7 +6,14 @@ public class MyWorld extends World
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
-
+    
+    private Axe axe;
+    private Iron iron;
+    private Pickaxe pickaxe;
+    private Stone stone;
+    private Sword sword;
+    private Wood wood;
+    
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
 
@@ -539,7 +546,14 @@ public class MyWorld extends World
 
             inventoryScreen.firstRead = false;
             inventoryScreen.setItemsInventory();
-
+            
+            removeObject(axe);
+            removeObject(iron);
+            removeObject(pickaxe);
+            removeObject(stone);
+            removeObject(sword);
+            removeObject(wood);
+            
             removeObject(inventoryScreen);
 
             Greenfoot.delay(20);
@@ -579,6 +593,35 @@ public class MyWorld extends World
             deleteCommitCraft();
 
             Greenfoot.delay(20);
+        }
+    }
+    
+    public void drawInventoryItems(String item, int x, int y){
+        switch(item){
+            case "Axt":
+                axe = new Axe();
+                addObject(axe, x, y);
+                break;
+            case "Eisen":
+                iron = new Iron();
+                addObject(iron, x, y);
+                break;
+            case "Spitzhacke":
+                pickaxe = new Pickaxe();
+                addObject(pickaxe, x, y);
+                break;
+            case "Stein":
+                stone = new Stone();
+                addObject(stone, x, y);
+                break;
+            case "Schwert":
+                sword = new Sword();
+                addObject(sword, x, y);
+                break;
+            case "Holz":
+                wood = new Wood();
+                addObject(wood, x, y);
+                break;
         }
     }
 
