@@ -86,7 +86,7 @@ public class Player extends Actor
             int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
             int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
         
-            if (objectsAndEbntitysInHitscreen(
+            if (objectsAndEntitysInHitscreen(
             ex, ey,
             originX, originY,
             dirX, dirY,
@@ -101,38 +101,51 @@ public class Player extends Actor
         {
             double ox = o.getX();
             double oy = o.getY();
-            
+        
             double originX = px + dirX * offset;
             double originY = py + dirY * offset;
-            
+        
             double cosThreshold = Math.cos(coneAngle / 2);
         
-            double leftAngle = Math.atan2(dirY, dirX) - coneAngle / 2;
-            double rightAngle = Math.atan2(dirY, dirX) + coneAngle / 2;
+            // NEW CHECK
+            if(!objectInFrontOfMouse(px, py, mx, my, ox, oy))
+            {
+                continue;
+            }
         
-            int leftX = (int)(originX + Math.cos(leftAngle) * range);
-            int leftY = (int)(originY + Math.sin(leftAngle) * range);
-        
-            int rightX = (int)(originX + Math.cos(rightAngle) * range);
-            int rightY = (int)(originY + Math.sin(rightAngle) * range);
-            
-            
-            int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
-            int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
-        
-            if (objectsAndEbntitysInHitscreen(
+            if (objectsAndEntitysInHitscreen(
                 ox, oy,
                 originX, originY,
                 dirX, dirY,
                 range,
                 cosThreshold))
-        {
-            o.damage(1);
+            {
+                o.damage(1);
             }
         }
     }
+    
+    public boolean objectInFrontOfMouse(
+    double px, double py,
+    double mx, double my,
+    double ox, double oy)
+    {
+        // player -> mouse
+        double mdx = mx - px;
+        double mdy = my - py;
+    
+        // player -> object
+        double odx = ox - px;
+        double ody = oy - py;
+    
+        // dot product
+        double dot = mdx * odx + mdy * ody;
+    
+        // if negative, object is behind player relative to mouse
+        return dot > 0;
+    }
 
-    public boolean objectsAndEbntitysInHitscreen(
+    public boolean objectsAndEntitysInHitscreen(
     double ox, double oy,
     double originX, double originY,
     double dirX, double dirY,
@@ -142,15 +155,23 @@ public class Player extends Actor
         double dx = ox - originX;
         double dy = oy - originY;
     
+        // ===== MUST BE IN FRONT =====
+        double forwardDot = dx * dirX + dy * dirY;
+    
+        if(forwardDot <= 0)
+        {
+            return false;
+        }
+    
         double distSquared = dx * dx + dy * dy;
     
         if (distSquared > range * range)
             return false;
     
         double dist = Math.sqrt(distSquared);
+    
         if (dist == 0)
             return true;
-        
     
         dx /= dist;
         dy /= dist;
