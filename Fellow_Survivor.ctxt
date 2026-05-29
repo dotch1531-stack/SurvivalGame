@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Fellow_Survivor
+comment1.params=
+comment1.target=Fellow_Survivor()
+comment2.params=world
+comment2.target=void\ addedToWorld(greenfoot.World)
+comment3.params=
+comment3.target=void\ act()
+comment4.params=
+comment4.target=void\ patrol()
+comment5.params=
+comment5.target=void\ chooseRandomTarget()
+comment6.params=
+comment6.target=void\ chasePlayer()
+comment7.params=tx\ ty\ moveSpeed
+comment7.target=void\ moveTowards(double,\ double,\ double)
+comment8.params=
+comment8.target=Player\ getPlayer()
+comment9.params=
+comment9.target=void\ animate()
+numComments=10
