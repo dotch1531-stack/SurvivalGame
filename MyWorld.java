@@ -129,14 +129,16 @@ public class MyWorld extends World
 
 
                 // 🐄 COW HERDS
-                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1, Cow::new);
+                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Cow::new);
                 
                 // 🐄 PIG HERDS
-                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1, Pig::new);
+                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Pig::new);
                 
                 //Fellow Survivor 
-                spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,1, Fellow_Survivor::new);
-
+                spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,1000, Fellow_Survivor::new);
+                
+                //Guard
+                spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,500, Guard::new);
             }
         }
     }
@@ -173,7 +175,7 @@ public class MyWorld extends World
         EntityFactory factory
     )
     {
-        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < spawnChance)
+        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000000) < spawnChance)
         {
             for(int i = 0; i < herdSize; i++)
             {

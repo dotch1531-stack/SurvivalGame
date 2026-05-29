@@ -1,19 +1,30 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-/**
- * Write a description of class Guard here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Guard extends Aggressiv_Entity
 {
-    /**
-     * Act - do whatever the Guard wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
+
+    public Guard()
     {
-        // Add your action code here.
+        // ===== IMAGE =====
+        setImage("Animals/guard.png");
+
+        // ===== HITBOX =====
+        hitboxWidth = 240;
+        hitboxHeight = 120;
+
+        // ===== HEALTH =====
+        maxHealth = 15;
+        health = maxHealth;
+
+        breakable = true;
+    }
+
+    // =========================================================
+    // ANIMATION
+    // =========================================================
+
+    private void animate()
+    {
+
     }
 }
