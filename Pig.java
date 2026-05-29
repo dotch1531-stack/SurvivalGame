@@ -14,14 +14,14 @@ public class Pig extends Passiv_Entity
     public Pig()
     {
         // ===== IMAGE =====
-        setImage("Animals/pig.png");
+        setImage("Animals/pig/pigIdle.png");
 
         // ===== POSITION =====
         worldX = 0;
         worldY = 0;
 
         // ===== HITBOX =====
-        hitboxWidth = 240;
+        hitboxWidth = 120;
         hitboxHeight = 120;
 
         // ===== MOVEMENT =====
@@ -41,8 +41,11 @@ public class Pig extends Passiv_Entity
 
     public void act()
     {
+        if(!onScreen())
+            return;
+    
         naturalMovement();
-        animate();
+        Animation("pig");
     }
 
     

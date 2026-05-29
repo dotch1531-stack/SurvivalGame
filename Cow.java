@@ -14,7 +14,7 @@ public class Cow extends Passiv_Entity
     public Cow()
     {
         // ===== IMAGE =====
-        setImage("Animals/cow.png");
+        setImage("Animals/cow/cowIdle.png");
 
         // ===== POSITION =====
         worldX = 0;
@@ -41,8 +41,12 @@ public class Cow extends Passiv_Entity
 
     public void act()
     {
+
+        if(!onScreen())
+            return;
+    
         naturalMovement();
-        animate();
+        Animation("cow");
     }
 
     
@@ -50,6 +54,8 @@ public class Cow extends Passiv_Entity
     // ===== NATURAL MOVEMENT =====
     private void naturalMovement()
     {
+        
+        
         // ===== IDLE =====
         if(idleTimer > 0)
         {
@@ -105,11 +111,4 @@ public class Cow extends Passiv_Entity
         }
     }
 
-    // ===== OPTIONAL ANIMATION =====
-    private void animate()
-    {
-        // später animationen hier
-    }
-
-    
 }
