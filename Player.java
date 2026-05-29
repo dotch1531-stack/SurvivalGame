@@ -31,7 +31,67 @@ public class Player extends Actor
     }
     
     
-        public void hitCheck()
+    
+    
+    public void act()
+        {
+        movementAnimation();
+        hitCheck();
+        }
+    
+    
+        
+    
+    //ANIMATE WORKS - DO NOT TOUCH
+    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
+    public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
+    
+    public void movementAnimation()
+    {
+        if(Greenfoot.isKeyDown("w")){animate(up);}
+        else if(Greenfoot.isKeyDown("s")){animate(down);}
+        else if(Greenfoot.isKeyDown("a")){animate(left);}
+        else if(Greenfoot.isKeyDown("d")){animate(right);}
+        else {setImage(new GreenfootImage("Player/Joe"+idle+".png"));}
+    }
+    
+    
+    
+    public void animate(String where)
+    {
+        spriteSheet = new GreenfootImage("Player/Joe" + where + ".png");
+        
+        counter++;
+
+        if(counter >= animationSpeed)
+        {
+            counter = 0;
+
+            // Create image for one frame
+            GreenfootImage frameImage =
+                new GreenfootImage(frameWidth, frameHeight);
+
+            // Copy part of sprite sheet
+            frameImage.drawImage(
+                spriteSheet,
+                -frame * frameHeight,0
+            );
+
+            setImage(frameImage);
+
+            // Next frame
+            frame++;
+
+            if(frame >= totalFrames)
+            {
+                frame = 0;
+            }
+        }
+    }
+    
+    
+    //HITTING WORKS - DO NOT TOUCH
+    public void hitCheck()
         {
         MouseInfo mouse = Greenfoot.getMouseInfo();
         if (mouse == null) return;
@@ -180,61 +240,4 @@ public class Player extends Actor
     
         return dot >= cosThreshold;
     }
-    
-    public void act()
-    {
-        movementAnimation();
-        hitCheck();
-        if(Greenfoot.isKeyDown("e")){Greenfoot.delay(10);}
-    }
-    
-    
-    
-    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
-    public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
-    
-    public void movementAnimation()
-    {
-        if(Greenfoot.isKeyDown("w")){animate(up);}
-        else if(Greenfoot.isKeyDown("s")){animate(down);}
-        else if(Greenfoot.isKeyDown("a")){animate(left);}
-        else if(Greenfoot.isKeyDown("d")){animate(right);}
-        else {setImage(new GreenfootImage("Player/Joe"+idle+".png"));}
-    }
-    
-    
-
-    public void animate(String where)
-    {
-        spriteSheet = new GreenfootImage("Player/Joe" + where + ".png");
-        
-        counter++;
-
-        if(counter >= animationSpeed)
-        {
-            counter = 0;
-
-            // Create image for one frame
-            GreenfootImage frameImage =
-                new GreenfootImage(frameWidth, frameHeight);
-
-            // Copy part of sprite sheet
-            frameImage.drawImage(
-                spriteSheet,
-                -frame * frameHeight,0
-            );
-
-            setImage(frameImage);
-
-            // Next frame
-            frame++;
-
-            if(frame >= totalFrames)
-            {
-                frame = 0;
-            }
-        }
-    }
-    
-    
 }
