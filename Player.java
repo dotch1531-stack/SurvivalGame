@@ -52,6 +52,7 @@ public class Player extends Actor
         else if(Greenfoot.isKeyDown("s")){animate(down);}
         else if(Greenfoot.isKeyDown("a")){animate(left);}
         else if(Greenfoot.isKeyDown("d")){animate(right);}
+        else if(idle == "IdleWater") {animate(idle);}
         else {setImage(new GreenfootImage("Player/Joe"+idle+".png"));}
     }
     
