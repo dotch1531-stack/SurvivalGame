@@ -17,4 +17,7 @@ public class Wood extends Item
     {
         // Add your action code here.
     }
+    public String getName(){
+        return "Holz";
+    }
 }

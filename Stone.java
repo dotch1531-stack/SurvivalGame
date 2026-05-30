@@ -21,4 +21,7 @@ public class Stone extends Item
     {
         // Add your action code here.
     }
+    public String getName(){
+        return "Stein";
+    }
 }

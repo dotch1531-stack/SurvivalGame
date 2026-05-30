@@ -15,6 +15,8 @@ public class MyWorld extends World
     private Stone stone;
     private Sword sword;
     private Wood wood;
+    
+    public Item[] itemsArray = new Item[6];
 
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
@@ -668,33 +670,47 @@ public class MyWorld extends World
     {
         if(Greenfoot.isKeyDown("tab") && !inventoryOpen)
         {
-            inventoryOpen = true;
-
-            inventoryScreen = new InventoryScreen();
-            addObject(inventoryScreen, 400, 400);
-
-            inventoryScreen.getItemsInventory(true);
-
-            Greenfoot.delay(20);
+            showInventoryScreen(true);
         }
         else if(Greenfoot.isKeyDown("tab") && inventoryOpen)
         {
-            inventoryOpen = false;
-
-            inventoryScreen.firstRead = false;
-            inventoryScreen.setItemsInventory();
-
-            removeObject(axe);
-            removeObject(iron);
-            removeObject(pickaxe);
-            removeObject(stone);
-            removeObject(sword);
-            removeObject(wood);
-
-            removeObject(inventoryScreen);
-
-            Greenfoot.delay(20);
+            removeInventoryScreen(true);
         }
+    }
+    public void showInventoryScreen(boolean delay){
+        inventoryOpen = true;
+
+        inventoryScreen = new InventoryScreen();
+        addObject(inventoryScreen, 400, 400);
+
+        inventoryScreen.getItemsInventory(true);
+
+        if(delay){
+            Greenfoot.delay(20);   
+        }
+    }
+    public void removeInventoryScreen(boolean delay){
+        inventoryOpen = false;
+
+        inventoryScreen.firstRead = false;
+        inventoryScreen.setItemsInventory();
+
+        removeObject(axe);
+        removeObject(iron);
+        removeObject(pickaxe);
+        removeObject(stone);
+        removeObject(sword);
+        removeObject(wood);
+
+        removeObject(inventoryScreen);
+            
+        if(delay){
+            Greenfoot.delay(20);   
+        }
+    }
+    public void updateInventoryScreen(){
+        removeInventoryScreen(false);
+        showInventoryScreen(false);
     }
 
     public void handleCraftingMenu()
@@ -760,6 +776,12 @@ public class MyWorld extends World
                 addObject(wood, x, y);
                 break;
         }
+        itemsArray[0] = axe;
+        itemsArray[1] = iron;
+        itemsArray[2] = pickaxe;
+        itemsArray[3] = stone;
+        itemsArray[4] = sword;
+        itemsArray[5] = wood;
     }
 
     public void drawCommitCraft(){

@@ -21,4 +21,7 @@ public class Iron extends Item
     {
         // Add your action code here.
     }
+    public String getName(){
+        return "Eisen";
+    }
 }

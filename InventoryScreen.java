@@ -8,6 +8,16 @@ import org.json.*;
 
 public class InventoryScreen extends Actor
 {
+    /*
+     * Add item inventory : 
+     * 1. add item as subclass of Item
+     * 2. create variable in MyWorld
+     * 3. increase index of itemArray in MyWorld
+     * 4. in MyWorld add item to array under the switch cases
+     * 5. add new case to the switch case (name needs to be in german mit großen anfangsbuchstaben wie in backend)
+     */
+    
+    
     public boolean firstRead = false;
 
     protected TreeMap<String, Integer> inventory = new TreeMap<>();
@@ -35,7 +45,8 @@ public class InventoryScreen extends Actor
 
     public void act()
     {
-
+        itemPressed();
+        Greenfoot.delay(6);
     }
 
     public void getItemsInventory(boolean executedToShowItemsInInventory)
@@ -190,6 +201,26 @@ public class InventoryScreen extends Actor
                     loop += 1;
                 }
             }
+        }
+    }
+    
+    public void itemPressed(){
+        MyWorld world = (MyWorld)getWorld();
+        
+        Item clicked = null;
+
+        for(Item item : world.itemsArray){
+            if(item != null && Greenfoot.mousePressed(item)){
+                clicked = item;
+                break;
+            }
+        }
+
+        if(clicked != null){
+            removeItems(clicked.getName(), 1);
+            world.updateInventoryScreen();
+            
+            //Items droppen lassen!!!
         }
     }
 }

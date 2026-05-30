@@ -5,4 +5,9 @@ public class Item extends Actor
     {
         // Add your action code here.
     }
+    
+    //polymorphie, nicht entfernen
+    public String getName(){
+        return "Irgendwas ist schief gelaufen";
+    }
 }

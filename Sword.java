@@ -20,6 +20,11 @@ public class Sword extends Item
     {
         // Add your action code here.
     }
+    
+    public String getName(){
+        return "Schwert";
+    }
+    
     public int getItemDamage(){
         getJsonFile();
         

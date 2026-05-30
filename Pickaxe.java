@@ -21,4 +21,7 @@ public class Pickaxe extends Item
     {
         // Add your action code here.
     }
+    public String getName(){
+        return "Spitzhacke";
+    }
 }
