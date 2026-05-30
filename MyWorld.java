@@ -8,14 +8,14 @@ public class MyWorld extends World
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
-    
+
     private Axe axe;
     private Iron iron;
     private Pickaxe pickaxe;
     private Stone stone;
     private Sword sword;
     private Wood wood;
-    
+
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
 
@@ -24,11 +24,15 @@ public class MyWorld extends World
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
-    
+
     public CommitButton commitButton;
 
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
+
+    private boolean tentSpawned = false;
+    private int tentTileX;
+    private int tentTileY;
 
     private int worldSeed;
 
@@ -69,19 +73,18 @@ public class MyWorld extends World
 
     private java.util.HashSet<String> spawnedObjects =
         new java.util.HashSet<>();
-        
-    
 
     public java.util.List<WorldObject> getNearbyWorldObjects(int range)
     {
         return getObjects(WorldObject.class);
     }
+
     /**
      * Constructor for objects of class MyWorld.
      */
-    
+
     //FROM HERE...
-    
+
     public MyWorld()
     {
         super(800, 800, 1);
@@ -105,6 +108,9 @@ public class MyWorld extends World
         }
 
         addObject(player, 400, 400);
+        tentTileX = getPlayerTileX();
+        tentTileY = getPlayerTileY() - 3;
+        tentSpawned = false;
 
     }
 
@@ -132,19 +138,18 @@ public class MyWorld extends World
                 // 🌳 TREES
                 spawnObjects(biome,x,y,BIOME_GRASS,8, Tree::new);
 
-
                 // 🐄 COW HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Cow::new);
-                
+
                 // 🐄 PIG HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,2,1000, Pig::new);
-                
+
                 //Duck
                 spawnFrendlyHerds(biome, x, y, BIOME_WATER,2,1000, Duck::new);
-                
+
                 //Fellow Survivor 
                 spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,1000, Fellow_Survivor::new);
-                
+
                 //Guard
                 spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,500, Guard::new);
             }
@@ -161,7 +166,7 @@ public class MyWorld extends World
             obj.worldY - cameraY
         );
     }
-    
+
     public void spawnEntity(Entity ent, int tileX, int tileY)
     {
         ent.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
@@ -172,15 +177,15 @@ public class MyWorld extends World
             ent.worldY - cameraY
         );
     }
-    
+
     public void spawnFrendlyHerds(
-        int biome,
-        int x,
-        int y,
-        int desiredBiome,
-        int herdSize,
-        int spawnChance,
-        EntityFactory factory
+    int biome,
+    int x,
+    int y,
+    int desiredBiome,
+    int herdSize,
+    int spawnChance,
+    EntityFactory factory
     )
     {
         if(biome == desiredBiome && Greenfoot.getRandomNumber(1000000) < spawnChance)
@@ -189,18 +194,18 @@ public class MyWorld extends World
             {
                 int offsetX = Greenfoot.getRandomNumber(5) - 2;
                 int offsetY = Greenfoot.getRandomNumber(5) - 2;
-    
+
                 int herdTileX = x + offsetX;
                 int herdTileY = y + offsetY;
-    
+
                 String entKey = herdTileX + "," + herdTileY + "_entity";
-    
+
                 if(spawnedObjects.contains(entKey)) continue;
-    
+
                 if(getBiome(herdTileX, herdTileY) == desiredBiome)
                 {
                     spawnedObjects.add(entKey);
-    
+
                     spawnEntity(
                         factory.create(),
                         herdTileX,
@@ -210,44 +215,108 @@ public class MyWorld extends World
             }
         }
     }
-    
+
     public void spawnObjects(int biome,
-        int x,
-        int y,
-        int desiredBiome,
-        int spawnChance,
-        ObjectFactory factory)
+    int x,
+    int y,
+    int desiredBiome,
+    int spawnChance,
+    ObjectFactory factory)
     {
         if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < spawnChance)
-            {
-                spawnObject(factory.create(), x,y);
-            }
+        {
+            spawnObject(factory.create(), x,y);
+        }
+    }
+
+    public void spawnTent(int tileX, int tileY)
+    {
+        Tent tent = new Tent();
+
+        tent.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
+        tent.worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
+
+        addObject(tent,
+            tent.worldX - cameraX,
+            tent.worldY - cameraY
+        );
     }
 
     public void updateObjects()
     {
+        // ===== WORLD OBJECTS =====
         java.util.List<WorldObject> objects = getObjects(WorldObject.class);
+
         for(WorldObject obj : objects)
         {
             obj.updateScreenPosition(cameraX, cameraY);
 
-            if(obj.getX() >= 799 || obj.getX()<=0 || obj.getY() >= 799 || obj.getY()<=0){obj.getImage().setTransparency(0);}else{obj.getImage().setTransparency(255);}
+            if(obj.getX() >= 799 || obj.getX() <= 0 || obj.getY() >= 799 || obj.getY() <= 0)
+            {
+                obj.getImage().setTransparency(0);
+            }
+            else
+            {
+                obj.getImage().setTransparency(255);
+            }
         }
-        
-        java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
-        for(BreakProgress bar : bars)
-        {
-            if(bar.getX() >= 799 || bar.getX()<=0 || bar.getY() >= 779 || bar.getY()<=40){bar.getImage().setTransparency(0);}else{bar.getImage().setTransparency(255);}
-        }
-        
-        java.util.List<Entity> entitys = getObjects(Entity.class);
-        for(Entity ent : entitys)
+
+        // ===== ENTITIES =====
+        java.util.List<Entity> entities = getObjects(Entity.class);
+
+        for(Entity ent : entities)
         {
             ent.updateScreenPosition(cameraX, cameraY);
-            if(ent.getX() >= 799 || ent.getX()<=0 || ent.getY() >= 799 || ent.getY()<=0){ent.getImage().setTransparency(0);}else{ent.getImage().setTransparency(255);}
+
+            if(ent.getX() >= 799 || ent.getX() <= 0 || ent.getY() >= 799 || ent.getY() <= 0)
+            {
+                ent.getImage().setTransparency(0);
+            }
+            else
+            {
+                ent.getImage().setTransparency(255);
+            }
+        }
+
+        // ===== STRUCTURES (FIX FÜR ZELT) =====
+        java.util.List<Structures> structures = getObjects(Structures.class);
+
+        for(Structures s : structures)
+        {
+            if(s != null)
+            {
+                s.setLocation(
+                    s.worldX - cameraX,
+                    s.worldY - cameraY
+                );
+
+                if(s.getX() >= 799 || s.getX() <= 0 || s.getY() >= 799 || s.getY() <= 0)
+                {
+                    s.getImage().setTransparency(0);
+                }
+                else
+                {
+                    s.getImage().setTransparency(255);
+                }
+            }
+        }
+
+        // ===== BREAK PROGRESS =====
+        java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
+
+        for(BreakProgress bar : bars)
+        {
+            if(bar.getX() >= 799 || bar.getX() <= 0 || bar.getY() >= 779 || bar.getY() <= 40)
+            {
+                bar.getImage().setTransparency(0);
+            }
+            else
+            {
+                bar.getImage().setTransparency(255);
+            }
         }
     }
-    
+
     public boolean collidesWithSolid(int newCameraX, int newCameraY)
     {
         int playerX = newCameraX + player.getX();
@@ -270,7 +339,7 @@ public class MyWorld extends World
                 return true;
             }
         }
-        
+
         for(Entity entity : getObjects(Entity.class))
         {
             if(!entity.solid)
@@ -285,11 +354,23 @@ public class MyWorld extends World
                 return true;
             }
         }
+        for(Structures s : getObjects(Structures.class))
+        {
+            if(!s.solid)
+                continue;
+
+            int dx = Math.abs(playerX - s.worldX);
+            int dy = Math.abs(playerY - s.worldY);
+
+            if(dx < playerHitboxWidth + 60 &&
+            dy < playerHitboxHeight + 20)
+            {
+                return true;
+            }
+        }
 
         return false;
     }
-    
-    
 
     public void act()
     {
@@ -343,7 +424,6 @@ public class MyWorld extends World
         if(!collidesWithSolid(cameraX, newY))
             cameraY = newY;
     }
-
 
     // ===== PLAYER TILE =====
     public int getPlayerTileX()
@@ -409,6 +489,32 @@ public class MyWorld extends World
                     x * TILE_SIZE + offsetX,
                     y * TILE_SIZE + offsetY
                 );
+            }
+        }
+        if(!tentSpawned)
+        {
+            int biome = getBiome(tentTileX, tentTileY);
+
+            // ❌ NICHT im Wasser spawnen
+            if(biome != BIOME_WATER && getTile(tentTileX, tentTileY) != WATER)
+            {
+                Tent tent = new Tent();
+
+                tent.worldX = tentTileX * TILE_SIZE + TILE_SIZE / 2;
+                tent.worldY = tentTileY * TILE_SIZE + TILE_SIZE / 2;
+
+                addObject(tent,
+                    tent.worldX - cameraX,
+                    tent.worldY - cameraY
+                );
+
+                tentSpawned = true;
+            }
+            else
+            {
+                // 🔁 neuen Platz suchen (leicht verschoben)
+                tentTileX += 1;
+                tentTileY += 1;
             }
         }
     }
@@ -484,7 +590,7 @@ public class MyWorld extends World
 
         return nearby;
     }
-    
+
     public java.util.List<Entity> getNearbyEntitys(int radius)
     {
         java.util.List<Entity> nearby = new java.util.ArrayList<>();
@@ -539,7 +645,7 @@ public class MyWorld extends World
 
         return tile;
     }
-    
+
     // ===== WATER ANIMATION =====
     public void updateWaterAnimation()
     {
@@ -556,11 +662,7 @@ public class MyWorld extends World
         }
     }
 
-    
-    
     // UNTIL HERE EVERYTHING WORKS
-    
-    
     // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
     {
@@ -581,14 +683,14 @@ public class MyWorld extends World
 
             inventoryScreen.firstRead = false;
             inventoryScreen.setItemsInventory();
-            
+
             removeObject(axe);
             removeObject(iron);
             removeObject(pickaxe);
             removeObject(stone);
             removeObject(sword);
             removeObject(wood);
-            
+
             removeObject(inventoryScreen);
 
             Greenfoot.delay(20);
@@ -606,13 +708,13 @@ public class MyWorld extends World
 
             swordButton = new SwordButton();
             addObject(swordButton, 145, 70);
-            
+
             axeButton = new AxeButton();
             addObject(axeButton, 145, 215);
-            
+
             picaxeButton = new PicaxeButton();
             addObject(picaxeButton, 145, 365);
-            
+
             drawCommitCraft();
 
             Greenfoot.delay(20);
@@ -630,7 +732,7 @@ public class MyWorld extends World
             Greenfoot.delay(20);
         }
     }
-    
+
     public void drawInventoryItems(String item, int x, int y){
         switch(item){
             case "Axt":
@@ -669,5 +771,4 @@ public class MyWorld extends World
         removeObject(commitButton);
     }
 
-    
 }
