@@ -40,13 +40,12 @@ public class InventoryScreen extends Actor
     int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130, 310, 310, 310, 310, 310, 310, 310, 310};
     
 
-    int[] x = {105, 300, 495, 700, 105, 300};
+    int[] x = {100, 300, 500, 700, 100, 300};
     int[] y = {75, 75, 75, 75, 260, 260};
 
     public void act()
     {
         itemPressed();
-        Greenfoot.delay(6);
     }
 
     public void getItemsInventory(boolean executedToShowItemsInInventory)
