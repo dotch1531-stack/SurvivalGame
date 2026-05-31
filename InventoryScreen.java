@@ -85,6 +85,7 @@ public class InventoryScreen extends Actor
         if(executedToShowItemsInInventory){
             scaleImages();
             showItemsInventory();
+            addNumbers();
         }
     }
 
@@ -116,6 +117,9 @@ public class InventoryScreen extends Actor
             inventory.put(item, stackSize);
             
             //  überschuss muss hier ausgeworfen werden
+            //  überschuss als neuen stack werten ist schwierig weil json parser keine doppelten werte zulassen und maps leider auch nicht   :(
+            //  gesammte datenstrucktur müsste umgestellt werden + crafting system + gesammtes inventory system + schlechtere performance + fehleranfälliger
+            //  daher sons of the forrest design
         }
         else{
             inventory.put(item, inventory.getOrDefault(item, 0) + amount);
@@ -181,7 +185,6 @@ public class InventoryScreen extends Actor
                 loop++;
             }
         }
-        addNumbers();
     }
     
     public void addNumbers(){

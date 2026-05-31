@@ -1,13 +1,16 @@
 import greenfoot.*;
 
-// crashout counter: 5
+// crashout counter: 8
+// chatgpt beleidigt: 14
 
 public class MyWorld extends World
 {
+    
     // ===== INVENTORY =====
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
+    private InventoryScreenBackground inventoryScreenBackground;
 
     private Axe axe;
     private Iron iron;
@@ -113,7 +116,6 @@ public class MyWorld extends World
         tentTileX = getPlayerTileX();
         tentTileY = getPlayerTileY() - 3;
         tentSpawned = false;
-
     }
 
     public void generateVisibleObjects()
@@ -679,6 +681,9 @@ public class MyWorld extends World
     }
     public void showInventoryScreen(boolean delay){
         inventoryOpen = true;
+        
+        inventoryScreenBackground = new InventoryScreenBackground();
+        addObject(inventoryScreenBackground, 400, 400);
 
         inventoryScreen = new InventoryScreen();
         addObject(inventoryScreen, 400, 400);
@@ -703,6 +708,7 @@ public class MyWorld extends World
         removeObject(wood);
 
         removeObject(inventoryScreen);
+        removeObject(inventoryScreenBackground);
             
         if(delay){
             Greenfoot.delay(20);   
@@ -776,6 +782,7 @@ public class MyWorld extends World
                 addObject(wood, x, y);
                 break;
         }
+        
         itemsArray[0] = axe;
         itemsArray[1] = iron;
         itemsArray[2] = pickaxe;
