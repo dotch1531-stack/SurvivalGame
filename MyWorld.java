@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-// crashout counter: 4
+// crashout counter: 5
 
 public class MyWorld extends World
 {
@@ -280,7 +280,7 @@ public class MyWorld extends World
             }
         }
 
-        // ===== STRUCTURES (FIX FÜR ZELT) =====
+        // ===== STRUCTURES =====
         java.util.List<Structures> structures = getObjects(Structures.class);
 
         for(Structures s : structures)
