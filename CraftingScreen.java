@@ -39,6 +39,9 @@ public class CraftingScreen extends Actor
     
     private GreenfootImage baseImage;
     
+    public CraftingScreen(){
+        inventoryScreen = new InventoryScreen();
+    }
     public void act()
     {   
         if(!firstRead){
@@ -166,5 +169,37 @@ public class CraftingScreen extends Actor
         }
         
         System.out.println(itemsNeeded);
+    }
+    public boolean checkIfItemsNeededWereFound(String item){
+        try{
+            String jsonText = new String(Files.readAllBytes(Paths.get("items/" + item + ".json")));
+            ArrayList<String> itemsNeededToBeFound = new ArrayList<String>();
+            
+            if(jsonText.trim().isEmpty()){
+                jsonText = "{}";
+            }
+            
+            JSONObject itemsJSON = new JSONObject(jsonText);
+            
+            stackSize = itemsJSON.getInt("stackSize");
+            
+            JSONObject neededItemsJSON = itemsJSON.getJSONObject("recipe");
+            for(String key : neededItemsJSON.keySet()){
+                if(!inventoryScreen.itemExistsInInventory(key)){
+                    return false;
+                }
+            }
+        }
+        catch(IOException e)
+        {
+            System.out.println("Could not read item file.");
+            e.printStackTrace();
+        }
+        catch(JSONException e)
+        {
+            System.out.println("Inventory JSON invalid.");
+            e.printStackTrace();
+        }
+        return true;
     }
 }

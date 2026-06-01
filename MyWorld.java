@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 
 // crashout counter: 8
 // chatgpt beleidigt: 14
@@ -29,6 +30,8 @@ public class MyWorld extends World
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
+    
+    public TreeMap<String, CraftButtons> craftButtons = new TreeMap<String, CraftButtons>();
 
     public CommitButton commitButton;
 
@@ -667,6 +670,8 @@ public class MyWorld extends World
     }
 
     // UNTIL HERE EVERYTHING WORKS
+    
+    // BODENLOSER KOMMENTAR DA OBEN
     // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
     {
@@ -729,13 +734,21 @@ public class MyWorld extends World
             addObject(craftingScreen, 400, 400);
 
             swordButton = new SwordButton();
-            addObject(swordButton, 145, 70);
-
+            craftButtons.put("Schwert", swordButton);
+            
             axeButton = new AxeButton();
-            addObject(axeButton, 145, 215);
-
+            craftButtons.put("Axt", axeButton);
+            
             picaxeButton = new PicaxeButton();
-            addObject(picaxeButton, 145, 365);
+            craftButtons.put("Spitzhacke", picaxeButton);
+            
+            int loop = 0;
+            for(String item : craftButtons.keySet()){
+                if(craftingScreen.checkIfItemsNeededWereFound(item)){
+                    addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
+                    loop++;
+                }
+            }
 
             drawCommitCraft();
 
@@ -746,9 +759,9 @@ public class MyWorld extends World
             craftingMenuOpen = false;
 
             removeObject(craftingScreen);
-            removeObject(swordButton);
-            removeObject(axeButton);
-            removeObject(picaxeButton);
+            for(String i : craftButtons.keySet()){
+                removeObject(craftButtons.get(i));
+            }
             deleteCommitCraft();
 
             Greenfoot.delay(20);

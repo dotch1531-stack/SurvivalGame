@@ -162,6 +162,15 @@ public class InventoryScreen extends Actor
     {
         return inventory.getOrDefault(item, 0);
     }
+    
+    public boolean itemExistsInInventory(String item){
+        getItemsInventory(false);
+        System.out.println(inventory.get("skjdf"));
+        if(inventory.get(item) == null){
+            return false;
+        }
+        return true;
+    }
 
     public void scaleImages()
     {    
