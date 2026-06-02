@@ -3,10 +3,11 @@ import java.util.*;
 
 // crashout counter: 8
 // chatgpt beleidigt: 14
+// warum auf Wasser: 6
 
 public class MyWorld extends World
 {
-    
+
     // ===== INVENTORY =====
     public boolean inventoryOpen = false;
 
@@ -19,7 +20,7 @@ public class MyWorld extends World
     private Stone stone;
     private Sword sword;
     private Wood wood;
-    
+
     public Item[] itemsArray = new Item[6];
 
     // ===== CRAFTING =====
@@ -30,7 +31,7 @@ public class MyWorld extends World
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
-    
+
     public TreeMap<String, CraftButtons> craftButtons = new TreeMap<String, CraftButtons>();
 
     public CommitButton commitButton;
@@ -116,9 +117,70 @@ public class MyWorld extends World
         }
 
         addObject(player, 400, 400);
-        tentTileX = getPlayerTileX();
-        tentTileY = getPlayerTileY() - 3;
+
+        //tentTileX = getPlayerTileX();
+        //tentTileY = getPlayerTileY() - 3;
         tentSpawned = false;
+    }
+
+    public void findTentSpawnLocation() {
+        int px = getPlayerTileX();
+        int py = getPlayerTileY();
+
+        System.out.println("=== Tent Spawn Suche gestartet ===");
+        System.out.println("Spieler Tile: " + px + ", " + py);
+
+        int maxRadius = 30;
+
+        for (int r = 1; r <= maxRadius; r++) {
+            System.out.println("Radius: " + r);
+
+            for (int dx = -r; dx <= r; dx++) {
+                for (int dy = -r; dy <= r; dy++) {
+
+                    int tx = px + dx;
+                    int ty = py + dy;
+
+                    int tile = getTile(tx, ty);
+                    int biome = getBiome(tx, ty);
+
+                    boolean allowedTile =
+                        tile == GRASS ||
+                        tile == ROCK;   // Stein erlaubt
+
+                    boolean allowedBiome =
+                        biome == BIOME_GRASS ||
+                        biome == BIOME_STONE;
+
+                    // Debug-Ausgabe für jede geprüfte Position
+                    System.out.println(
+                        "Prüfe Tile (" + tx + "," + ty + ") | Tile=" + tile +
+                        " | Biom=" + biome +
+                        " | allowedTile=" + allowedTile +
+                        " | allowedBiome=" + allowedBiome
+                    );
+
+                    if (allowedTile && allowedBiome) {
+                        tentTileX = tx;
+                        tentTileY = ty;
+
+                        System.out.println(">>> Zeltplatz gefunden bei: " + tx + ", " + ty);
+                        System.out.println("=== Tent Spawn Suche beendet ===");
+                        spawnTent(tx, ty);
+                        tentSpawned = true;
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Falls nichts gefunden wird
+        tentTileX = px;
+        tentTileY = py + 3;
+
+        System.out.println("!!! Kein geeigneter Platz gefunden, fallback: " + tentTileX + ", " + tentTileY);
+        System.out.println("=== Tent Spawn Suche beendet ===");
     }
 
     public void generateVisibleObjects()
@@ -238,15 +300,28 @@ public class MyWorld extends World
 
     public void spawnTent(int tileX, int tileY)
     {
+        // Ein neues Zelt-Objekt erzeugen (Actor/Struktur in deiner Welt)
         Tent tent = new Tent();
 
+        // Weltkoordinaten berechnen:
+        // tileX * TILE_SIZE = linke obere Ecke des Tiles
+        // + TILE_SIZE/2 = Mitte des Tiles (Zelt soll zentriert stehen)
         tent.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
         tent.worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
 
-        addObject(tent,
+        // Das Zelt in der Welt platzieren:
+        // worldX/worldY = absolute Weltposition
+        // cameraX/cameraY = Kameraverschiebung
+        // worldX - cameraX = Bildschirmposition
+        addObject(
+            tent,
             tent.worldX - cameraX,
             tent.worldY - cameraY
         );
+
+        // Merken, dass das Zelt gespawnt wurde,
+        // damit es nicht mehrfach erzeugt wird
+        tentSpawned = true;
     }
 
     public void updateObjects()
@@ -391,6 +466,9 @@ public class MyWorld extends World
             handleMovement();
             updateWaterAnimation();
             renderWorld();
+            if (!tentSpawned) {
+                findTentSpawnLocation();   // sucht den Platz
+            }
         }
 
         generateVisibleObjects();
@@ -496,32 +574,6 @@ public class MyWorld extends World
                     x * TILE_SIZE + offsetX,
                     y * TILE_SIZE + offsetY
                 );
-            }
-        }
-        if(!tentSpawned)
-        {
-            int biome = getBiome(tentTileX, tentTileY);
-
-            // ❌ NICHT im Wasser spawnen
-            if(biome != BIOME_WATER && getTile(tentTileX, tentTileY) != WATER)
-            {
-                Tent tent = new Tent();
-
-                tent.worldX = tentTileX * TILE_SIZE + TILE_SIZE / 2;
-                tent.worldY = tentTileY * TILE_SIZE + TILE_SIZE / 2;
-
-                addObject(tent,
-                    tent.worldX - cameraX,
-                    tent.worldY - cameraY
-                );
-
-                tentSpawned = true;
-            }
-            else
-            {
-                // 🔁 neuen Platz suchen (leicht verschoben)
-                tentTileX += 1;
-                tentTileY += 1;
             }
         }
     }
@@ -670,7 +722,7 @@ public class MyWorld extends World
     }
 
     // UNTIL HERE EVERYTHING WORKS
-    
+
     // BODENLOSER KOMMENTAR DA OBEN
     // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
@@ -684,9 +736,10 @@ public class MyWorld extends World
             removeInventoryScreen(true);
         }
     }
+
     public void showInventoryScreen(boolean delay){
         inventoryOpen = true;
-        
+
         inventoryScreenBackground = new InventoryScreenBackground();
         addObject(inventoryScreenBackground, 400, 400);
 
@@ -699,6 +752,7 @@ public class MyWorld extends World
             Greenfoot.delay(20);   
         }
     }
+
     public void removeInventoryScreen(boolean delay){
         inventoryOpen = false;
 
@@ -714,11 +768,12 @@ public class MyWorld extends World
 
         removeObject(inventoryScreen);
         removeObject(inventoryScreenBackground);
-            
+
         if(delay){
             Greenfoot.delay(20);   
         }
     }
+
     public void updateInventoryScreen(){
         removeInventoryScreen(false);
         showInventoryScreen(false);
@@ -735,13 +790,13 @@ public class MyWorld extends World
 
             swordButton = new SwordButton();
             craftButtons.put("Schwert", swordButton);
-            
+
             axeButton = new AxeButton();
             craftButtons.put("Axt", axeButton);
-            
+
             picaxeButton = new PicaxeButton();
             craftButtons.put("Spitzhacke", picaxeButton);
-            
+
             int loop = 0;
             for(String item : craftButtons.keySet()){
                 if(craftingScreen.checkIfItemsNeededWereFound(item)){
@@ -795,7 +850,7 @@ public class MyWorld extends World
                 addObject(wood, x, y);
                 break;
         }
-        
+
         itemsArray[0] = axe;
         itemsArray[1] = iron;
         itemsArray[2] = pickaxe;
