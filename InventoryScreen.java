@@ -84,6 +84,7 @@ public class InventoryScreen extends Actor
         
         if(executedToShowItemsInInventory){
             scaleImages();
+            showInventoryBackground();
             showItemsInventory();
             addNumbers();
         }
@@ -109,12 +110,15 @@ public class InventoryScreen extends Actor
         }
     }
 
-    public void addItem(String item, int amount, int stackSize)
+    public void addItem(String item, int amount)
     {
         getItemsInventory(false);
+        int stackSize = getStackSize(item);
         
         if((inventory.getOrDefault(item, 0) + amount) > stackSize){
             inventory.put(item, stackSize);
+            
+            System.out.println("Items weggeworfen");
             
             //  überschuss muss hier ausgeworfen werden
             //  überschuss als neuen stack werten ist schwierig weil json parser keine doppelten werte zulassen und maps leider auch nicht   :(
@@ -122,21 +126,54 @@ public class InventoryScreen extends Actor
             //  daher sons of the forrest design
         }
         else{
-            inventory.put(item, inventory.getOrDefault(item, 0) + amount);
+            int countItems = 0;
+            for(String key : inventory.keySet()){
+                if(inventory.get(key) > 0){
+                    countItems++;
+                }
+            }
+            if(countItems < 12){
+                inventory.put(item, inventory.getOrDefault(item, 0) + amount);
+            }
+            else{
+                System.out.println("zu viele items im inventar");
+            }
         }
         setItemsInventory();
+    }
+    public int getStackSize(String item){
+        try{
+            String jsonText = new String(Files.readAllBytes(Paths.get("items/" + item + ".json")));
+            
+            if(jsonText.trim().isEmpty()){
+                jsonText = "{}";
+            }
+            
+            JSONObject itemsJSON = new JSONObject(jsonText);
+            
+            
+            return itemsJSON.getInt("stackSize");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Could not read item file.");
+            e.printStackTrace();
+        }
+        catch(JSONException e)
+        {
+            System.out.println("Inventory JSON invalid.");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public boolean checkIfItemCanBeRemoved(String item, int amount)
     {
         getItemsInventory(false);
-        System.out.println(inventory);
         
         int current = inventory.getOrDefault(item, 0);
 
         current -= amount;
-        
-        System.out.println(current);
         
         if(current < 0){
             return false;
@@ -165,7 +202,6 @@ public class InventoryScreen extends Actor
     
     public boolean itemExistsInInventory(String item){
         getItemsInventory(false);
-        System.out.println(inventory.get("skjdf"));
         if(inventory.get(item) == null){
             return false;
         }
@@ -233,5 +269,18 @@ public class InventoryScreen extends Actor
             
             //Items droppen lassen!!!
         }
+    }
+    
+    public void showInventoryBackground(){
+        int countItems = 0;
+        for(String key : inventory.keySet()){
+            if(inventory.getOrDefault(key, 0) > 0){
+                countItems++;
+            }
+        }
+        String countItemsString = Integer.toString(countItems);
+        
+        GreenfootImage img = new GreenfootImage("InventorySprites/inventarBackgrounds/" + countItemsString + ".png");
+        setImage(img);
     }
 }

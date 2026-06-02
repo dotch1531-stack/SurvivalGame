@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 public class CraftingScreen extends Actor
 {   
     private TreeMap<String, Integer> itemsNeeded = new TreeMap<>();
-    private int stackSize;
     private String itemToBeCrafted;
     
     private int[] itemsNeededCountNumberX = {400, 407, 600, 607};
@@ -123,8 +122,8 @@ public class CraftingScreen extends Actor
                 inventoryScreen.removeItems(key, itemsNeeded.get(key));
             }
             
-            //parameters = Item, amount, stackSize
-            inventoryScreen.addItem(itemToBeCrafted, 1, stackSize);
+            //parameters = Item, amount
+            inventoryScreen.addItem(itemToBeCrafted, 1);
             
             System.out.println("Item erfolgreich gecrafted");
         }
@@ -150,8 +149,6 @@ public class CraftingScreen extends Actor
             
             JSONObject itemsJSON = new JSONObject(jsonText);
             
-            stackSize = itemsJSON.getInt("stackSize");
-            
             JSONObject neededItemsJSON = itemsJSON.getJSONObject("recipe");
             for(String key : neededItemsJSON.keySet()){
                 itemsNeeded.put(key, neededItemsJSON.getInt(key));
@@ -167,8 +164,6 @@ public class CraftingScreen extends Actor
             System.out.println("Inventory JSON invalid.");
             e.printStackTrace();
         }
-        
-        System.out.println(itemsNeeded);
     }
     public boolean checkIfItemsNeededWereFound(String item){
         try{
@@ -180,8 +175,6 @@ public class CraftingScreen extends Actor
             }
             
             JSONObject itemsJSON = new JSONObject(jsonText);
-            
-            stackSize = itemsJSON.getInt("stackSize");
             
             JSONObject neededItemsJSON = itemsJSON.getJSONObject("recipe");
             for(String key : neededItemsJSON.keySet()){

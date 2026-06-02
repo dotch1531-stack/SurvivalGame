@@ -12,7 +12,6 @@ public class MyWorld extends World
     public boolean inventoryOpen = false;
 
     private InventoryScreen inventoryScreen;
-    private InventoryScreenBackground inventoryScreenBackground;
 
     private Axe axe;
     private Iron iron;
@@ -740,9 +739,6 @@ public class MyWorld extends World
     public void showInventoryScreen(boolean delay){
         inventoryOpen = true;
 
-        inventoryScreenBackground = new InventoryScreenBackground();
-        addObject(inventoryScreenBackground, 400, 400);
-
         inventoryScreen = new InventoryScreen();
         addObject(inventoryScreen, 400, 400);
 
@@ -767,7 +763,6 @@ public class MyWorld extends World
         removeObject(wood);
 
         removeObject(inventoryScreen);
-        removeObject(inventoryScreenBackground);
 
         if(delay){
             Greenfoot.delay(20);   
