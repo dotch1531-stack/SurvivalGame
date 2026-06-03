@@ -3,7 +3,7 @@ import java.util.*;
 
 // crashout counter: 8
 // chatgpt beleidigt: 14
-// warum auf Wasser: 6
+// fuckass zelt: 8
 
 public class MyWorld extends World
 {
