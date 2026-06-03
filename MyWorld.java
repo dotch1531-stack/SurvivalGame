@@ -37,6 +37,7 @@ public class MyWorld extends World
 
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
+    public static MyWorld instance;
 
     private boolean tentSpawned = false;
     private int tentTileX;
@@ -97,6 +98,8 @@ public class MyWorld extends World
     {
         super(800, 800, 1);
 
+        instance = this;
+
         worldSeed = Greenfoot.getRandomNumber(1000000);
 
         tileSet = new GreenfootImage("tileset.png");
@@ -119,83 +122,94 @@ public class MyWorld extends World
         tentSpawned = false;
     }
 
-    public void findTentSpawnLocation()
-{
-    int px = getPlayerTileX();
-    int py = getPlayerTileY();
-
-    // Bevorzugte Position: 4 Tiles über dem Spieler
-    int preferredX = px;
-    int preferredY = py - 4;
-
-    if(isValidTentSpot(preferredX, preferredY))
+    public boolean playerNearTent()
     {
-        tentTileX = preferredX;
-        tentTileY = preferredY;
+        int playerWorldX = cameraX + player.getX();
+        int playerWorldY = cameraY + player.getY();
 
-        spawnTent(tentTileX, tentTileY);
-        tentSpawned = true;
+        for(Structures s : getObjects(Structures.class))
+        {
+            if(s instanceof Tent)
+            {
+                int dx = Math.abs(playerWorldX - s.worldX);
+                int dy = Math.abs(playerWorldY - s.worldY);
 
-        System.out.println(
-            "Zelt bevorzugt gespawnt bei: "
-            + tentTileX + ", " + tentTileY
-        );
+                return dx < 80 && dy < 80;
+            }
+        }
 
-        return;
+        return false;
     }
 
-    // Falls dort Wasser
-    // Suche nächste gültige Tile 
-
-    int maxRadius = 30;
-
-    for(int r = 1; r <= maxRadius; r++)
+    public void findTentSpawnLocation()
     {
-        for(int dx = -r; dx <= r; dx++)
+        int px = getPlayerTileX();
+        int py = getPlayerTileY();
+
+        // Bevorzugte Position: 4 Tiles über dem Spieler
+        int preferredX = px;
+        int preferredY = py - 4;
+
+        if(isValidTentSpot(preferredX, preferredY))
         {
-            for(int dy = -r; dy <= r; dy++)
+            tentTileX = preferredX;
+            tentTileY = preferredY;
+
+            spawnTent(tentTileX, tentTileY);
+            tentSpawned = true;
+
+            return;
+        }
+
+        // Falls dort Wasser
+        // Suche nächste gültige Tile 
+
+        int maxRadius = 100;
+
+        for(int r = 1; r <= maxRadius; r++)
+        {
+            for(int dx = -r; dx <= r; dx++)
             {
-                int tx = preferredX + dx;
-                int ty = preferredY + dy;
-
-                if(isValidTentSpot(tx, ty))
+                for(int dy = -r; dy <= r; dy++)
                 {
-                    tentTileX = tx;
-                    tentTileY = ty;
+                    int tx = preferredX + dx;
+                    int ty = preferredY + dy;
 
-                    spawnTent(tx, ty);
-                    tentSpawned = true;
+                    if(isValidTentSpot(tx, ty))
+                    {
+                        tentTileX = tx;
+                        tentTileY = ty;
 
-                    System.out.println(
-                        "Alternativer Zeltplatz gefunden bei: "
-                        + tx + ", " + ty
-                    );
+                        spawnTent(tx, ty);
+                        tentSpawned = true;
 
-                    return;
+                        return;
+                    }
                 }
             }
         }
+
+        // Notfall-Fallback
+        spawnTent(preferredX, preferredY);
+        tentSpawned = true;
     }
 
-    // Notfall-Fallback
-    spawnTent(preferredX, preferredY);
-    tentSpawned = true;
-}
-private boolean isValidTentSpot(int tx, int ty)
-{
-    int tile = getTile(tx, ty);
-    int biome = getBiome(tx, ty);
+    private boolean isValidTentSpot(int tx, int ty)
+    {
+        int tile = getTile(tx, ty);
+        int biome = getBiome(tx, ty);
 
-    boolean allowedTile =
-        tile == GRASS ||
-        tile == ROCK;
+        boolean allowedTile =
+            tile == GRASS ||
+            tile == ROCK;
 
-    boolean allowedBiome =
-        biome == BIOME_GRASS ||
-        biome == BIOME_STONE;
+        boolean allowedBiome =
+            biome == BIOME_GRASS ||
+            biome == BIOME_STONE;
 
-    return allowedTile && allowedBiome;
-}
+        return allowedTile && allowedBiome;
+    }
+
     public void generateVisibleObjects()
     {
         int startX = Math.floorDiv(cameraX, TILE_SIZE) - 10;
@@ -473,7 +487,16 @@ private boolean isValidTentSpot(int tx, int ty)
         handleCraftingMenu();
 
         updateObjects();
+        if(Greenfoot.isKeyDown("e"))
+        {
+            Greenfoot.setWorld(new TentInteriorWorld());
 
+            Greenfoot.delay(30);
+        }
+        if(playerNearTent())
+        {
+            System.out.println("Am Zelt");
+        }
         if(!inventoryOpen && !craftingMenuOpen)
         {
             handleMovement();
