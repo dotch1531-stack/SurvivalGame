@@ -2,9 +2,13 @@ import greenfoot.*;
 
 public class TentInteriorWorld extends World
 {
+
+    public static TentInteriorWorld instance;
+
     public TentInteriorWorld()
     {
         super(800, 800, 1);
+        instance = this;
 
         GreenfootImage bg = getBackground();
 
@@ -28,11 +32,12 @@ public class TentInteriorWorld extends World
         }
 
         addObject(new TentPlayer(), 400, 400);
+        instance = this;
+    }
+
+    public void act(){
+        MyWorld.instance.handleInventory();
+        MyWorld.instance.handleCraftingMenu();
     }
     
-    public void act(){
-        MyWorld world = new MyWorld();
-        world.handleInventory();
-        world.handleCraftingMenu();
-    }
 }

@@ -48,6 +48,9 @@ public class MyWorld extends World
     public int cameraX = 0;
     public int cameraY = 0;
 
+    public int lastCameraX;
+    public int lastCameraY;
+
     private GreenfootImage tileSet;
     private GreenfootImage[] tiles;
 
@@ -117,24 +120,24 @@ public class MyWorld extends World
                 0
             );
         }
-
+        new TentInteriorWorld();
         addObject(player, 400, 400);
         tentSpawned = false;
     }
 
     public boolean playerNearTent()
     {
-        int playerWorldX = cameraX + player.getX();
-        int playerWorldY = cameraY + player.getY();
+        int px = cameraX + player.getX();
+        int py = cameraY + player.getY();
 
         for(Structures s : getObjects(Structures.class))
         {
             if(s instanceof Tent)
             {
-                int dx = Math.abs(playerWorldX - s.worldX);
-                int dy = Math.abs(playerWorldY - s.worldY);
+                int dx = px - s.worldX;
+                int dy = py - s.worldY;
 
-                return dx < 80 && dy < 80;
+                return (dx*dx + dy*dy) < (120 * 120);
             }
         }
 
@@ -487,15 +490,14 @@ public class MyWorld extends World
         handleCraftingMenu();
 
         updateObjects();
-        if(Greenfoot.isKeyDown("e"))
+        if(Greenfoot.isKeyDown("e") && playerNearTent()==true)
         {
-            Greenfoot.setWorld(new TentInteriorWorld());
+            lastCameraX = cameraX;
+            lastCameraY = cameraY;
+
+            Greenfoot.setWorld(TentInteriorWorld.instance);
 
             Greenfoot.delay(30);
-        }
-        if(playerNearTent())
-        {
-            System.out.println("Am Zelt");
         }
         if(!inventoryOpen && !craftingMenuOpen)
         {
@@ -503,7 +505,7 @@ public class MyWorld extends World
             updateWaterAnimation();
             renderWorld();
             if (!tentSpawned) {
-                findTentSpawnLocation();   // sucht den Platz
+                findTentSpawnLocation(); 
             }
         }
 
