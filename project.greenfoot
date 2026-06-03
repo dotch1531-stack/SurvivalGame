@@ -6,7 +6,7 @@ class.CraftButtons.image=Craftbutton_Disabled.png
 class.CraftingScreen.image=craft.png
 class.InventoryScreen.image=invBack.png
 class.Iron.image=iron.png
-class.PicaxeButton.image=spitzhacke_placeholder.png
+class.PicaxeButton.image=PickaxeButton.png
 class.Pickaxe.image=Pickaxe_x150.png
 class.Stone.image=stein.png
 class.Sword.image=Sword_Inventory.png
@@ -157,10 +157,23 @@ dependency8.type=UsesDependency
 dependency9.from=MyWorld
 dependency9.to=CraftingScreen
 dependency9.type=UsesDependency
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+editor.fx.0.height=1017
+editor.fx.0.width=854
+editor.fx.0.x=833
+editor.fx.0.y=0
+=======
+>>>>>>> Stashed changes
 editor.fx.0.height=739
 editor.fx.0.width=1184
 editor.fx.0.x=422
 editor.fx.0.y=242
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 height=1026
 package.numDependencies=48
 package.numTargets=32
