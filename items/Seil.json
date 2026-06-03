@@ -1,0 +1,8 @@
+{
+    "name": "Seil",
+    "schaden" : 1,
+    "stackSize" : 99,
+    "recipe" : {
+        "Blaetter" : 4
+    }
+}

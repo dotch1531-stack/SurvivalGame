@@ -3,7 +3,7 @@ import java.util.*;
 
 // crashout counter: 8
 // chatgpt beleidigt: 14
-// fuckass zelt: 8
+// warum auf Wasser: 6
 
 public class MyWorld extends World
 {
@@ -81,8 +81,6 @@ public class MyWorld extends World
 
     private java.util.HashSet<String> spawnedObjects =
         new java.util.HashSet<>();
-        
-    
 
     public java.util.List<WorldObject> getNearbyWorldObjects(int range)
     {
@@ -116,77 +114,88 @@ public class MyWorld extends World
                 0
             );
         }
-        
-        
+
         addObject(player, 400, 400);
-
-        
-
-        //tentTileX = getPlayerTileX();
-        //tentTileY = getPlayerTileY() - 3;
         tentSpawned = false;
     }
 
-    public void findTentSpawnLocation() {
-        int px = getPlayerTileX();
-        int py = getPlayerTileY();
+    public void findTentSpawnLocation()
+{
+    int px = getPlayerTileX();
+    int py = getPlayerTileY();
 
-        System.out.println("=== Tent Spawn Suche gestartet ===");
-        System.out.println("Spieler Tile: " + px + ", " + py);
+    // Bevorzugte Position: 4 Tiles über dem Spieler
+    int preferredX = px;
+    int preferredY = py - 4;
 
-        int maxRadius = 30;
+    if(isValidTentSpot(preferredX, preferredY))
+    {
+        tentTileX = preferredX;
+        tentTileY = preferredY;
 
-        for (int r = 1; r <= maxRadius; r++) {
-            System.out.println("Radius: " + r);
+        spawnTent(tentTileX, tentTileY);
+        tentSpawned = true;
 
-            for (int dx = -r; dx <= r; dx++) {
-                for (int dy = -r; dy <= r; dy++) {
+        System.out.println(
+            "Zelt bevorzugt gespawnt bei: "
+            + tentTileX + ", " + tentTileY
+        );
 
-                    int tx = px + dx;
-                    int ty = py + dy;
+        return;
+    }
 
-                    int tile = getTile(tx, ty);
-                    int biome = getBiome(tx, ty);
+    // Falls dort Wasser
+    // Suche nächste gültige Tile 
 
-                    boolean allowedTile =
-                        tile == GRASS ||
-                        tile == ROCK;   // Stein erlaubt
+    int maxRadius = 30;
 
-                    boolean allowedBiome =
-                        biome == BIOME_GRASS ||
-                        biome == BIOME_STONE;
+    for(int r = 1; r <= maxRadius; r++)
+    {
+        for(int dx = -r; dx <= r; dx++)
+        {
+            for(int dy = -r; dy <= r; dy++)
+            {
+                int tx = preferredX + dx;
+                int ty = preferredY + dy;
 
-                    // Debug-Ausgabe für jede geprüfte Position
+                if(isValidTentSpot(tx, ty))
+                {
+                    tentTileX = tx;
+                    tentTileY = ty;
+
+                    spawnTent(tx, ty);
+                    tentSpawned = true;
+
                     System.out.println(
-                        "Prüfe Tile (" + tx + "," + ty + ") | Tile=" + tile +
-                        " | Biom=" + biome +
-                        " | allowedTile=" + allowedTile +
-                        " | allowedBiome=" + allowedBiome
+                        "Alternativer Zeltplatz gefunden bei: "
+                        + tx + ", " + ty
                     );
 
-                    if (allowedTile && allowedBiome) {
-                        tentTileX = tx;
-                        tentTileY = ty;
-
-                        System.out.println(">>> Zeltplatz gefunden bei: " + tx + ", " + ty);
-                        System.out.println("=== Tent Spawn Suche beendet ===");
-                        spawnTent(tx, ty);
-                        tentSpawned = true;
-
-                        return;
-                    }
+                    return;
                 }
             }
         }
-
-        // Falls nichts gefunden wird
-        tentTileX = px;
-        tentTileY = py + 3;
-
-        System.out.println("!!! Kein geeigneter Platz gefunden, fallback: " + tentTileX + ", " + tentTileY);
-        System.out.println("=== Tent Spawn Suche beendet ===");
     }
 
+    // Notfall-Fallback
+    spawnTent(preferredX, preferredY);
+    tentSpawned = true;
+}
+private boolean isValidTentSpot(int tx, int ty)
+{
+    int tile = getTile(tx, ty);
+    int biome = getBiome(tx, ty);
+
+    boolean allowedTile =
+        tile == GRASS ||
+        tile == ROCK;
+
+    boolean allowedBiome =
+        biome == BIOME_GRASS ||
+        biome == BIOME_STONE;
+
+    return allowedTile && allowedBiome;
+}
     public void generateVisibleObjects()
     {
         int startX = Math.floorDiv(cameraX, TILE_SIZE) - 10;
