@@ -81,6 +81,8 @@ public class MyWorld extends World
 
     private java.util.HashSet<String> spawnedObjects =
         new java.util.HashSet<>();
+        
+    
 
     public java.util.List<WorldObject> getNearbyWorldObjects(int range)
     {
@@ -114,8 +116,11 @@ public class MyWorld extends World
                 0
             );
         }
-
+        
+        
         addObject(player, 400, 400);
+
+        
 
         //tentTileX = getPlayerTileX();
         //tentTileY = getPlayerTileY() - 3;
