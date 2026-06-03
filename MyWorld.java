@@ -2,7 +2,7 @@ import greenfoot.*;
 import java.util.*;
 
 // crashout counter: 8
-// chatgpt beleidigt: 14
+// chatgpt beleidigt: 15
 // warum auf Wasser: 6
 
 public class MyWorld extends World
