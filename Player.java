@@ -1,9 +1,8 @@
 import greenfoot.*;
+
 public class Player extends Actor
 {
     GreenfootImage spriteSheet;
-    
-    MyWorld world = (MyWorld)getWorld();
 
     int frame = 0;
     int frameHeight = 120;
@@ -12,48 +11,76 @@ public class Player extends Actor
 
     int animationSpeed = 12;
     int counter = 0;
- 
-    
+
     String up = "Up";
     String down = "Down";
     String left = "Left";
     String right = "Right";
     String idle = "Idle";
-    
+
     int hitboxWidth = 20;
     int hitboxHeight = 90;
-    
+
     public int worldX;
     public int worldY;
 
-    // ===== COLLISION =====
     public boolean solid = true;
-    
+
     public int collisionRadius = 30;
 
-    // ===== BREAKING SYSTEM =====
     public boolean breakable = true;
 
     public double maxHealth = 15;
     public double health = maxHealth;
 
     public BreakProgress progress;
-    
-    
+
+    Hitbox hitbox = new Hitbox();
 
     public Player()
     {
         spriteSheet = new GreenfootImage("Player/JoeIdle.png");
     }
-    
-    
-    
+
+    public void addedToWorld(World world)
+    {
+        world.addObject(hitbox, getX(), getY());
+    }
     
     public void act()
-        {
+    {
         movementAnimation();
+        updateHitbox();
         hitCheck();
-        }
+    }
+    
+    
+
+    
+    
+    public void updateHitbox()
+    {
+    
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+    
+        if(mouse == null) return;
+    
+        int mx = mouse.getX();
+        int my = mouse.getY();
+    
+        double dx = mx - getX();
+        double dy = my - getY();
+    
+        double angle = Math.atan2(dy, dx);
+    
+        int offset = 60;
+    
+        int hx = (int)(getX() + Math.cos(angle) * offset);
+        int hy = (int)(getY() + Math.sin(angle) * offset);
+    
+        hitbox.setLocation(hx, hy);
+        hitbox.setRotation((int)Math.toDegrees(angle) + 90);
+    }
     
         
     public void damage(double amount)
@@ -154,152 +181,12 @@ public class Player extends Actor
     
     //HITTING WORKS - DO NOT TOUCH
     public void hitCheck()
-        {
-        MouseInfo mouse = Greenfoot.getMouseInfo();
-        if (mouse == null) return;
-        if (!Greenfoot.mousePressed(null)) return;
-    
-        GreenfootImage bg = getWorld().getBackground();
-    
-        int px = 400;
-        int py = 400;
-    
-        int mx = mouse.getX();
-        int my = mouse.getY();
-    
-        // direction
-        double dirX = mx - px;
-        double dirY = my - py;
-    
-        double len = Math.sqrt(dirX * dirX + dirY * dirY);
-        if (len == 0) return;
-    
-        dirX /= len;
-        dirY /= len;
-    
-        // ===== SETTINGS =====
-        double range = 180;
-        double coneAngle = Math.toRadians(45);
-        double offset = 40;
-        
-        
-        
-        
-        for (Entity e : getWorld().getObjects(Entity.class))
-        {
-            double ex = e.getX();
-            double ey = e.getY();
-            
-            double originX = px + dirX;
-            double originY = py + dirY;
-            
-            double cosThreshold = Math.cos(coneAngle / 2);
-        
-            double leftAngle = Math.atan2(dirY, dirX) - coneAngle / 2;
-            double rightAngle = Math.atan2(dirY, dirX) + coneAngle / 2;
-        
-            int leftX = (int)(originX + Math.cos(leftAngle) * range);
-            int leftY = (int)(originY + Math.sin(leftAngle) * range);
-        
-            int rightX = (int)(originX + Math.cos(rightAngle) * range);
-            int rightY = (int)(originY + Math.sin(rightAngle) * range);
-            
-            
-            int[] xHitScreen = {(int)Math.floor(originX), rightX, leftX};
-            int[] yHitScreen = {(int)Math.floor(originY), rightY, leftY};
-        
-            if (objectsAndEntitysInHitscreen(
-            ex, ey,
-            originX, originY,
-            dirX, dirY,
-            range,
-            cosThreshold))
-            {
-                e.damage(1);
-            }
-        }
-        
-        for (WorldObject o : getWorld().getObjects(WorldObject.class))
-        {
-            double ox = o.getX();
-            double oy = o.getY();
-        
-            double originX = px + dirX * offset;
-            double originY = py + dirY * offset;
-        
-            double cosThreshold = Math.cos(coneAngle / 2);
-        
-            // NEW CHECK
-            if(!objectInFrontOfMouse(px, py, mx, my, ox, oy))
-            {
-                continue;
-            }
-        
-            if (objectsAndEntitysInHitscreen(
-                ox, oy,
-                originX, originY,
-                dirX, dirY,
-                range,
-                cosThreshold))
-            {
-                o.damage(1);
-            }
-        }
-    }
-    
-    public boolean objectInFrontOfMouse(
-    double px, double py,
-    double mx, double my,
-    double ox, double oy)
     {
-        // player -> mouse
-        double mdx = mx - px;
-        double mdy = my - py;
-    
-        // player -> object
-        double odx = ox - px;
-        double ody = oy - py;
-    
-        // dot product
-        double dot = mdx * odx + mdy * ody;
-    
-        // if negative, object is behind player relative to mouse
-        return dot > 0;
+        if(Greenfoot.mousePressed(null))
+        {
+            hitbox.checkHits();
+        }
     }
+    
 
-    public boolean objectsAndEntitysInHitscreen(
-    double ox, double oy,
-    double originX, double originY,
-    double dirX, double dirY,
-    double range,
-    double cosThreshold)
-    {
-        double dx = ox - originX;
-        double dy = oy - originY;
-    
-        // ===== MUST BE IN FRONT =====
-        double forwardDot = dx * dirX + dy * dirY;
-    
-        if(forwardDot <= 0)
-        {
-            return false;
-        }
-    
-        double distSquared = dx * dx + dy * dy;
-    
-        if (distSquared > range * range)
-            return false;
-    
-        double dist = Math.sqrt(distSquared);
-    
-        if (dist == 0)
-            return true;
-    
-        dx /= dist;
-        dy /= dist;
-    
-        double dot = dx * dirX + dy * dirY;
-    
-        return dot >= cosThreshold;
-    }
 }
