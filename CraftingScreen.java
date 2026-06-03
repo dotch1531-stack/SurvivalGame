@@ -20,21 +20,21 @@ public class CraftingScreen extends Actor
     
     private InventoryScreen inventoryScreen;
     
-    GreenfootImage zero = new GreenfootImage("Font/0.png");
-    GreenfootImage one = new GreenfootImage("Font/1.png");
-    GreenfootImage two = new GreenfootImage("Font/2.png");
-    GreenfootImage three = new GreenfootImage("Font/3.png");
-    GreenfootImage four = new GreenfootImage("Font/4.png");
-    GreenfootImage five = new GreenfootImage("Font/5.png");
-    GreenfootImage six = new GreenfootImage("Font/6.png");
-    GreenfootImage seven = new GreenfootImage("Font/7.png");
-    GreenfootImage eight = new GreenfootImage("Font/8.png");
-    GreenfootImage nine = new GreenfootImage("Font/9.png");
+    GreenfootImage zero = new GreenfootImage("Font/CraftingScreen/0.png");
+    GreenfootImage one = new GreenfootImage("Font/CraftingScreen/1.png");
+    GreenfootImage two = new GreenfootImage("Font/CraftingScreen/2.png");
+    GreenfootImage three = new GreenfootImage("Font/CraftingScreen/3.png");
+    GreenfootImage four = new GreenfootImage("Font/CraftingScreen/4.png");
+    GreenfootImage five = new GreenfootImage("Font/CraftingScreen/5.png");
+    GreenfootImage six = new GreenfootImage("Font/CraftingScreen/6.png");
+    GreenfootImage seven = new GreenfootImage("Font/CraftingScreen/7.png");
+    GreenfootImage eight = new GreenfootImage("Font/CraftingScreen/8.png");
+    GreenfootImage nine = new GreenfootImage("Font/CraftingScreen/9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
     
-    int[] numbersX = {300, 317, 400, 417};
-    int[] numbersY = {300, 300, 300, 300};
+    int[] numbersX = {600, 617, 600, 617};
+    int[] numbersY = {100, 100, 200, 200};
     
     private GreenfootImage baseImage;
     
@@ -91,6 +91,7 @@ public class CraftingScreen extends Actor
         int loop = 0;
         for(String key : itemsNeeded.keySet()){
             if(itemsNeeded.getOrDefault(key, 0) > 0){
+                
                 String intToString = Integer.toString(itemsNeeded.getOrDefault(key, 0));
                 
                 if(intToString.length() < 2){

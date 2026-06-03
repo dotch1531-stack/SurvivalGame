@@ -1,7 +1,6 @@
 {
-    "name": "Schwert",
-    "schaden" : 5,
-    "stackSize" : 1,
+    "name": "Blaetter",
+    "stackSize" : 99,
     "recipe" : {
         "Eisen" : 3,
         "Holz" : 2
