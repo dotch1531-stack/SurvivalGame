@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=MyWorld
-comment0.text=\r\n\ Lieber\ Marc,\ \r\n\ was\ auch\ immer\ du\ hier\ versucht\ hast\ zu\ kochen,\ bitte\ strenge\ deine\ paar\ gehirnzellen\ an\ und\ fixe,\r\n\ dass\ die\ k\u00FChe\ wie\ vorher\ am\ bildrand\ verschwinden\ und\ nicht\ da\ bleiben.\r\n\ \r\n\ kleiner\ tipp\ daf\u00FCr\:\ vielleicht\ solltest\ du\ dar\u00FCber\ nachdenken\ weniger\ den\ gesammten\ code\ in\ chatgpt\ zu\ pasten\r\n\ und\ mal\ anfangen\ dein\ gehirn\ anzuschalten,\ um\ zu\ sehen\ was\ chatgpt\ da\ macht\ und\ was\ es\ zerst\u00F6rt\r\n\ \r\n\ ich\ hoffe\ du\ bekommst\ das\ alleine\ gefixed\r\n\ Mit\ freundlichen\ Gr\u00FC\u00DFen\ Colin\r\n
+comment0.text=Lieber\ Colin,\r\n\ ich\ war\ an\ den\ k\u00FChen\ seit\ ewig\ nicht\ dran,\ kann\ mir\ aber\ vorstellen\ das\ sich\ Dotch\ das\ zum\ schnelleren\ finden\ \r\n\ der\ K\u00FChe\ rein\ gemacht\ hat,\ dennoch\ kann\ ich\ die\ dinger\ gerne\ fixen\ solte\ dies\ nicht\ der\ fall\ sein.\ \r\n\ Mit\ freundlichen\ Gr\u00FC\u00DFen\ Marc\r\n
 comment1.params=range
 comment1.target=java.util.List\ getNearbyWorldObjects(int)
 comment10.params=biome\ x\ y\ desiredBiome\ spawnChance\ factory

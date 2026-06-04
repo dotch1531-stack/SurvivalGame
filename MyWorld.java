@@ -17,6 +17,12 @@ import java.util.*;
  * Mit freundlichen Grüßen Colin
  */
 
+/*Lieber Colin,
+ * ich war an den kühen seit ewig nicht dran, kann mir aber vorstellen das sich Dotch das zum schnelleren finden 
+ * der Kühe rein gemacht hat, dennoch kann ich die dinger gerne fixen solte dies nicht der fall sein. 
+ * Mit freundlichen Grüßen Marc
+ */
+
 public class MyWorld extends World
 {
 
