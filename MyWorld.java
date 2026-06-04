@@ -252,13 +252,13 @@ public class MyWorld extends World
 
                 int biome = getBiome(x, y);
 
-                // 🌳 TREES
+                //TREES
                 spawnObjects(biome,x,y,BIOME_GRASS,8, Tree::new);
 
-                // 🐄 COW HERDS
+                //COW HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Cow::new);
 
-                // 🐄 PIG HERDS
+                //PIG HERDS
                 //spawnFrendlyHerds(biome, x, y, BIOME_GRASS,2,1000, Pig::new);
 
                 //Duck

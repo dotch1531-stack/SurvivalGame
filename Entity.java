@@ -205,13 +205,13 @@ public abstract class Entity extends Actor
     // SCREEN CHECK
     // =========================
     public boolean onScreen()
-    {
-        World w = getWorld();
-        if (w == null) return false;
+{
+    int w = getWorld().getWidth();
+    int h = getWorld().getHeight();
 
-        return getX() >= 0 &&
-               getX() <= w.getWidth() &&
-               getY() >= 0 &&
-               getY() <= w.getHeight();
-    }
+    return getX() >= 1 &&
+           getX() <= w - 1 &&
+           getY() >= 1 &&
+           getY() <= h - 1;
+}
 }
