@@ -1,9 +1,0 @@
-{
-    "name": "Schwert",
-    "schaden" : 5,
-    "stackSize" : 1,
-    "recipe" : {
-        "Eisen" : 3,
-        "Holz" : 2
-    }
-}

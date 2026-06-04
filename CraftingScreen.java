@@ -33,8 +33,8 @@ public class CraftingScreen extends Actor
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
     
-    int[] numbersX = {600, 617, 600, 617};
-    int[] numbersY = {100, 100, 200, 200};
+    int[] numbersX = {600, 617, 600, 617, 600, 617, 600, 617, 600, 617};
+    int[] numbersY = {100, 100, 200, 200, 300, 300, 400, 400, 500, 500};
     
     private GreenfootImage baseImage;
     
@@ -91,6 +91,9 @@ public class CraftingScreen extends Actor
         int loop = 0;
         for(String key : itemsNeeded.keySet()){
             if(itemsNeeded.getOrDefault(key, 0) > 0){
+                GreenfootImage img = new GreenfootImage("InventorySprites/" + key + ".png");
+                img.scale(100,100);
+                getImage().drawImage(img, (numbersX[loop] - 150), (numbersY[loop] - 35));
                 
                 String intToString = Integer.toString(itemsNeeded.getOrDefault(key, 0));
                 
@@ -107,18 +110,8 @@ public class CraftingScreen extends Actor
         }
     }
     
-    private void craftItem(){
-        boolean canCraft = true;
-        
-        for(String key : itemsNeeded.keySet()){
-            System.out.println(key + " " + itemsNeeded.get(key));
-            if(!inventoryScreen.checkIfItemCanBeRemoved(key, itemsNeeded.get(key))){
-                System.out.println("Nicht genügend Items für dieses Rezept");
-                canCraft = false;
-            }
-        }
-        
-        if(canCraft){
+    private void craftItem(){        
+        if(checkItemsAreInInventory()){
             for(String key : itemsNeeded.keySet()){
                 inventoryScreen.removeItems(key, itemsNeeded.get(key));
             }
@@ -127,14 +120,35 @@ public class CraftingScreen extends Actor
             inventoryScreen.addItem(itemToBeCrafted, 1);
             
             System.out.println("Item erfolgreich gecrafted");
+            
+            MyWorld world = (MyWorld)getWorld();
+            world.updateCommitCraft(false);
         }
     }
     
+    private boolean checkItemsAreInInventory(){
+        boolean canCraft = true;
+        for(String key : itemsNeeded.keySet()){
+            System.out.println(key + " " + itemsNeeded.get(key));
+            if(!inventoryScreen.checkIfItemCanBeRemoved(key, itemsNeeded.get(key))){
+                System.out.println("Nicht genügend Items für dieses Rezept");
+                canCraft = false;
+            }
+        }
+        return canCraft;
+    }
+    
     private void selectedCraftItem(String itemToCraft){
+        MyWorld world = (MyWorld)getWorld();
+        boolean canCraft = true;
+        
         getItemsNeeded(itemToCraft);
         
         itemToBeCrafted = itemToCraft;
         
+        if(checkItemsAreInInventory()){
+            world.updateCommitCraft(true);
+        }
         addNumbers();
     }
     

@@ -23,7 +23,6 @@ import java.util.*;
  * Mit freundlichen Grüßen Marc
  */
 
-
 public class MyWorld extends World
 {
 
@@ -858,7 +857,7 @@ public class MyWorld extends World
                 }
             }
 
-            drawCommitCraft();
+            drawCommitCraft(false);
 
             Greenfoot.delay(20);
         }
@@ -912,13 +911,17 @@ public class MyWorld extends World
         itemsArray[5] = wood;
     }
 
-    public void drawCommitCraft(){
-        commitButton = new CommitButton();
+    public void drawCommitCraft(boolean pressable){
+        commitButton = new CommitButton(pressable);
         addObject(commitButton, 550, 700);
     }
 
     public void deleteCommitCraft(){
         removeObject(commitButton);
     }
-
+    
+    public void updateCommitCraft(boolean pressable){
+        deleteCommitCraft();
+        drawCommitCraft(pressable);
+    }
 }
