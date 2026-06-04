@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=MyWorld
-comment0.text=Lieber\ Colin,\r\n\ ich\ war\ an\ den\ k\u00FChen\ seit\ ewig\ nicht\ dran,\ kann\ mir\ aber\ vorstellen\ das\ sich\ Dotch\ das\ zum\ schnelleren\ finden\ \r\n\ der\ K\u00FChe\ rein\ gemacht\ hat,\ dennoch\ kann\ ich\ die\ dinger\ gerne\ fixen\ solte\ dies\ nicht\ der\ fall\ sein.\ \r\n\ Mit\ freundlichen\ Gr\u00FC\u00DFen\ Marc\r\n
+comment0.text=Lieber\ Colin,\r\n\ ich\ war\ an\ den\ K\u00FChen\ seit\ ewigkeiten\ nicht\ dran,\ kann\ mir\ aber\ vorstellen\ das\ sich\ Dotch\ das\ zum\ schnelleren\ finden\ \r\n\ der\ K\u00FChe\ rein\ gemacht\ hat,\ dennoch\ kann\ ich\ die\ dinger\ gerne\ fixen\ solte\ dies\ nicht\ der\ fall\ sein.\ \r\n\ Mit\ freundlichen\ Gr\u00FC\u00DFen\ Marc\r\n
 comment1.params=range
 comment1.target=java.util.List\ getNearbyWorldObjects(int)
 comment10.params=biome\ x\ y\ desiredBiome\ spawnChance\ factory
