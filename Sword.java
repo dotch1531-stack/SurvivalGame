@@ -12,7 +12,7 @@ public class Sword extends Item
     private JSONObject objectJSON;
     
     public Sword(){
-        GreenfootImage img = new GreenfootImage("InventorySprites/Sword_Inventory.png");
+        GreenfootImage img = new GreenfootImage("InventorySprites/Schwert.png");
         img.scale(150, 150);
         setImage(img);
     }

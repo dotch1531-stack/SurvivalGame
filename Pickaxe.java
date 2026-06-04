@@ -13,7 +13,7 @@ public class Pickaxe extends Item
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public Pickaxe(){
-        GreenfootImage img = new GreenfootImage("InventorySprites/Pickaxe_Inventory.png");
+        GreenfootImage img = new GreenfootImage("InventorySprites/Spitzhacke.png");
         img.scale(150, 150);
         setImage(img);
     }

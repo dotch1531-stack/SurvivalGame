@@ -13,7 +13,7 @@ public class Axe extends Item
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public Axe(){
-        GreenfootImage img = new GreenfootImage("InventorySprites/Axe_Inventory.png");
+        GreenfootImage img = new GreenfootImage("InventorySprites/Axt.png");
         img.scale(150, 150);
         setImage(img);
     }

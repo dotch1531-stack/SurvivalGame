@@ -10,12 +10,15 @@ public class Rope extends Item
 {
     
     public Rope(){
-        GreenfootImage img = new GreenfootImage("InventorySprites/Rope.png");
+        GreenfootImage img = new GreenfootImage("InventorySprites/Seil.png");
         img.scale(150, 150);
         setImage(img);
     }
     public void act()
     {
         // Add your action code here.
+    }
+    public String getName(){
+        return "Seil";
     }
 }

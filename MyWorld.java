@@ -5,6 +5,18 @@ import java.util.*;
 // chatgpt beleidigt: 15
 // warum auf Wasser: 6
 
+/*
+ * Lieber Marc, 
+ * was auch immer du hier versucht hast zu kochen, bitte strenge deine paar gehirnzellen an und fixe,
+ * dass die kühe wie vorher am bildrand verschwinden und nicht da bleiben.
+ * 
+ * kleiner tipp dafür: vielleicht solltest du darüber nachdenken weniger den gesammten code in chatgpt zu pasten
+ * und mal anfangen dein gehirn anzuschalten, um zu sehen was chatgpt da macht und was es zerstört
+ * 
+ * ich hoffe du bekommst das alleine gefixed
+ * Mit freundlichen Grüßen Colin
+ */
+
 public class MyWorld extends World
 {
 
