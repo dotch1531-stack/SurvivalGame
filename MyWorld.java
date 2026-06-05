@@ -37,8 +37,10 @@ public class MyWorld extends World
     private Stone stone;
     private Sword sword;
     private Wood wood;
+    private Leaf leaf;
+    private Rope rope;
 
-    public Item[] itemsArray = new Item[6];
+    public Item[] itemsArray = new Item[8];
 
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
@@ -52,6 +54,8 @@ public class MyWorld extends World
     public TreeMap<String, CraftButtons> craftButtons = new TreeMap<String, CraftButtons>();
 
     public CommitButton commitButton;
+    public UpButton upButton;
+    public DownButton downButton;
 
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
@@ -839,6 +843,9 @@ public class MyWorld extends World
 
             craftingScreen = new CraftingScreen();
             addObject(craftingScreen, 400, 400);
+            
+            downButton = new DownButton();
+            addObject(downButton, 300, 770);
 
             swordButton = new SwordButton();
             craftButtons.put("Schwert", swordButton);
@@ -866,6 +873,7 @@ public class MyWorld extends World
             craftingMenuOpen = false;
 
             removeObject(craftingScreen);
+            removeObject(downButton);
             for(String i : craftButtons.keySet()){
                 removeObject(craftButtons.get(i));
             }
@@ -901,6 +909,14 @@ public class MyWorld extends World
                 wood = new Wood();
                 addObject(wood, x, y);
                 break;
+            case "Blatt":
+                leaf = new Leaf();
+                addObject(leaf, x, y);
+                break;
+            case "Seil":
+                rope = new Rope();
+                addObject(rope, x, y);
+                break;
         }
 
         itemsArray[0] = axe;
@@ -909,6 +925,8 @@ public class MyWorld extends World
         itemsArray[3] = stone;
         itemsArray[4] = sword;
         itemsArray[5] = wood;
+        itemsArray[6] = rope;
+        itemsArray[7] = leaf;
     }
 
     public void drawCommitCraft(boolean pressable){
