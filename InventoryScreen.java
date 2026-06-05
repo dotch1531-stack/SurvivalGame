@@ -24,16 +24,16 @@ public class InventoryScreen extends Actor
     
     private final String INVENTORY_PATH = "items/inventar/inventory.json";
     
-    GreenfootImage zero = new GreenfootImage("Font/0.png");
-    GreenfootImage one = new GreenfootImage("Font/1.png");
-    GreenfootImage two = new GreenfootImage("Font/2.png");
-    GreenfootImage three = new GreenfootImage("Font/3.png");
-    GreenfootImage four = new GreenfootImage("Font/4.png");
-    GreenfootImage five = new GreenfootImage("Font/5.png");
-    GreenfootImage six = new GreenfootImage("Font/6.png");
-    GreenfootImage seven = new GreenfootImage("Font/7.png");
-    GreenfootImage eight = new GreenfootImage("Font/8.png");
-    GreenfootImage nine = new GreenfootImage("Font/9.png");
+    GreenfootImage zero = new GreenfootImage("Font/PixelTransparent/0.png");
+    GreenfootImage one = new GreenfootImage("Font/PixelTransparent/1.png");
+    GreenfootImage two = new GreenfootImage("Font/PixelTransparent/2.png");
+    GreenfootImage three = new GreenfootImage("Font/PixelTransparent/3.png");
+    GreenfootImage four = new GreenfootImage("Font/PixelTransparent/4.png");
+    GreenfootImage five = new GreenfootImage("Font/PixelTransparent/5.png");
+    GreenfootImage six = new GreenfootImage("Font/PixelTransparent/6.png");
+    GreenfootImage seven = new GreenfootImage("Font/PixelTransparent/7.png");
+    GreenfootImage eight = new GreenfootImage("Font/PixelTransparent/8.png");
+    GreenfootImage nine = new GreenfootImage("Font/PixelTransparent/9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
     int[] numbersX = {123, 140, 323, 340, 523, 540, 723, 740, 123, 140, 323, 340, 523, 540, 723, 740};
