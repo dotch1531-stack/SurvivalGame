@@ -6,8 +6,7 @@ public class TentInteriorWorld extends World
 
     public TentInteriorWorld()
     {
-        super(800, 800, 1);
-
+		super(800, 800, 1);
         instance = this;
 
         GreenfootImage bg = getBackground();
@@ -73,4 +72,5 @@ public class TentInteriorWorld extends World
         // =========================
         addObject(new TentPlayer(), 400, 400);
     }
+
 }
