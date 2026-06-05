@@ -40,7 +40,7 @@ public class MyWorld extends World
     private Leaf leaf;
     private Rope rope;
 
-    public Item[] itemsArray = new Item[8];
+    public List<Item> itemsArray = new List<Item>();
 
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
@@ -815,13 +815,10 @@ public class MyWorld extends World
 
         inventoryScreen.firstRead = false;
         inventoryScreen.setItemsInventory();
-
-        removeObject(axe);
-        removeObject(iron);
-        removeObject(pickaxe);
-        removeObject(stone);
-        removeObject(sword);
-        removeObject(wood);
+        
+        for(Item i : itemsArray){
+            removeObject(i);
+        }
 
         removeObject(inventoryScreen);
 
@@ -919,14 +916,14 @@ public class MyWorld extends World
                 break;
         }
 
-        itemsArray[0] = axe;
-        itemsArray[1] = iron;
-        itemsArray[2] = pickaxe;
-        itemsArray[3] = stone;
-        itemsArray[4] = sword;
-        itemsArray[5] = wood;
-        itemsArray[6] = rope;
-        itemsArray[7] = leaf;
+        itemsArray.add(axe);
+        itemsArray.add(iron);
+        itemsArray.add(pickaxe);
+        itemsArray.add(stone);
+        itemsArray.add(sword);
+        itemsArray.add(wood);
+        itemsArray.add(rope);
+        itemsArray.add(leaf);
     }
 
     public void drawCommitCraft(boolean pressable){
