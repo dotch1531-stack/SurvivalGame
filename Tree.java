@@ -9,13 +9,13 @@ public class Tree extends WorldObject
 
 
     private int speed;
-    
-    public List<String> drops = List.of("Blatt", "Holz");
-    public int dropAmount = 3;
      
 
     public Tree()
     {
+        drops = List.of("Blatt", "Holz");
+        dropAmount = 3;
+        
         // ===== POSITION =====
         worldX = 0;
         worldY = 0;
