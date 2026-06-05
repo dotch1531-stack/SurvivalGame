@@ -13,7 +13,7 @@ public class Stone extends Item
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public Stone(){
-        GreenfootImage img = new GreenfootImage("InventorySprites/stein.png");
+        GreenfootImage img = new GreenfootImage("InventorySprites/Stein.png");
         img.scale(150, 150);
         setImage(img);
     }

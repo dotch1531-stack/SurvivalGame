@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=TentPlayer
+comment1.params=
+comment1.target=TentPlayer()
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ moveInsideTent()
+comment4.params=
+comment4.target=void\ movementAnimation()
+comment5.params=where
+comment5.target=void\ animate(java.lang.String)
+numComments=6

@@ -13,7 +13,7 @@ public class Iron extends Item
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public Iron(){
-        GreenfootImage img = new GreenfootImage("InventorySprites/iron.png");
+        GreenfootImage img = new GreenfootImage("InventorySprites/Eisen.png");
         img.scale(150, 150);
         setImage(img);
     }

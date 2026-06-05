@@ -16,4 +16,7 @@ public class Leaf extends Item
     {
         // Add your action code here.
     }
+    public String getName(){
+        return "Blatt";
+    }
 }

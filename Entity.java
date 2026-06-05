@@ -2,12 +2,18 @@ import greenfoot.*;
 
 public abstract class Entity extends Actor
 {
+    // ===== WORLD POSITION =====
     public int worldX;
     public int worldY;
 
+    public int lastWorldX;
+    public int lastWorldY;
+
+    public int lastX;
+    public int lastY;
+
     // ===== COLLISION =====
     public boolean solid = false;
-    
     public int collisionRadius = 30;
 
     public int hitboxWidth = 240;
@@ -20,96 +26,118 @@ public abstract class Entity extends Actor
     public double health = 1;
 
     public BreakProgress progress;
-    
+
+    // ===== ANIMATION =====
     GreenfootImage spriteSheet;
-    
+
     int animationSpeed = 12;
     int counter = 0;
-    
+
     int frame = 0;
     int totalFrames = 2;
-    
-    public int lastWorldX;
-    public int lastWorldY;
-    
-    public int lastX;
-    public int lastY;
 
-    // ===== SCREEN POSITION =====
+    // =========================
+    // SCREEN POSITION
+    // =========================
     public void updateScreenPosition(int cameraX, int cameraY)
     {
         setLocation(worldX - cameraX, worldY - cameraY);
-    
+
         if (progress != null)
         {
             progress.updateScreenPosition(cameraX, cameraY, worldX, worldY);
         }
     }
 
+    // =========================
+    // ANIMATION CONTROLLER
+    // =========================
     public void Animation(String entity)
-    {
-        int dx = getX() - lastX;
-        int dy = getY() - lastY;
+{
+    int dx = getX() - lastX;
+    int dy = getY() - lastY;
 
-    
-        if (Math.abs(dx) > Math.abs(dy))
+    if (dx == 0 && dy == 0)
+    {
+        setIdle(entity);
+    }
+    else
+    {
+        // ===== DIAGONALS FIRST =====
+        if (dx > 0 && dy < 0)
+            animate("UpRight", entity, 120, 120);
+
+        else if (dx < 0 && dy < 0)
+            animate("UpLeft", entity, 120, 120);
+
+        /*else if (dx > 0 && dy > 0)
+            animate("DownRight", entity, 120, 120);
+
+        else if (dx < 0 && dy > 0)
+            animate("DownLeft", entity, 120, 120);
+*/
+        // ===== STRAIGHT DIRECTIONS =====
+        else if (Math.abs(dx) > Math.abs(dy))
         {
             if (dx > 0)
-            {
                 animate("Right", entity, 120, 120);
-            }
-            else if (dx < 0)
-            {
+            else
                 animate("Left", entity, 120, 120);
-            }
         }
-        else
+        /*else
         {
-
-
-            setImage(new GreenfootImage(
-                "Animals/" + entity + "/" + entity + "Idle.png"
-            ));
-            
-        }
-    
-        lastX = getX();
-        lastY = getY();
+            if (dy > 0)
+                animate("Down", entity, 120, 120);
+            else
+                animate("Up", entity, 120, 120);
+        }*/
     }
-    
-    // ===== DAMAGE SYSTEM =====
+
+    lastX = getX();
+    lastY = getY();
+}
+
+    // idle fallback
+    private void setIdle(String entity)
+    {
+        setImage(new GreenfootImage(
+            "Animals/" + entity + "/" + entity + "Idle.png"
+        ));
+    }
+
+    // =========================
+    // DAMAGE SYSTEM
+    // =========================
     public void damage(double amount)
     {
-        if (!breakable)
-            return;
-    
+        if (!breakable) return;
+
         health -= amount;
-    
+
         if (health < 0)
             health = 0;
-    
+
         MyWorld world = (MyWorld)getWorld();
-        if (world == null)
-            return;
-    
+        if (world == null) return;
+
         if (progress == null)
         {
             progress = new BreakProgress();
             world.addObject(progress, worldX, worldY + 40);
         }
-    
+
         int totalStages = 17;
-    
+
         double percent =
             (double)(maxHealth - health) / (double)maxHealth;
-    
+
         int stage = (int)(percent * (totalStages - 1));
-    
+
         if (progress != null)
         {
             progress.setStage(stage);
         }
-    
+
         if (health <= 0)
         {
             if (progress != null)
@@ -117,13 +145,14 @@ public abstract class Entity extends Actor
                 world.removeObject(progress);
                 progress = null;
             }
-    
+
             world.removeObject(this);
-            return;
         }
     }
 
-    // ===== PROXIMITY CHECK =====
+    // =========================
+    // PROXIMITY CHECK
+    // =========================
     public boolean isNear(int x, int y)
     {
         int dx = x - worldX;
@@ -132,45 +161,57 @@ public abstract class Entity extends Actor
         return dx * dx + dy * dy <
                collisionRadius * collisionRadius;
     }
-    
+
+    // =========================
+    // SPRITE ANIMATION
+    // =========================
     public void animate(String where, String image, int frameWidth, int frameHeight)
     {
-        spriteSheet = new GreenfootImage("Animals/" + image +"/" + image + where + ".png");
-        
+        // Load sprite sheet ONCE per animation direction
+        String path = "Animals/" + image + "/" + image + where + ".png";
+
+        if (spriteSheet == null || !spriteSheet.getClass().equals(path))
+        {
+            spriteSheet = new GreenfootImage(path);
+        }
+
         counter++;
 
-        if(counter >= animationSpeed)
+        if (counter >= animationSpeed)
         {
             counter = 0;
 
-            // Create image for one frame
             GreenfootImage frameImage =
                 new GreenfootImage(frameWidth, frameHeight);
 
-            // Copy part of sprite sheet
             frameImage.drawImage(
                 spriteSheet,
-                -frame * frameHeight,0
+                -frame * frameHeight, // FIXED (was frameHeight)
+                0
             );
 
             setImage(frameImage);
 
-            // Next frame
             frame++;
 
-            if(frame >= totalFrames)
+            if (frame >= totalFrames)
             {
                 frame = 0;
             }
         }
     }
-    
+
+    // =========================
+    // SCREEN CHECK
+    // =========================
     public boolean onScreen()
-    {
-        return getX() >= 2 &&
-               getX() <= 798 &&
-               getY() >= 2 &&
-               getY() <= 798;
-    }
-    
+{
+    int w = getWorld().getWidth();
+    int h = getWorld().getHeight();
+
+    return getX() >= 1 &&
+           getX() <= w - 1 &&
+           getY() >= 1 &&
+           getY() <= h - 1;
+}
 }

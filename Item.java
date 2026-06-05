@@ -21,7 +21,7 @@ public class Item extends Actor
     }
     
     public int getDamage(String item){
-        return getJSON(item).getInt("schaden");
+        return getJSON(item).optInt("schaden", 1);
     }
     
     

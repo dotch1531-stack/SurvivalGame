@@ -2,8 +2,26 @@ import greenfoot.*;
 import java.util.*;
 
 // crashout counter: 8
-// chatgpt beleidigt: 14
+// chatgpt beleidigt: 15
 // warum auf Wasser: 6
+
+/*
+ * Lieber Marc, 
+ * was auch immer du hier versucht hast zu kochen, bitte strenge deine paar gehirnzellen an und fixe,
+ * dass die kühe wie vorher am bildrand verschwinden und nicht da bleiben.
+ * 
+ * kleiner tipp dafür: vielleicht solltest du darüber nachdenken weniger den gesammten code in chatgpt zu pasten
+ * und mal anfangen dein gehirn anzuschalten, um zu sehen was chatgpt da macht und was es zerstört
+ * 
+ * ich hoffe du bekommst das alleine gefixed
+ * Mit freundlichen Grüßen Colin
+ */
+
+/*Lieber Colin,
+ * ich war an den Kühen seit ewigkeiten nicht dran, kann mir aber vorstellen das sich Dotch das zum schnelleren finden 
+ * der Kühe rein gemacht hat, dennoch kann ich die dinger gerne fixen solte dies nicht der fall sein. 
+ * Mit freundlichen Grüßen Marc
+ */
 
 public class MyWorld extends World
 {
@@ -37,6 +55,7 @@ public class MyWorld extends World
 
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
+    public static MyWorld instance;
 
     private boolean tentSpawned = false;
     private int tentTileX;
@@ -46,6 +65,9 @@ public class MyWorld extends World
 
     public int cameraX = 0;
     public int cameraY = 0;
+
+    public int lastCameraX;
+    public int lastCameraY;
 
     private GreenfootImage tileSet;
     private GreenfootImage[] tiles;
@@ -97,6 +119,8 @@ public class MyWorld extends World
     {
         super(800, 800, 1);
 
+        instance = this;
+
         worldSeed = Greenfoot.getRandomNumber(1000000);
 
         tileSet = new GreenfootImage("tileset.png");
@@ -114,88 +138,99 @@ public class MyWorld extends World
                 0
             );
         }
-
+        new TentInteriorWorld();
         addObject(player, 400, 400);
         tentSpawned = false;
     }
 
-    public void findTentSpawnLocation()
-{
-    int px = getPlayerTileX();
-    int py = getPlayerTileY();
-
-    // Bevorzugte Position: 4 Tiles über dem Spieler
-    int preferredX = px;
-    int preferredY = py - 4;
-
-    if(isValidTentSpot(preferredX, preferredY))
+    public boolean playerNearTent()
     {
-        tentTileX = preferredX;
-        tentTileY = preferredY;
+        int px = cameraX + player.getX();
+        int py = cameraY + player.getY();
 
-        spawnTent(tentTileX, tentTileY);
-        tentSpawned = true;
+        for(Structures s : getObjects(Structures.class))
+        {
+            if(s instanceof Tent)
+            {
+                int dx = px - s.worldX;
+                int dy = py - s.worldY;
 
-        System.out.println(
-            "Zelt bevorzugt gespawnt bei: "
-            + tentTileX + ", " + tentTileY
-        );
+                return (dx*dx + dy*dy) < (120 * 120);
+            }
+        }
 
-        return;
+        return false;
     }
 
-    // Falls dort Wasser
-    // Suche nächste gültige Tile 
-
-    int maxRadius = 30;
-
-    for(int r = 1; r <= maxRadius; r++)
+    public void findTentSpawnLocation()
     {
-        for(int dx = -r; dx <= r; dx++)
+        int px = getPlayerTileX();
+        int py = getPlayerTileY();
+
+        // Bevorzugte Position: 4 Tiles über dem Spieler
+        int preferredX = px;
+        int preferredY = py - 4;
+
+        if(isValidTentSpot(preferredX, preferredY))
         {
-            for(int dy = -r; dy <= r; dy++)
+            tentTileX = preferredX;
+            tentTileY = preferredY;
+
+            spawnTent(tentTileX, tentTileY);
+            tentSpawned = true;
+
+            return;
+        }
+
+        // Falls dort Wasser
+        // Suche nächste gültige Tile 
+
+        int maxRadius = 100;
+
+        for(int r = 1; r <= maxRadius; r++)
+        {
+            for(int dx = -r; dx <= r; dx++)
             {
-                int tx = preferredX + dx;
-                int ty = preferredY + dy;
-
-                if(isValidTentSpot(tx, ty))
+                for(int dy = -r; dy <= r; dy++)
                 {
-                    tentTileX = tx;
-                    tentTileY = ty;
+                    int tx = preferredX + dx;
+                    int ty = preferredY + dy;
 
-                    spawnTent(tx, ty);
-                    tentSpawned = true;
+                    if(isValidTentSpot(tx, ty))
+                    {
+                        tentTileX = tx;
+                        tentTileY = ty;
 
-                    System.out.println(
-                        "Alternativer Zeltplatz gefunden bei: "
-                        + tx + ", " + ty
-                    );
+                        spawnTent(tx, ty);
+                        tentSpawned = true;
 
-                    return;
+                        return;
+                    }
                 }
             }
         }
+
+        // Notfall-Fallback
+        spawnTent(preferredX, preferredY);
+        tentSpawned = true;
     }
 
-    // Notfall-Fallback
-    spawnTent(preferredX, preferredY);
-    tentSpawned = true;
-}
-private boolean isValidTentSpot(int tx, int ty)
-{
-    int tile = getTile(tx, ty);
-    int biome = getBiome(tx, ty);
+    private boolean isValidTentSpot(int tx, int ty)
+    {
+        int tile = getTile(tx, ty);
+        int biome = getBiome(tx, ty);
 
-    boolean allowedTile =
-        tile == GRASS ||
-        tile == ROCK;
+        boolean allowedTile =
+            tile == GRASS ||
+            tile == ROCK;
 
-    boolean allowedBiome =
-        biome == BIOME_GRASS ||
-        biome == BIOME_STONE;
+        boolean allowedBiome =
+            biome == BIOME_GRASS ||
+            biome == BIOME_STONE;
 
-    return allowedTile && allowedBiome;
-}
+        return allowedTile && allowedBiome;
+    }
+
     public void generateVisibleObjects()
     {
         int startX = Math.floorDiv(cameraX, TILE_SIZE) - 10;
@@ -217,14 +252,14 @@ private boolean isValidTentSpot(int tx, int ty)
 
                 int biome = getBiome(x, y);
 
-                // 🌳 TREES
+                //TREES
                 spawnObjects(biome,x,y,BIOME_GRASS,8, Tree::new);
 
-                // 🐄 COW HERDS
+                //COW HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Cow::new);
 
-                // 🐄 PIG HERDS
-                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,2,1000, Pig::new);
+                //PIG HERDS
+                //spawnFrendlyHerds(biome, x, y, BIOME_GRASS,2,1000, Pig::new);
 
                 //Duck
                 spawnFrendlyHerds(biome, x, y, BIOME_WATER,2,1000, Duck::new);
@@ -473,14 +508,22 @@ private boolean isValidTentSpot(int tx, int ty)
         handleCraftingMenu();
 
         updateObjects();
+        if(Greenfoot.isKeyDown("e") && playerNearTent()==true)
+        {
+            lastCameraX = cameraX;
+            lastCameraY = cameraY;
 
+            Greenfoot.setWorld(TentInteriorWorld.instance);
+
+            Greenfoot.delay(30);
+        }
         if(!inventoryOpen && !craftingMenuOpen)
         {
             handleMovement();
             updateWaterAnimation();
             renderWorld();
             if (!tentSpawned) {
-                findTentSpawnLocation();   // sucht den Platz
+                findTentSpawnLocation(); 
             }
         }
 
@@ -814,7 +857,7 @@ private boolean isValidTentSpot(int tx, int ty)
                 }
             }
 
-            drawCommitCraft();
+            drawCommitCraft(false);
 
             Greenfoot.delay(20);
         }
@@ -868,13 +911,17 @@ private boolean isValidTentSpot(int tx, int ty)
         itemsArray[5] = wood;
     }
 
-    public void drawCommitCraft(){
-        commitButton = new CommitButton();
+    public void drawCommitCraft(boolean pressable){
+        commitButton = new CommitButton(pressable);
         addObject(commitButton, 550, 700);
     }
 
     public void deleteCommitCraft(){
         removeObject(commitButton);
     }
-
+    
+    public void updateCommitCraft(boolean pressable){
+        deleteCommitCraft();
+        drawCommitCraft(pressable);
+    }
 }

@@ -21,7 +21,7 @@ public class InventoryScreen extends Actor
     public boolean firstRead = false;
 
     protected TreeMap<String, Integer> inventory = new TreeMap<>();
-
+    
     private final String INVENTORY_PATH = "items/inventar/inventory.json";
     
     GreenfootImage zero = new GreenfootImage("Font/0.png");
