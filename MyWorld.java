@@ -845,7 +845,16 @@ public class MyWorld extends World
             
             downButton = new DownButton();
             addObject(downButton, 300, 770);
+            
+            swordButton = new SwordButton();
+            craftButtons.put("Schwert", swordButton);
 
+            axeButton = new AxeButton();
+            craftButtons.put("Axt", axeButton);
+
+            picaxeButton = new PicaxeButton();
+            craftButtons.put("Spitzhacke", picaxeButton);
+            
             int loop = 0;
             for(String item : craftButtons.keySet()){
                 if(craftingScreen.checkIfItemsNeededWereFound(item)){
