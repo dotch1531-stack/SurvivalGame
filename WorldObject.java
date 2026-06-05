@@ -22,7 +22,7 @@ public abstract class WorldObject extends Actor
 
     public BreakProgress progress;
     
-    public InventoryScreen inventory = new InventoryScreen();
+    public InventoryScreen inventory;
     
     public List<String> drops = Collections.emptyList();
     public int dropAmount = 1;  
@@ -38,12 +38,25 @@ public abstract class WorldObject extends Actor
         {
             progress.updateScreenPosition(cameraX, cameraY, worldX, worldY);
         }
+        
+        
     }
     
     public void Drop(List<String> itemsToDrop, int amount)
     {
-        for(String item : itemsToDrop){inventory.addItem(item,amount);}
+        if(inventory == null)
+        {
+            System.out.println("Inventory is null!");
+            return;
+        }
+    
+        for(String item : itemsToDrop)
+        {
+            inventory.addItem(item, amount);
+        }
     }
+    
+    
 
     // ===== DAMAGE SYSTEM =====
     public void damage(double amount)
@@ -52,7 +65,7 @@ public abstract class WorldObject extends Actor
             return;
     
         health -= amount;
-        Drop(drops, dropAmount);
+        
         if (health < 0)
             health = 0;
     
@@ -86,7 +99,7 @@ public abstract class WorldObject extends Actor
                 progress = null;
             }
             
-            
+            Drop(drops, dropAmount);
             world.removeObject(this);
 
             

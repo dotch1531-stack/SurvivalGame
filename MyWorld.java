@@ -29,7 +29,7 @@ public class MyWorld extends World
     // ===== INVENTORY =====
     public boolean inventoryOpen = false;
 
-    private InventoryScreen inventoryScreen;
+    public InventoryScreen inventoryScreen;
 
     private Axe axe;
     private Iron iron;
@@ -146,6 +146,7 @@ public class MyWorld extends World
         addObject(player, 400, 400);
         tentSpawned = false;
     }
+    
 
     public boolean playerNearTent()
     {

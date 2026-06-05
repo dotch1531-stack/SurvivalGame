@@ -139,6 +139,7 @@ public class InventoryScreen extends Actor
                 System.out.println("zu viele items im inventar");
             }
         }
+        System.out.println(inventory);
         setItemsInventory();
     }
     public int getStackSize(String item){
