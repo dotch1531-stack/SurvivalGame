@@ -40,7 +40,7 @@ public class MyWorld extends World
     private Leaf leaf;
     private Rope rope;
 
-    public List<Item> itemsArray = new List<Item>();
+    public ArrayList<Item> itemsArray = new ArrayList<Item>();
 
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;

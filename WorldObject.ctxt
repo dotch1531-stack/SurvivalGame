@@ -2,8 +2,10 @@
 comment0.target=WorldObject
 comment1.params=cameraX\ cameraY
 comment1.target=void\ updateScreenPosition(int,\ int)
-comment2.params=amount
-comment2.target=void\ damage(double)
-comment3.params=x\ y
-comment3.target=boolean\ isNear(int,\ int)
-numComments=4
+comment2.params=itemsToDrop\ amount
+comment2.target=void\ Drop(java.util.List,\ int)
+comment3.params=amount
+comment3.target=void\ damage(double)
+comment4.params=x\ y
+comment4.target=boolean\ isNear(int,\ int)
+numComments=5
