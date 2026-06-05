@@ -1,8 +1,8 @@
 {
-    "Axt": 0,
+    "Axt": 1,
     "Eisen": 0,
-    "Schwert": 0,
-    "Spitzhacke": 0,
-    "Stein": 33,
+    "Schwert": 1,
+    "Spitzhacke": 1,
+    "Stein": 44,
     "Holz": 28
 }

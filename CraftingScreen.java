@@ -20,16 +20,16 @@ public class CraftingScreen extends Actor
     
     private InventoryScreen inventoryScreen;
     
-    GreenfootImage zero = new GreenfootImage("Font/CraftingScreen/0.png");
-    GreenfootImage one = new GreenfootImage("Font/CraftingScreen/1.png");
-    GreenfootImage two = new GreenfootImage("Font/CraftingScreen/2.png");
-    GreenfootImage three = new GreenfootImage("Font/CraftingScreen/3.png");
-    GreenfootImage four = new GreenfootImage("Font/CraftingScreen/4.png");
-    GreenfootImage five = new GreenfootImage("Font/CraftingScreen/5.png");
-    GreenfootImage six = new GreenfootImage("Font/CraftingScreen/6.png");
-    GreenfootImage seven = new GreenfootImage("Font/CraftingScreen/7.png");
-    GreenfootImage eight = new GreenfootImage("Font/CraftingScreen/8.png");
-    GreenfootImage nine = new GreenfootImage("Font/CraftingScreen/9.png");
+    GreenfootImage zero = new GreenfootImage("Font/PixelBackground/0.png");
+    GreenfootImage one = new GreenfootImage("Font/PixelBackground/1.png");
+    GreenfootImage two = new GreenfootImage("Font/PixelBackground/2.png");
+    GreenfootImage three = new GreenfootImage("Font/PixelBackground/3.png");
+    GreenfootImage four = new GreenfootImage("Font/PixelBackground/4.png");
+    GreenfootImage five = new GreenfootImage("Font/PixelBackground/5.png");
+    GreenfootImage six = new GreenfootImage("Font/PixelBackground/6.png");
+    GreenfootImage seven = new GreenfootImage("Font/PixelBackground/7.png");
+    GreenfootImage eight = new GreenfootImage("Font/PixelBackground/8.png");
+    GreenfootImage nine = new GreenfootImage("Font/PixelBackground/9.png");
     
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
     
