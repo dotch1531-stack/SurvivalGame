@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.function.Supplier;
 import java.util.*;
 
 // crashout counter: 8
@@ -40,7 +41,7 @@ public class MyWorld extends World
     private Leaf leaf;
     private Rope rope;
 
-    public ArrayList<Item> itemsArray = new ArrayList<Item>();
+    public ArrayList<Item> itemsArray = new ArrayList<>();
 
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
@@ -845,15 +846,6 @@ public class MyWorld extends World
             downButton = new DownButton();
             addObject(downButton, 300, 770);
 
-            swordButton = new SwordButton();
-            craftButtons.put("Schwert", swordButton);
-
-            axeButton = new AxeButton();
-            craftButtons.put("Axt", axeButton);
-
-            picaxeButton = new PicaxeButton();
-            craftButtons.put("Spitzhacke", picaxeButton);
-
             int loop = 0;
             for(String item : craftButtons.keySet()){
                 if(craftingScreen.checkIfItemsNeededWereFound(item)){
@@ -882,49 +874,24 @@ public class MyWorld extends World
     }
 
     public void drawInventoryItems(String item, int x, int y){
-        switch(item){
-            case "Axt":
-                axe = new Axe();
-                addObject(axe, x, y);
-                break;
-            case "Eisen":
-                iron = new Iron();
-                addObject(iron, x, y);
-                break;
-            case "Spitzhacke":
-                pickaxe = new Pickaxe();
-                addObject(pickaxe, x, y);
-                break;
-            case "Stein":
-                stone = new Stone();
-                addObject(stone, x, y);
-                break;
-            case "Schwert":
-                sword = new Sword();
-                addObject(sword, x, y);
-                break;
-            case "Holz":
-                wood = new Wood();
-                addObject(wood, x, y);
-                break;
-            case "Blatt":
-                leaf = new Leaf();
-                addObject(leaf, x, y);
-                break;
-            case "Seil":
-                rope = new Rope();
-                addObject(rope, x, y);
-                break;
-        }
+        Map<String, Supplier<Item>> itemFactory = Map.of(
+        "Axt", Axe::new,
+        "Eisen", Iron::new,
+        "Spitzhacke", Pickaxe::new,
+        "Stein", Stone::new,
+        "Schwert", Sword::new,
+        "Holz", Wood::new,
+        "Blatt", Leaf::new,
+        "Seil", Rope::new
+        );
 
-        itemsArray.add(axe);
-        itemsArray.add(iron);
-        itemsArray.add(pickaxe);
-        itemsArray.add(stone);
-        itemsArray.add(sword);
-        itemsArray.add(wood);
-        itemsArray.add(rope);
-        itemsArray.add(leaf);
+        Supplier<Item> supplier = itemFactory.get(item);
+
+        if (supplier != null) {
+            Item itemObj = supplier.get();
+            addObject(itemObj, x, y);
+            itemsArray.add(itemObj);
+        }
     }
 
     public void drawCommitCraft(boolean pressable){
