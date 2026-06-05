@@ -10,6 +10,9 @@ public class Cow extends Passiv_Entity
         // ===== POSITION =====
         worldX = 0;
         worldY = 0;
+        
+        // ===== ANIMATION =====
+        animationSpeed = 20;
 
         // ===== HITBOX =====
         hitboxWidth = 240;
