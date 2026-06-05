@@ -75,7 +75,7 @@ public abstract class Entity extends Actor
 
         else if (dx < 0 && dy > 0)
             animate("DownLeft", entity, 120, 120);
-*/
+        */
         // ===== STRAIGHT DIRECTIONS =====
         else if (Math.abs(dx) > Math.abs(dy))
         {
@@ -87,9 +87,9 @@ public abstract class Entity extends Actor
         /*else
         {
             if (dy > 0)
-                animate("Down", entity, 120, 120);
+                animate("DownLeft", entity, 120, 120);
             else
-                animate("Up", entity, 120, 120);
+                animate("UpRight", entity, 120, 120);
         }*/
     }
 
@@ -205,13 +205,13 @@ public abstract class Entity extends Actor
     // SCREEN CHECK
     // =========================
     public boolean onScreen()
-{
-    int w = getWorld().getWidth();
-    int h = getWorld().getHeight();
-
-    return getX() >= 1 &&
-           getX() <= w - 1 &&
-           getY() >= 1 &&
-           getY() <= h - 1;
-}
+    {
+        int w = getWorld().getWidth();
+        int h = getWorld().getHeight();
+    
+        return getX() >= 7 &&
+               getX() <= w - 7 &&
+               getY() >= 7 &&
+               getY() <= h - 7;
+    }
 }

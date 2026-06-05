@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 
 public class Tree extends WorldObject
 {
@@ -8,6 +9,10 @@ public class Tree extends WorldObject
 
 
     private int speed;
+    
+    public List<String> drops = List.of("Blatt", "Holz");
+    public int dropAmount = 3;
+     
 
     public Tree()
     {
@@ -29,6 +34,9 @@ public class Tree extends WorldObject
 
         maxHealth = 15;
         health = maxHealth;
+
     }
+        
+    
     
 }

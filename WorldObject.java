@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 
 public abstract class WorldObject extends Actor
 {
@@ -21,6 +22,11 @@ public abstract class WorldObject extends Actor
 
     public BreakProgress progress;
     
+    public InventoryScreen inventory = new InventoryScreen();
+    
+    public List<String> drops = Collections.emptyList();
+    public int dropAmount = 1;  
+    
 
 
     // ===== SCREEN POSITION =====
@@ -33,6 +39,11 @@ public abstract class WorldObject extends Actor
             progress.updateScreenPosition(cameraX, cameraY, worldX, worldY);
         }
     }
+    
+    public void Drop(List<String> itemsToDrop, int amount)
+    {
+        for(String item : itemsToDrop){inventory.addItem(item,amount);}
+    }
 
     // ===== DAMAGE SYSTEM =====
     public void damage(double amount)
@@ -41,7 +52,7 @@ public abstract class WorldObject extends Actor
             return;
     
         health -= amount;
-    
+        Drop(drops, dropAmount);
         if (health < 0)
             health = 0;
     
@@ -74,8 +85,11 @@ public abstract class WorldObject extends Actor
                 world.removeObject(progress);
                 progress = null;
             }
-    
+            
+            
             world.removeObject(this);
+
+            
             return;
         }
     }
