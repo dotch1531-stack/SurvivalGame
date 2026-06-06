@@ -844,7 +844,7 @@ public class MyWorld extends World
             addObject(craftingScreen, 400, 400);
             
             downButton = new DownButton();
-            addObject(downButton, 300, 770);
+            addObject(downButton, 309, 780);
             
             swordButton = new SwordButton();
             craftButtons.put("Schwert", swordButton);

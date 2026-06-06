@@ -11,15 +11,15 @@ public class CraftingScreen extends Actor
 {   
     private TreeMap<String, Integer> itemsNeeded = new TreeMap<>();
     private String itemToBeCrafted;
-    
+
     private int[] itemsNeededCountNumberX = {400, 407, 600, 607};
-    
+
     private boolean firstRead = false;
-    
+
     private boolean selectedCraft = false;
-    
+
     private InventoryScreen inventoryScreen;
-    
+
     GreenfootImage zero = new GreenfootImage("Font/PixelBackground/0.png");
     GreenfootImage one = new GreenfootImage("Font/PixelBackground/1.png");
     GreenfootImage two = new GreenfootImage("Font/PixelBackground/2.png");
@@ -30,30 +30,39 @@ public class CraftingScreen extends Actor
     GreenfootImage seven = new GreenfootImage("Font/PixelBackground/7.png");
     GreenfootImage eight = new GreenfootImage("Font/PixelBackground/8.png");
     GreenfootImage nine = new GreenfootImage("Font/PixelBackground/9.png");
-    
+
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    
+
     int[] numbersX = {600, 617, 600, 617, 600, 617, 600, 617, 600, 617};
     int[] numbersY = {100, 100, 200, 200, 300, 300, 400, 400, 500, 500};
-    
+
     private GreenfootImage baseImage;
-    
+
     public CraftingScreen(){
         inventoryScreen = new InventoryScreen();
     }
+
     public void act()
     {   
         if(!firstRead){
             scaleImages();
         }
-        
+
         handleCraftButtons();
+        handleDownButton();
     }
-    
+
+    public void handleDownButton(){
+        MyWorld world = (MyWorld)getWorld();
+
+        if(Greenfoot.mousePressed(world.downButton)){
+            System.out.println("runter");
+        }
+    }
+
     public void handleCraftButtons(){
         MyWorld world = (MyWorld)getWorld();
-        
-        
+
         //recipe button
         if(Greenfoot.mousePressed(world.swordButton)){
             selectedCraft = true;
@@ -70,8 +79,7 @@ public class CraftingScreen extends Actor
             selectedCraftItem("Spitzhacke");
             Greenfoot.delay(20);
         }
-        
-        
+
         //craft button
         if(Greenfoot.mousePressed(world.commitButton) && selectedCraft){
             craftItem();
@@ -79,14 +87,14 @@ public class CraftingScreen extends Actor
             Greenfoot.delay(20);
         }
     }
-    
+
     private void scaleImages()
     {    
         for(int i = 0; i < 10; i++){
             numberArray[i].scale(15, 30);
         }
     }
-    
+
     private void addNumbers(){       
         int loop = 0;
         for(String key : itemsNeeded.keySet()){
@@ -94,13 +102,13 @@ public class CraftingScreen extends Actor
                 GreenfootImage img = new GreenfootImage("InventorySprites/" + key + ".png");
                 img.scale(100,100);
                 getImage().drawImage(img, (numbersX[loop] - 150), (numbersY[loop] - 35));
-                
+
                 String intToString = Integer.toString(itemsNeeded.getOrDefault(key, 0));
-                
+
                 if(intToString.length() < 2){
                     intToString = "0" + intToString;
                 }
-            
+
                 for(int i = 0; i < intToString.length(); i++){
                     int number = Integer.parseInt(String.valueOf(intToString.charAt(i)));
                     getImage().drawImage(numberArray[number], numbersX[loop], numbersY[loop]);
@@ -109,23 +117,23 @@ public class CraftingScreen extends Actor
             }
         }
     }
-    
+
     private void craftItem(){        
         if(checkItemsAreInInventory()){
             for(String key : itemsNeeded.keySet()){
                 inventoryScreen.removeItems(key, itemsNeeded.get(key));
             }
-            
+
             //parameters = Item, amount
             inventoryScreen.addItem(itemToBeCrafted, 1);
-            
+
             System.out.println("Item erfolgreich gecrafted");
-            
+
             MyWorld world = (MyWorld)getWorld();
             world.updateCommitCraft(false);
         }
     }
-    
+
     private boolean checkItemsAreInInventory(){
         boolean canCraft = true;
         for(String key : itemsNeeded.keySet()){
@@ -137,33 +145,33 @@ public class CraftingScreen extends Actor
         }
         return canCraft;
     }
-    
+
     private void selectedCraftItem(String itemToCraft){
         MyWorld world = (MyWorld)getWorld();
         boolean canCraft = true;
-        
+
         getItemsNeeded(itemToCraft);
-        
+
         itemToBeCrafted = itemToCraft;
-        
+
         if(checkItemsAreInInventory()){
             world.updateCommitCraft(true);
         }
         addNumbers();
     }
-    
+
     public void getItemsNeeded(String item){
         itemsNeeded.clear();
-        
+
         try{
             String jsonText = new String(Files.readAllBytes(Paths.get("items/" + item + ".json")));
-            
+
             if(jsonText.trim().isEmpty()){
                 jsonText = "{}";
             }
-            
+
             JSONObject itemsJSON = new JSONObject(jsonText);
-            
+
             JSONObject neededItemsJSON = itemsJSON.getJSONObject("recipe");
             for(String key : neededItemsJSON.keySet()){
                 itemsNeeded.put(key, neededItemsJSON.getInt(key));
@@ -180,17 +188,18 @@ public class CraftingScreen extends Actor
             e.printStackTrace();
         }
     }
+
     public boolean checkIfItemsNeededWereFound(String item){
         try{
             String jsonText = new String(Files.readAllBytes(Paths.get("items/" + item + ".json")));
             ArrayList<String> itemsNeededToBeFound = new ArrayList<String>();
-            
+
             if(jsonText.trim().isEmpty()){
                 jsonText = "{}";
             }
-            
+
             JSONObject itemsJSON = new JSONObject(jsonText);
-            
+
             JSONObject neededItemsJSON = itemsJSON.getJSONObject("recipe");
             for(String key : neededItemsJSON.keySet()){
                 if(!inventoryScreen.itemExistsInInventory(key)){

@@ -8,10 +8,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class SwordButton extends CraftButtons
 {
-    /**
-     * Act - do whatever the SwordButton wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    public SwordButton(){
+        GreenfootImage img = new GreenfootImage("Crafting/SwordButton.png");
+        img.scale(290, 150);
+        setImage(img);
+    }
     public void act()
     {
         // Add your action code here.
