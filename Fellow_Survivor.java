@@ -19,12 +19,15 @@ public class Fellow_Survivor extends Aggressiv_Entity
         breakable = true;
     }
 
-    // =========================================================
-    // ANIMATION
-    // =========================================================
-
-    private void animate()
+    @Override
+    public void act()
     {
+        if (!onScreen())
+            return;
 
+        super.act();          // Entity (Animation etc.)
+
+
+        Animation("cow");
     }
 }

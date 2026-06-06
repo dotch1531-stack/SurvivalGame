@@ -3,5 +3,5 @@ comment0.target=Guard
 comment1.params=
 comment1.target=Guard()
 comment2.params=
-comment2.target=void\ animate()
+comment2.target=void\ act()
 numComments=3

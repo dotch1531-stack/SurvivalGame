@@ -3,5 +3,5 @@ comment0.target=Fellow_Survivor
 comment1.params=
 comment1.target=Fellow_Survivor()
 comment2.params=
-comment2.target=void\ animate()
+comment2.target=void\ act()
 numComments=3

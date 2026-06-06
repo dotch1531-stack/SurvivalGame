@@ -6,7 +6,7 @@ public class Guard extends Aggressiv_Entity
     public Guard()
     {
         // ===== IMAGE =====
-        setImage("Animals/guard.png");
+        setImage("Animals/guard/guardIdle.png");
 
         // ===== HITBOX =====
         hitboxWidth = 240;
@@ -19,12 +19,15 @@ public class Guard extends Aggressiv_Entity
         breakable = true;
     }
 
-    // =========================================================
-    // ANIMATION
-    // =========================================================
-
-    private void animate()
+    @Override
+    public void act()
     {
+        if (!onScreen())
+            return;
 
+        super.act();          // Entity (Animation etc.)
+
+
+        Animation("guard");
     }
 }
