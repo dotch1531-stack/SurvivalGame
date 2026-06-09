@@ -5,168 +5,162 @@ public class CaveInteriorWorld extends World
     public static CaveInteriorWorld instance;
 
     private GreenfootImage tileSet;
-    private GreenfootImage tile;
+    private GreenfootImage[] tiles;
+
+    private int[][] caveMap = new int[200][200];
+    private boolean generated = false;
 
     public static final int TILE_SIZE = 40;
 
-    //Kamera
     public int cameraX = 0;
     public int cameraY = 0;
 
     public Player player;
 
-public CaveInteriorWorld(Player playerCave)
-{
-    super(800, 800, 1);
-
-    instance = this;
-    this.player = playerCave;   
-    tileSet = new GreenfootImage("tileset.png");
-
-    tile = new GreenfootImage(TILE_SIZE, TILE_SIZE);
-    tile.drawImage(tileSet, -2 * TILE_SIZE, 0);
-
-    drawFloor();
-  
-    addPlayer(player);
-}
-
-private void drawFloor()
-{
-    GreenfootImage tileSet = new GreenfootImage("tileset.png");
-
-    for(int x = 0; x < 20; x++)
+    public CaveInteriorWorld(Player playerCave)
     {
-        for(int y = 0; y < 20; y++)
+        super(800, 800, 1);
+
+        instance = this;
+
+        tileSet = new GreenfootImage("tileset.png");
+
+        tiles = new GreenfootImage[6];
+
+        for(int i = 0; i < 6; i++)
         {
-            GreenfootImage tile;
-
-            // 80% Stein, 20% DIRT
-            int r = Greenfoot.getRandomNumber(100);
-
-            if(r < 80)
-            {
-                tile = new GreenfootImage(TILE_SIZE, TILE_SIZE);
-                tile.drawImage(tileSet, -2 * TILE_SIZE, 0); // ROCK
-            }
-            else
-            {
-                tile = new GreenfootImage(TILE_SIZE, TILE_SIZE);
-                tile.drawImage(tileSet, -1 * TILE_SIZE, 0); // DIRT
-            }
-
-            getBackground().drawImage(tile, x * TILE_SIZE, y * TILE_SIZE);
+            tiles[i] = new GreenfootImage(TILE_SIZE, TILE_SIZE);
+            tiles[i].drawImage(tileSet, -i * TILE_SIZE, 0);
         }
-    }
-}
 
-    public void addPlayer(Player p)
+        // PLAYER ÜBERNEHMEN (NICHT NEU ERZEUGEN!)
+        player = playerCave;
+        addObject(player, 400, 400);
+
+    }
+    // =========================
+    // FLOOR
+    // =========================
+
+    private GreenfootImage getTile(int index)
     {
-        addObject(p, 400, 400);
+        GreenfootImage img = new GreenfootImage(TILE_SIZE, TILE_SIZE);
+        img.drawImage(tileSet, -index * TILE_SIZE, 0);
+        return img;
     }
 
-    public void act(){
-        if(player == null)
-        {
-            return;
-        }
-                if(Greenfoot.isKeyDown("e"))
-        {
-            Greenfoot.setWorld(MyWorld.instance);
-            Greenfoot.delay(20);
-        }
+    // =========================
+    // ACT LOOP
+    // =========================
+    public void act()
+    {
         handleMovement();
-        updateCamera();
         updateObjects();
+        renderWorld();
+
+        if (Greenfoot.isKeyDown("e"))
+        {
+            MyWorld.instance.addObject(player, 400, 400);
+            Greenfoot.setWorld(MyWorld.instance);
+            Greenfoot.delay(10);
+        }
     }
 
-    private void updateCamera()
-{
-    cameraX = player.getX() - 400;
-    cameraY = player.getY() - 400;
-}
+    // CAMERA MOVEMENT 
+    public void handleMovement()
+    {
+        int speed = 4;
 
+        if (Greenfoot.isKeyDown("w")) cameraY -= speed;
+        if (Greenfoot.isKeyDown("s")) cameraY += speed;
+        if (Greenfoot.isKeyDown("a")) cameraX -= speed;
+        if (Greenfoot.isKeyDown("d")) cameraX += speed;
+    }
+
+    // WORLD UPDATE 
     public void updateObjects()
     {
-        if(player == null) return;
+        for (WorldObject obj : getObjects(WorldObject.class))
+        {
+            obj.setLocation(
+                obj.worldX - cameraX,
+                obj.worldY - cameraY
+            );
+        }
 
-        for(Structures s : getObjects(Structures.class))
+        for (Entity e : getObjects(Entity.class))
+        {
+            e.setLocation(
+                e.worldX - cameraX,
+                e.worldY - cameraY
+            );
+        }
+
+        for (Structures s : getObjects(Structures.class))
         {
             s.setLocation(
                 s.worldX - cameraX,
                 s.worldY - cameraY
             );
         }
+
     }
 
-public void handleMovement()
-{
-    int speed = 4;
-
-    int newX = cameraX;
-    int newY = cameraY;
-
-    if(Greenfoot.isKeyDown("w")) newY -= speed;
-    if(Greenfoot.isKeyDown("s")) newY += speed;
-    if(Greenfoot.isKeyDown("a")) newX -= speed;
-    if(Greenfoot.isKeyDown("d")) newX += speed;
-
-    cameraX = newX;
-    cameraY = newY;
-}
-
-    public boolean collidesWithSolid(int newCameraX, int newCameraY)
+    public void renderWorld()
     {
-        int playerX = newCameraX + player.getX();
-        int playerY = newCameraY + player.getY();
+        if(!generated)
+            generateCave();
 
-        int playerHitboxWidth = player.hitboxWidth;
-        int playerHitboxHeight = player.hitboxHeight;
+        getBackground().setColor(Color.BLACK);
+        getBackground().fill();
 
-        for(WorldObject obj : getObjects(WorldObject.class))
+        int tilesX = 24;
+        int tilesY = 24;
+
+        int startX = Math.floorDiv(cameraX, TILE_SIZE);
+        int startY = Math.floorDiv(cameraY, TILE_SIZE);
+
+        int offsetX = -(cameraX - startX * TILE_SIZE);
+        int offsetY = -(cameraY - startY * TILE_SIZE);
+
+        for(int y = 0; y < tilesY; y++)
         {
-            if(!obj.solid)
-                continue;
-
-            int dx = Math.abs(playerX - obj.worldX);
-            int dy = Math.abs(playerY - obj.worldY);
-
-            if(dx < playerHitboxWidth + obj.hitboxWidth &&
-            dy < playerHitboxHeight + obj.hitboxHeight)
+            for(int x = 0; x < tilesX; x++)
             {
-                return true;
+                int worldX = startX + x;
+                int worldY = startY + y;
+
+                if(worldX < 0 || worldY < 0 || worldX >= 200 || worldY >= 200)
+                    continue;
+
+                int tileId = caveMap[worldX][worldY];
+
+                GreenfootImage tile = tiles[tileId];
+
+                getBackground().drawImage(
+                    tile,
+                    x * TILE_SIZE + offsetX,
+                    y * TILE_SIZE + offsetY
+                );
+            }
+        }
+    }
+
+    private void generateCave()
+    {
+        for(int y = 0; y < 200; y++)
+        {
+            for(int x = 0; x < 200; x++)
+            {
+                int r = Greenfoot.getRandomNumber(100);
+
+                if(r < 90)
+                    caveMap[x][y] = 2; // ROCK
+                else
+                    caveMap[x][y] = 1; // DIRT
             }
         }
 
-        for(Entity entity : getObjects(Entity.class))
-        {
-            if(!entity.solid)
-                continue;
-
-            int dx = Math.abs(playerX - entity.worldX);
-            int dy = Math.abs(playerY - entity.worldY);
-
-            if(dx < playerHitboxWidth + entity.hitboxWidth &&
-            dy < playerHitboxHeight + entity.hitboxHeight)
-            {
-                return true;
-            }
-        }
-        for(Structures s : getObjects(Structures.class))
-        {
-            if(!s.solid)
-                continue;
-
-            int dx = Math.abs(playerX - s.worldX);
-            int dy = Math.abs(playerY - s.worldY);
-
-            if(dx < playerHitboxWidth + 60 &&
-            dy < playerHitboxHeight + 20)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        generated = true;
     }
 }

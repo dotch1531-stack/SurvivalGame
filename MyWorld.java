@@ -3,7 +3,7 @@ import java.util.function.Supplier;
 import java.util.*;
 
 // crashout counter: 8
-// chatgpt beleidigt: 15
+// chatgpt beleidigt: 20
 // warum auf Wasser: 6
 
 public class MyWorld extends World
@@ -566,7 +566,7 @@ public class MyWorld extends World
 
             Greenfoot.setWorld(world);
 
-            world.addPlayer(player);
+            
 
             Greenfoot.delay(20);
         }
