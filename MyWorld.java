@@ -6,8 +6,6 @@ import java.util.*;
 // chatgpt beleidigt: 15
 // warum auf Wasser: 6
 
-
-
 public class MyWorld extends World
 {
 
@@ -27,14 +25,13 @@ public class MyWorld extends World
 
     public ArrayList<Item> itemsArray = new ArrayList<>();
 
-    
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
     public int currentButton;
 
     public CraftingScreen craftingScreen;
-    public CraftingScreenPage1 craftingScreenPage1;
 
+    public CraftingScreenPage1 craftingScreenPage1;
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
@@ -47,7 +44,6 @@ public class MyWorld extends World
     public UpButton upButton;
     public DownButton downButton;
 
-    
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
     public static MyWorld instance;
@@ -55,11 +51,8 @@ public class MyWorld extends World
     private boolean tentSpawned = false;
     private int tentTileX;
     private int tentTileY;
-    
-
 
     private int worldSeed;
-
     public int cameraX = 0;
     public int cameraY = 0;
 
@@ -136,11 +129,10 @@ public class MyWorld extends World
             );
         }
         new TentInteriorWorld();
-        new CaveInteriorWorld();
+
         addObject(player, 400, 400);
         tentSpawned = false;
     }
-    
 
     public boolean playerNearTent()
     {
@@ -155,6 +147,28 @@ public class MyWorld extends World
                 int dy = py - s.worldY;
 
                 return (dx*dx + dy*dy) < (120 * 120);
+            }
+        }
+
+        return false;
+    }
+
+    public boolean playerNearCave()
+    {
+        int playerWorldX = cameraX + player.getX();
+        int playerWorldY = cameraY + player.getY();
+
+        for(Structures s : getObjects(Structures.class))
+        {
+            if(s instanceof Cave)
+            {
+                int dx = playerWorldX - s.worldX;
+                int dy = playerWorldY - s.worldY;
+
+                if(dx*dx + dy*dy < 120 * 120)
+                {
+                    return true;
+                }
             }
         }
 
@@ -268,9 +282,9 @@ public class MyWorld extends World
 
                 //Guard
                 spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,500, Guard::new);
-                
+
                 //Cave
-                spawnStructures(biome,x,y,BIOME_STONE, 20, Cave::new);
+                spawnStructures(biome,x,y,BIOME_STONE, 1000, Cave::new);
             }
         }
     }
@@ -285,7 +299,7 @@ public class MyWorld extends World
             obj.worldY - cameraY
         );
     }
-    
+
     public void spawnStructure(Structures str, int tileX, int tileY)
     {
         str.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
@@ -358,7 +372,7 @@ public class MyWorld extends World
             spawnObject(factory.create(), x,y);
         }
     }
-    
+
     public void spawnStructures(int biome,
     int x,
     int y,
@@ -542,6 +556,19 @@ public class MyWorld extends World
             Greenfoot.setWorld(TentInteriorWorld.instance);
 
             Greenfoot.delay(30);
+        }
+        if(Greenfoot.isKeyDown("e") && playerNearCave())
+        {
+            lastCameraX = cameraX;
+            lastCameraY = cameraY;
+
+            CaveInteriorWorld world = new CaveInteriorWorld(player);
+
+            Greenfoot.setWorld(world);
+
+            world.addPlayer(player);
+
+            Greenfoot.delay(20);
         }
         if(!inventoryOpen && !craftingMenuOpen)
         {
@@ -837,7 +864,7 @@ public class MyWorld extends World
 
         inventoryScreen.firstRead = false;
         inventoryScreen.setItemsInventory();
-        
+
         for(Item i : itemsArray){
             removeObject(i);
         }
@@ -862,22 +889,41 @@ public class MyWorld extends World
 
             craftingScreen = new CraftingScreen();
             addObject(craftingScreen, 400, 400);
-            
+
             downButton = new DownButton();
             addObject(downButton, 309, 780);
-            
-            
+
             craftButtons = new TreeMap<String, CraftButtons>(Map.of(
-                "Schwert",      new SwordButton(),
-                "Axt",          new AxeButton(),
-                "Spitzhacke",   new PicaxeButton(),
-                "Seil",         new RopeButton()
-            )); 
-            
+                    "Schwert",      new SwordButton(),
+                    "Axt",          new AxeButton(),
+                    "Spitzhacke",   new PicaxeButton(),
+                    "Seil",         new RopeButton()
+                )); 
+
             drawCraftButtons(1);
 
-            drawCommitCraft(false);
+            swordButton = new SwordButton();
+            craftButtons.put("Schwert", swordButton);
 
+            axeButton = new AxeButton();
+            craftButtons.put("Axt", axeButton);
+
+            picaxeButton = new PicaxeButton();
+            craftButtons.put("Spitzhacke", picaxeButton);
+
+            int loop = 0;
+            for(String item : craftButtons.keySet()){
+                if(craftingScreen.checkIfItemsNeededWereFound(item)){
+                    if(loop > 5){
+                        currentButton = loop;
+                        break;
+                    }
+                    addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
+                    loop++;
+                }
+            }
+
+            drawCommitCraft(false);
             Greenfoot.delay(20);
         }
         else if(Greenfoot.isKeyDown("c") && craftingMenuOpen)
@@ -898,15 +944,15 @@ public class MyWorld extends World
 
     public void drawInventoryItems(String item, int x, int y){
         Map<String, Supplier<Item>> itemFactory = Map.of(
-        "Axt", Axe::new,
-        "Eisen", Iron::new,
-        "Spitzhacke", Pickaxe::new,
-        "Stein", Stone::new,
-        "Schwert", Sword::new,
-        "Holz", Wood::new,
-        "Blatt", Leaf::new,
-        "Seil", Rope::new
-        );
+                "Axt", Axe::new,
+                "Eisen", Iron::new,
+                "Spitzhacke", Pickaxe::new,
+                "Stein", Stone::new,
+                "Schwert", Sword::new,
+                "Holz", Wood::new,
+                "Blatt", Leaf::new,
+                "Seil", Rope::new
+            );
 
         Supplier<Item> supplier = itemFactory.get(item);
 
@@ -916,20 +962,20 @@ public class MyWorld extends World
             itemsArray.add(itemObj);
         }
     }
-    
+
     public void drawCraftButtons(int pageNumber){
         int loop = 0;
         for(String item : craftButtons.keySet()){
-                if(craftingScreen.checkIfItemsNeededWereFound(item) && loop >= ((pageNumber * 5) - 5)){
-                    if(loop > (pageNumber * 5)){
-                        currentButton = loop;
-                        break;
-                    }
-                    addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
-                    alreadyDrawnCraftButtons.add(craftButtons.get(item));
-                    loop++;
+            if(craftingScreen.checkIfItemsNeededWereFound(item) && loop >= ((pageNumber * 5) - 5)){
+                if(loop > (pageNumber * 5)){
+                    currentButton = loop;
+                    break;
                 }
+                addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
+                alreadyDrawnCraftButtons.add(craftButtons.get(item));
+                loop++;
             }
+        }
     }
 
     public void drawCommitCraft(boolean pressable){
@@ -940,20 +986,20 @@ public class MyWorld extends World
     public void deleteCommitCraft(){
         removeObject(commitButton);
     }
-    
+
     public void updateCommitCraft(boolean pressable){
         deleteCommitCraft();
         drawCommitCraft(pressable);
     }
-    
+
     public void changeCraftPage(){
         removeObject(craftingScreen);
         for(CraftButtons buttonObject : alreadyDrawnCraftButtons){
             removeObject(buttonObject);
         }
-        
-        
-        
+
+        int loop = currentButton;
+
         addObject(craftingScreenPage1, 400, 400);
     }
 }
