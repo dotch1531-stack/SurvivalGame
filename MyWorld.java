@@ -3,7 +3,7 @@ import java.util.function.Supplier;
 import java.util.*;
 
 // crashout counter: 8
-// chatgpt beleidigt: 20
+// chatgpt beleidigt: 22
 // warum auf Wasser: 6
 
 public class MyWorld extends World

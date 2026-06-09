@@ -4,6 +4,7 @@ public class CaveInteriorWorld extends World
 {
     public static CaveInteriorWorld instance;
 
+    // ===== TILE SYSTEM =====
     private GreenfootImage tileSet;
     private GreenfootImage[] tiles;
 
@@ -12,11 +13,16 @@ public class CaveInteriorWorld extends World
 
     public static final int TILE_SIZE = 40;
 
+    // ===== CAMERA =====
     public int cameraX = 0;
     public int cameraY = 0;
 
+    // ===== PLAYER =====
     public Player player;
 
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
     public CaveInteriorWorld(Player playerCave)
     {
         super(800, 800, 1);
@@ -24,67 +30,129 @@ public class CaveInteriorWorld extends World
         instance = this;
 
         tileSet = new GreenfootImage("tileset.png");
-
         tiles = new GreenfootImage[6];
 
-        for(int i = 0; i < 6; i++)
+        // TILE LOADING
+        for (int i = 0; i < 6; i++)
         {
             tiles[i] = new GreenfootImage(TILE_SIZE, TILE_SIZE);
             tiles[i].drawImage(tileSet, -i * TILE_SIZE, 0);
         }
 
-        // PLAYER ÜBERNEHMEN (NICHT NEU ERZEUGEN!)
+        // PLAYER übernehmen
         player = playerCave;
         addObject(player, 400, 400);
 
+        // CAVE GENERATION
+        generateCave();
+        generateCaveWalls();
     }
-    // =========================
-    // FLOOR
-    // =========================
 
-    private GreenfootImage getTile(int index)
+    // =========================================================
+    // CAVE GENERATION
+    // =========================================================
+    private void generateCave()
     {
-        GreenfootImage img = new GreenfootImage(TILE_SIZE, TILE_SIZE);
-        img.drawImage(tileSet, -index * TILE_SIZE, 0);
-        return img;
+        for (int y = 0; y < 200; y++)
+        {
+            for (int x = 0; x < 200; x++)
+            {
+                int r = Greenfoot.getRandomNumber(100);
+
+                if (r < 90)
+                    caveMap[x][y] = 2; // ROCK
+                else
+                    caveMap[x][y] = 1; // DIRT
+            }
+        }
+
+        generated = true;
     }
 
-    // =========================
+    // =========================================================
+    // SOLID BORDER (OBJECTS)
+    // =========================================================
+    private void generateCaveWalls()
+    {
+        int size = 200;
+
+        // TOP + BOTTOM
+        for (int x = 0; x < size; x++)
+        {
+            spawnWall(x, 0);
+            spawnWall(x, size - 1);
+        }
+
+        // LEFT + RIGHT
+        for (int y = 0; y < size; y++)
+        {
+            spawnWall(0, y);
+            spawnWall(size - 1, y);
+        }
+    }
+
+    private void spawnWall(int tileX, int tileY)
+    {
+        CaveWall wall = new CaveWall();
+
+        wall.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
+        wall.worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
+
+        addObject(
+            wall,
+            wall.worldX - cameraX,
+            wall.worldY - cameraY
+        );
+    }
+
+    // =========================================================
     // ACT LOOP
-    // =========================
+    // =========================================================
     public void act()
     {
         handleMovement();
         updateObjects();
         renderWorld();
-
-        if (Greenfoot.isKeyDown("e"))
-        {
-            MyWorld.instance.addObject(player, 400, 400);
-            Greenfoot.setWorld(MyWorld.instance);
-            Greenfoot.delay(10);
-        }
     }
 
-    // CAMERA MOVEMENT 
+    // =========================================================
+    // CAMERA MOVEMENT
+    // =========================================================
     public void handleMovement()
     {
         int speed = 4;
 
-        if (Greenfoot.isKeyDown("w")) cameraY -= speed;
-        if (Greenfoot.isKeyDown("s")) cameraY += speed;
-        if (Greenfoot.isKeyDown("a")) cameraX -= speed;
-        if (Greenfoot.isKeyDown("d")) cameraX += speed;
+        int newCameraX = cameraX;
+        int newCameraY = cameraY;
+
+        if (Greenfoot.isKeyDown("w")) newCameraY -= speed;
+        if (Greenfoot.isKeyDown("s")) newCameraY += speed;
+        if (Greenfoot.isKeyDown("a")) newCameraX -= speed;
+        if (Greenfoot.isKeyDown("d")) newCameraX += speed;
+
+        // X check
+        if (!collidesWithWall(newCameraX, cameraY))
+        {
+            cameraX = newCameraX;
+        }
+
+        // Y check
+        if (!collidesWithWall(cameraX, newCameraY))
+        {
+            cameraY = newCameraY;
+        }
     }
 
-    // WORLD UPDATE 
+    // =========================================================
+    // UPDATE OBJECTS
+    // =========================================================
     public void updateObjects()
     {
-        for (WorldObject obj : getObjects(WorldObject.class))
+        for (Structures s : getObjects(Structures.class))
         {
-            obj.setLocation(
-                obj.worldX - cameraX,
-                obj.worldY - cameraY
+            s.setLocation(
+                s.worldX - cameraX,
+                s.worldY - cameraY
             );
         }
 
@@ -96,20 +164,21 @@ public class CaveInteriorWorld extends World
             );
         }
 
-        for (Structures s : getObjects(Structures.class))
+        for (WorldObject o : getObjects(WorldObject.class))
         {
-            s.setLocation(
-                s.worldX - cameraX,
-                s.worldY - cameraY
+            o.setLocation(
+                o.worldX - cameraX,
+                o.worldY - cameraY
             );
         }
-
     }
 
+    // =========================================================
+    // RENDER
+    // =========================================================
     public void renderWorld()
     {
-        if(!generated)
-            generateCave();
+        if (!generated) return;
 
         getBackground().setColor(Color.BLACK);
         getBackground().fill();
@@ -123,22 +192,22 @@ public class CaveInteriorWorld extends World
         int offsetX = -(cameraX - startX * TILE_SIZE);
         int offsetY = -(cameraY - startY * TILE_SIZE);
 
-        for(int y = 0; y < tilesY; y++)
+        for (int y = 0; y < tilesY; y++)
         {
-            for(int x = 0; x < tilesX; x++)
+            for (int x = 0; x < tilesX; x++)
             {
                 int worldX = startX + x;
                 int worldY = startY + y;
 
-                if(worldX < 0 || worldY < 0 || worldX >= 200 || worldY >= 200)
+                if (worldX < 0 || worldY < 0 || worldX >= 200 || worldY >= 200)
                     continue;
 
-                int tileId = caveMap[worldX][worldY];
+                int tile = caveMap[worldX][worldY];
 
-                GreenfootImage tile = tiles[tileId];
+                GreenfootImage img = tiles[tile];
 
                 getBackground().drawImage(
-                    tile,
+                    img,
                     x * TILE_SIZE + offsetX,
                     y * TILE_SIZE + offsetY
                 );
@@ -146,21 +215,23 @@ public class CaveInteriorWorld extends World
         }
     }
 
-    private void generateCave()
+    public boolean collidesWithWall(int newCameraX, int newCameraY)
     {
-        for(int y = 0; y < 200; y++)
-        {
-            for(int x = 0; x < 200; x++)
-            {
-                int r = Greenfoot.getRandomNumber(100);
+        int playerWorldX = newCameraX + 400;
+        int playerWorldY = newCameraY + 400;
 
-                if(r < 90)
-                    caveMap[x][y] = 2; // ROCK
-                else
-                    caveMap[x][y] = 1; // DIRT
+        for (Structures s : getObjects(Structures.class))
+        {
+            if (s instanceof CaveWall)
+            {
+                int dx = Math.abs(playerWorldX - s.worldX);
+                int dy = Math.abs(playerWorldY - s.worldY);
+
+                if (dx < 40 && dy < 40)
+                    return true;
             }
         }
 
-        generated = true;
+        return false;
     }
 }
