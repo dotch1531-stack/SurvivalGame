@@ -49,6 +49,9 @@ public class MyWorld extends World
     private boolean tentSpawned = false;
     private int tentTileX;
     private int tentTileY;
+    
+    private int caveTileX;
+    private int caveTileY;
 
     private int worldSeed;
 
@@ -128,6 +131,7 @@ public class MyWorld extends World
             );
         }
         new TentInteriorWorld();
+        new CaveInteriorWorld();
         addObject(player, 400, 400);
         tentSpawned = false;
     }
@@ -243,7 +247,7 @@ public class MyWorld extends World
                 int biome = getBiome(x, y);
 
                 //TREES
-                spawnObjects(biome,x,y,BIOME_GRASS,8, Tree::new);
+                spawnObjects(biome,x,y,BIOME_GRASS,8000, Tree::new);
 
                 //COW HERDS
                 spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Cow::new);
@@ -259,6 +263,9 @@ public class MyWorld extends World
 
                 //Guard
                 spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,500, Guard::new);
+                
+                //Cave
+                spawnStructures(biome,x,y,BIOME_STONE, 2, Cave::new);
             }
         }
     }
@@ -271,6 +278,17 @@ public class MyWorld extends World
         addObject(obj,
             obj.worldX - cameraX,
             obj.worldY - cameraY
+        );
+    }
+    
+    public void spawnStructure(Structures str, int tileX, int tileY)
+    {
+        str.worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
+        str.worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
+
+        addObject(str,
+            str.worldX - cameraX,
+            str.worldY - cameraY
         );
     }
 
@@ -330,9 +348,22 @@ public class MyWorld extends World
     int spawnChance,
     ObjectFactory factory)
     {
-        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000) < spawnChance)
+        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000000) < spawnChance)
         {
             spawnObject(factory.create(), x,y);
+        }
+    }
+    
+    public void spawnStructures(int biome,
+    int x,
+    int y,
+    int desiredBiome,
+    int spawnChance,
+    StructureFactory factory)
+    {
+        if(biome == desiredBiome && Greenfoot.getRandomNumber(1000000) < spawnChance)
+        {
+            spawnStructure(factory.create(), x,y);
         }
     }
 
