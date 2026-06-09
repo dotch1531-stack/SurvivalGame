@@ -69,6 +69,8 @@ public class InventoryScreen extends Actor
                 inventory.put(key, inventoryJSON.getInt(key));
             }
 
+            
+            
             firstRead = true;
         }
         catch(IOException e)
@@ -118,7 +120,7 @@ public class InventoryScreen extends Actor
         if((inventory.getOrDefault(item, 0) + amount) > stackSize){
             inventory.put(item, stackSize);
             
-            System.out.println("Items weggeworfen");
+            
             
             //  überschuss muss hier ausgeworfen werden
             //  überschuss als neuen stack werten ist schwierig weil json parser keine doppelten werte zulassen und maps leider auch nicht   :(
@@ -139,7 +141,7 @@ public class InventoryScreen extends Actor
                 System.out.println("zu viele items im inventar");
             }
         }
-        System.out.println(inventory);
+        
         setItemsInventory();
     }
     public int getStackSize(String item){

@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 
 public abstract class Entity extends Actor
 {
@@ -36,6 +37,11 @@ public abstract class Entity extends Actor
     int frame = 0;
     int totalFrames = 2;
 
+    public InventoryScreen inventory;
+    
+    public List<String> drops = Collections.emptyList();
+    public int dropAmount = 1;
+    
     // =========================
     // SCREEN POSITION
     // =========================
@@ -46,6 +52,21 @@ public abstract class Entity extends Actor
         if (progress != null)
         {
             progress.updateScreenPosition(cameraX, cameraY, worldX, worldY);
+        }
+    }
+    
+    public void Drop(List<String> itemsToDrop, int amount)
+    {
+        inventory = new InventoryScreen();
+        
+        if(inventory == null)
+        {
+            return;
+        }
+    
+        for(String item : itemsToDrop)
+        {
+            inventory.addItem(item, amount);
         }
     }
 
@@ -145,7 +166,7 @@ public abstract class Entity extends Actor
                 world.removeObject(progress);
                 progress = null;
             }
-
+            Drop(drops, dropAmount);
             world.removeObject(this);
         }
     }

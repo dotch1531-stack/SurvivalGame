@@ -1,9 +1,14 @@
 import greenfoot.*;
+import java.util.*;
 
 public class Cow extends Passiv_Entity
 {
     public Cow()
     {
+        
+        drops = List.of("Blatt", "Holz");
+        dropAmount = Greenfoot.getRandomNumber(2)+1;
+        
         // ===== IMAGE =====
         setImage("Animals/cow/cowIdle.png");
 

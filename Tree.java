@@ -14,7 +14,7 @@ public class Tree extends WorldObject
     public Tree()
     {
         drops = List.of("Blatt", "Holz");
-        dropAmount = 3;
+        dropAmount = Greenfoot.getRandomNumber(2)+1;
         
         // ===== POSITION =====
         worldX = 0;

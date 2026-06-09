@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 
 public class Pig extends Passiv_Entity
 {
