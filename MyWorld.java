@@ -50,8 +50,7 @@ public class MyWorld extends World
     private int tentTileX;
     private int tentTileY;
     
-    private int caveTileX;
-    private int caveTileY;
+
 
     private int worldSeed;
 

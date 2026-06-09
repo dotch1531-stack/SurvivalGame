@@ -1,19 +1,9 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
-/**
- * Write a description of class Cave here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
+import greenfoot.*;  
 public class Cave extends Structures
 {
-    /**
-     * Act - do whatever the Cave wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
+    public Cave()
     {
-        // Add your action code here.
+        setImage("cave.png");
+        solid = true;
     }
 }
