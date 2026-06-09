@@ -44,7 +44,7 @@ public class CaveInteriorWorld extends World
         addObject(player, 400, 400);
 
         // CAVE GENERATION
-        generateCave();
+        generateCave(); 
         generateCaveWalls();
     }
 
@@ -57,12 +57,20 @@ public class CaveInteriorWorld extends World
         {
             for (int x = 0; x < 200; x++)
             {
-                int r = Greenfoot.getRandomNumber(100);
-
-                if (r < 90)
+                // optischer Rand bleibt stabil (nur für Grafik)
+                if (x == 0 || y == 0 || x == 199 || y == 199)
+                {
                     caveMap[x][y] = 2; // ROCK
+                }
                 else
-                    caveMap[x][y] = 1; // DIRT
+                {
+                    int r = Greenfoot.getRandomNumber(100);
+
+                    if (r < 90)
+                        caveMap[x][y] = 2; // ROCK
+                    else
+                        caveMap[x][y] = 1; // DIRT
+                }
             }
         }
 
@@ -76,18 +84,109 @@ public class CaveInteriorWorld extends World
     {
         int size = 200;
 
-        // TOP + BOTTOM
-        for (int x = 0; x < size; x++)
-        {
-            spawnWall(x, 0);
-            spawnWall(x, size - 1);
-        }
-
-        // LEFT + RIGHT
+        // =========================================================
+        // 1. ALLES IST STEIN (voller Blockraum)
+        // =========================================================
         for (int y = 0; y < size; y++)
         {
-            spawnWall(0, y);
-            spawnWall(size - 1, y);
+            for (int x = 0; x < size; x++)
+            {
+                spawnWall(x, y);
+            }
+        }
+
+        // =========================================================
+        // 2. GROßE HÖHLEN AUSFRÄSEN
+        // =========================================================
+        for (int i = 0; i < 180; i++)
+        {
+            int x = Greenfoot.getRandomNumber(size);
+            int y = Greenfoot.getRandomNumber(size);
+
+            int radius = Greenfoot.getRandomNumber(8) + 6;
+
+            carveCircle(x, y, radius);
+        }
+
+        // =========================================================
+        // 3. BREITE TUNNEL (DER WICHTIGSTE TEIL)
+        // =========================================================
+        for (int i = 0; i < 220; i++)
+        {
+            int x = Greenfoot.getRandomNumber(size);
+            int y = Greenfoot.getRandomNumber(size);
+
+            int length = Greenfoot.getRandomNumber(12) + 8;
+
+            int dir = Greenfoot.getRandomNumber(4);
+
+            int width = Greenfoot.getRandomNumber(3) + 2; // >>> BREITE TUNNEL
+
+            for (int l = 0; l < length; l++)
+            {
+                carveTunnel(x, y, width);
+
+                if (dir == 0) x++;
+                if (dir == 1) x--;
+                if (dir == 2) y++;
+                if (dir == 3) y--;
+            }
+        }
+    }
+
+    private void carveCircle(int cx, int cy, int radius)
+    {
+        for (int y = cy - radius; y <= cy + radius; y++)
+        {
+            for (int x = cx - radius; x <= cx + radius; x++)
+            {
+                if (x <= 1 || y <= 1 || x >= 198 || y >= 198)
+                    continue;
+
+                int dx = x - cx;
+                int dy = y - cy;
+
+                if (dx * dx + dy * dy <= radius * radius)
+                {
+                    removeWall(x, y);
+                }
+            }
+        }
+    }
+
+    private void carveTunnel(int cx, int cy, int width)
+    {
+        for (int y = -width; y <= width; y++)
+        {
+            for (int x = -width; x <= width; x++)
+            {
+                int tx = cx + x;
+                int ty = cy + y;
+
+                if (tx <= 1 || ty <= 1 || tx >= 198 || ty >= 198)
+                    continue;
+
+                if (x * x + y * y <= width * width)
+                {
+                    removeWall(tx, ty);
+                }
+            }
+        }
+    }
+
+    private void removeWall(int tileX, int tileY)
+    {
+        for (Structures s : getObjects(Structures.class))
+        {
+            if (s instanceof CaveWall)
+            {
+                if (s.worldX / TILE_SIZE == tileX &&
+                s.worldY / TILE_SIZE == tileY)
+                {
+                    removeObject(s);
+                    return;
+                }
+            }
         }
     }
 
@@ -113,6 +212,13 @@ public class CaveInteriorWorld extends World
         handleMovement();
         updateObjects();
         renderWorld();
+        if (Greenfoot.isKeyDown("e"))
+        {
+            MyWorld.instance.addObject(player, 400, 400);
+            Greenfoot.setWorld(MyWorld.instance);
+            Greenfoot.delay(20);
+
+        }
     }
 
     // =========================================================
@@ -234,4 +340,5 @@ public class CaveInteriorWorld extends World
 
         return false;
     }
+
 }
