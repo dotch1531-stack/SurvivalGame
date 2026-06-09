@@ -3,7 +3,7 @@ public class Cave extends Structures
 {
     public Cave()
     {
-        //setImage("cave.png");
+        setImage("cave.png");
         solid = true;
     }
 }
