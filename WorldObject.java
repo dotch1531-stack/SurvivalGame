@@ -48,7 +48,6 @@ public abstract class WorldObject extends Actor
         
         if(inventory == null)
         {
-            System.out.println("Inventory is null!");
             return;
         }
     
@@ -101,7 +100,7 @@ public abstract class WorldObject extends Actor
                 progress = null;
             }
             
-            System.out.println("drops: " + drops + " amount: " + dropAmount);
+            
             
             Drop(drops, dropAmount);
             world.removeObject(this);

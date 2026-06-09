@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 
 public class Fellow_Survivor extends Aggressiv_Entity
 {
@@ -28,6 +29,6 @@ public class Fellow_Survivor extends Aggressiv_Entity
         super.act();          // Entity (Animation etc.)
 
 
-        Animation("cow");
+        //Animation("cow");
     }
 }
