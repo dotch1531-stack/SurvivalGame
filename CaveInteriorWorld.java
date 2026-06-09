@@ -8,7 +8,7 @@ public class CaveInteriorWorld extends World
     private GreenfootImage tileSet;
     private GreenfootImage[] tiles;
 
-    private int[][] caveMap = new int[200][200];
+    private int[][] caveMap = new int[100][100];
     private boolean generated = false;
 
     public static final int TILE_SIZE = 40;
@@ -46,6 +46,8 @@ public class CaveInteriorWorld extends World
         // CAVE GENERATION
         generateCave(); 
         generateCaveWalls();
+        
+        spawnStoneNodes();
     }
 
     // =========================================================
@@ -53,12 +55,12 @@ public class CaveInteriorWorld extends World
     // =========================================================
     private void generateCave()
     {
-        for (int y = 0; y < 200; y++)
+        for (int y = 0; y < 100; y++)
         {
-            for (int x = 0; x < 200; x++)
+            for (int x = 0; x < 100; x++)
             {
                 // optischer Rand bleibt stabil (nur für Grafik)
-                if (x == 0 || y == 0 || x == 199 || y == 199)
+                if (x == 0 || y == 0 || x == 99 || y == 99)
                 {
                     caveMap[x][y] = 2; // ROCK
                 }
@@ -82,7 +84,7 @@ public class CaveInteriorWorld extends World
     // =========================================================
     private void generateCaveWalls()
     {
-        int size = 200;
+        int size = 100;
 
         // =========================================================
         // 1. ALLES IST STEIN (voller Blockraum)
@@ -98,7 +100,7 @@ public class CaveInteriorWorld extends World
         // =========================================================
         // 2. GROßE HÖHLEN AUSFRÄSEN
         // =========================================================
-        for (int i = 0; i < 180; i++)
+        for  (int i = 0; i < 60; i++)
         {
             int x = Greenfoot.getRandomNumber(size);
             int y = Greenfoot.getRandomNumber(size);
@@ -111,7 +113,7 @@ public class CaveInteriorWorld extends World
         // =========================================================
         // 3. BREITE TUNNEL (DER WICHTIGSTE TEIL)
         // =========================================================
-        for (int i = 0; i < 220; i++)
+        for (int i = 0; i < 90; i++)
         {
             int x = Greenfoot.getRandomNumber(size);
             int y = Greenfoot.getRandomNumber(size);
@@ -120,7 +122,7 @@ public class CaveInteriorWorld extends World
 
             int dir = Greenfoot.getRandomNumber(4);
 
-            int width = Greenfoot.getRandomNumber(3) + 2; // >>> BREITE TUNNEL
+            int width = Greenfoot.getRandomNumber(2) + 1;
 
             for (int l = 0; l < length; l++)
             {
@@ -140,7 +142,7 @@ public class CaveInteriorWorld extends World
         {
             for (int x = cx - radius; x <= cx + radius; x++)
             {
-                if (x <= 1 || y <= 1 || x >= 198 || y >= 198)
+                if (x <= 1 || y <= 1 || x >= 98 || y >= 98)
                     continue;
 
                 int dx = x - cx;
@@ -163,7 +165,7 @@ public class CaveInteriorWorld extends World
                 int tx = cx + x;
                 int ty = cy + y;
 
-                if (tx <= 1 || ty <= 1 || tx >= 198 || ty >= 198)
+                if (tx <= 1 || ty <= 1 || tx >= 98 || ty >= 98)
                     continue;
 
                 if (x * x + y * y <= width * width)
@@ -305,7 +307,7 @@ public class CaveInteriorWorld extends World
                 int worldX = startX + x;
                 int worldY = startY + y;
 
-                if (worldX < 0 || worldY < 0 || worldX >= 200 || worldY >= 200)
+                if (worldX < 0 || worldY < 0 || worldX >= 100 || worldY >= 100)
                     continue;
 
                 int tile = caveMap[worldX][worldY];
@@ -340,5 +342,29 @@ public class CaveInteriorWorld extends World
 
         return false;
     }
+    private void spawnStoneNodes()
+{
+    for (int y = 0; y < 100; y++)
+    {
+        for (int x = 0; x < 100; x++)
+        {
+            // nur in Steinbereichen
+            if (caveMap[x][y] == 2)
+            {
+                // kleine Chance damit es nicht komplett voll ist
+                if (Greenfoot.getRandomNumber(100) < 8)
+                {
+                    StoneNode stone = new StoneNode();
 
+                    stone.worldX = x * TILE_SIZE + TILE_SIZE / 2;
+                    stone.worldY = y * TILE_SIZE + TILE_SIZE / 2;
+
+                    addObject(stone,
+                        stone.worldX - cameraX,
+                        stone.worldY - cameraY);
+                }
+            }
+        }
+    }
+}
 }
