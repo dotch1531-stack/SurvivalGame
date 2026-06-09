@@ -49,9 +49,7 @@ public class MyWorld extends World
     private boolean tentSpawned = false;
     private int tentTileX;
     private int tentTileY;
-    
-    private int caveTileX;
-    private int caveTileY;
+
 
     private int worldSeed;
 
