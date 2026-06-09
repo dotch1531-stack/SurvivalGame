@@ -16,21 +16,24 @@ public class MyWorld extends World
 
     public InventoryScreen inventoryScreen;
 
-    private Axe axe;
-    private Iron iron;
-    private Pickaxe pickaxe;
-    private Stone stone;
-    private Sword sword;
-    private Wood wood;
-    private Leaf leaf;
-    private Rope rope;
+    public Axe axe;
+    public Iron iron;
+    public Pickaxe pickaxe;
+    public Stone stone;
+    public Sword sword;
+    public Wood wood;
+    public Leaf leaf;
+    public Rope rope;
 
     public ArrayList<Item> itemsArray = new ArrayList<>();
 
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
+    public int currentButton;
 
-    private CraftingScreen craftingScreen;
+    public CraftingScreen craftingScreen;
+    
+    public CraftingScreenPage1 craftingScreenPage1;
 
     public SwordButton swordButton;
     public AxeButton axeButton;
@@ -872,6 +875,10 @@ public class MyWorld extends World
             int loop = 0;
             for(String item : craftButtons.keySet()){
                 if(craftingScreen.checkIfItemsNeededWereFound(item)){
+                    if(loop > 5){
+                        currentButton = loop;
+                        break;
+                    }
                     addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
                     loop++;
                 }
@@ -929,5 +936,13 @@ public class MyWorld extends World
     public void updateCommitCraft(boolean pressable){
         deleteCommitCraft();
         drawCommitCraft(pressable);
+    }
+    
+    public void changeCraftPage(){
+        removeObject(craftingScreen);
+        
+        int loop = currentButton;
+        
+        addObject(craftingScreenPage1, 400, 400);
     }
 }
