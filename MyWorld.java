@@ -264,7 +264,7 @@ public class MyWorld extends World
                 spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,500, Guard::new);
                 
                 //Cave
-                spawnStructures(biome,x,y,BIOME_STONE, 2, Cave::new);
+                spawnStructures(biome,x,y,BIOME_STONE, 20, Cave::new);
             }
         }
     }
