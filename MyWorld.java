@@ -27,24 +27,27 @@ public class MyWorld extends World
 
     public ArrayList<Item> itemsArray = new ArrayList<>();
 
+    
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
     public int currentButton;
 
     public CraftingScreen craftingScreen;
-    
     public CraftingScreenPage1 craftingScreenPage1;
 
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
+    public RopeButton ropeButton;
 
-    public TreeMap<String, CraftButtons> craftButtons = new TreeMap<String, CraftButtons>();
+    public TreeMap<String, CraftButtons> craftButtons;
+    public ArrayList<CraftButtons> alreadyDrawnCraftButtons = new ArrayList<>();
 
     public CommitButton commitButton;
     public UpButton upButton;
     public DownButton downButton;
 
+    
     // ===== WORLD =====
     public static final int TILE_SIZE = 40;
     public static MyWorld instance;
@@ -863,26 +866,15 @@ public class MyWorld extends World
             downButton = new DownButton();
             addObject(downButton, 309, 780);
             
-            swordButton = new SwordButton();
-            craftButtons.put("Schwert", swordButton);
-
-            axeButton = new AxeButton();
-            craftButtons.put("Axt", axeButton);
-
-            picaxeButton = new PicaxeButton();
-            craftButtons.put("Spitzhacke", picaxeButton);
             
-            int loop = 0;
-            for(String item : craftButtons.keySet()){
-                if(craftingScreen.checkIfItemsNeededWereFound(item)){
-                    if(loop > 5){
-                        currentButton = loop;
-                        break;
-                    }
-                    addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
-                    loop++;
-                }
-            }
+            craftButtons = new TreeMap<String, CraftButtons>(Map.of(
+                "Schwert",      new SwordButton(),
+                "Axt",          new AxeButton(),
+                "Spitzhacke",   new PicaxeButton(),
+                "Seil",         new RopeButton()
+            )); 
+            
+            drawCraftButtons(1);
 
             drawCommitCraft(false);
 
@@ -891,6 +883,7 @@ public class MyWorld extends World
         else if(Greenfoot.isKeyDown("c") && craftingMenuOpen)
         {
             craftingMenuOpen = false;
+            alreadyDrawnCraftButtons.clear();
 
             removeObject(craftingScreen);
             removeObject(downButton);
@@ -923,6 +916,21 @@ public class MyWorld extends World
             itemsArray.add(itemObj);
         }
     }
+    
+    public void drawCraftButtons(int pageNumber){
+        int loop = 0;
+        for(String item : craftButtons.keySet()){
+                if(craftingScreen.checkIfItemsNeededWereFound(item) && loop >= ((pageNumber * 5) - 5)){
+                    if(loop > (pageNumber * 5)){
+                        currentButton = loop;
+                        break;
+                    }
+                    addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
+                    alreadyDrawnCraftButtons.add(craftButtons.get(item));
+                    loop++;
+                }
+            }
+    }
 
     public void drawCommitCraft(boolean pressable){
         commitButton = new CommitButton(pressable);
@@ -940,8 +948,11 @@ public class MyWorld extends World
     
     public void changeCraftPage(){
         removeObject(craftingScreen);
+        for(CraftButtons buttonObject : alreadyDrawnCraftButtons){
+            removeObject(buttonObject);
+        }
         
-        int loop = currentButton;
+        
         
         addObject(craftingScreenPage1, 400, 400);
     }
