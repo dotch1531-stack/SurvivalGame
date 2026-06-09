@@ -56,11 +56,17 @@ comment32.target=void\ handleCraftingMenu()
 comment33.params=item\ x\ y
 comment33.target=void\ drawInventoryItems(java.lang.String,\ int,\ int)
 comment34.params=pressable
+<<<<<<< Updated upstream
 comment34.target=void\ drawCommitCraft(boolean)
 comment35.params=
 comment35.target=void\ deleteCommitCraft()
 comment36.params=pressable
 comment36.target=void\ updateCommitCraft(boolean)
+=======
+comment34.target=void\ updateCommitCraft(boolean)
+comment35.params=
+comment35.target=void\ changeCraftPage()
+>>>>>>> Stashed changes
 comment4.params=
 comment4.target=void\ findTentSpawnLocation()
 comment5.params=tx\ ty
@@ -69,8 +75,16 @@ comment6.params=
 comment6.target=void\ generateVisibleObjects()
 comment7.params=obj\ tileX\ tileY
 comment7.target=void\ spawnObject(WorldObject,\ int,\ int)
+<<<<<<< Updated upstream
 comment8.params=str\ tileX\ tileY
 comment8.target=void\ spawnStructure(Structures,\ int,\ int)
 comment9.params=ent\ tileX\ tileY
 comment9.target=void\ spawnEntity(Entity,\ int,\ int)
 numComments=37
+=======
+comment8.params=ent\ tileX\ tileY
+comment8.target=void\ spawnEntity(Entity,\ int,\ int)
+comment9.params=biome\ x\ y\ desiredBiome\ herdSize\ spawnChance\ factory
+comment9.target=void\ spawnFrendlyHerds(int,\ int,\ int,\ int,\ int,\ int,\ EntityFactory)
+numComments=36
+>>>>>>> Stashed changes
