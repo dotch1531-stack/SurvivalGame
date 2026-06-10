@@ -58,6 +58,7 @@ public class CraftingScreen extends Actor
         MyWorld world = (MyWorld)getWorld();
 
         if(Greenfoot.mousePressed(world.downButton)){
+            world.currentCraftingPage +=1;
             world.changeCraftPage();
         }
     }

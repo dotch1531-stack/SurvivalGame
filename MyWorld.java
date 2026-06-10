@@ -893,6 +893,8 @@ public class MyWorld extends World
         if(Greenfoot.isKeyDown("c") && !craftingMenuOpen)
         {
             craftingMenuOpen = true;
+            
+            currentCraftingPage = 1;
 
             craftingScreen = new CraftingScreen();
             addObject(craftingScreen, 400, 400);
@@ -983,7 +985,7 @@ public class MyWorld extends World
         
         updateCommitCraft(false);
         
-        drawCraftButtons(2);
+        drawCraftButtons(currentCraftingPage);
     }
     
     public void drawCommitCraft(boolean pressable){
