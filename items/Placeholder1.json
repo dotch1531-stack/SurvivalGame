@@ -1,0 +1,11 @@
+{
+    "name": "Placeholder",
+    "schaden" : 0,
+    "stackSize" : 99,
+    "recipe" : {
+        "Eisen" : 11,
+        "Holz" : 22,
+        "Blatt": 5,
+        "Seil": 18
+    }
+}

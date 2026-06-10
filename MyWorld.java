@@ -30,6 +30,7 @@ public class MyWorld extends World
     // ===== CRAFTING =====
     public boolean craftingMenuOpen = false;
     public int currentButton;
+    public int currentCraftingPage;
 
     public CraftingScreen craftingScreen;
 
@@ -834,8 +835,11 @@ public class MyWorld extends World
     }
 
     // UNTIL HERE EVERYTHING WORKS
-
-    // BODENLOSER KOMMENTAR DA OBEN
+    
+    // ^
+    // | BODENLOSER KOMMENTAR DA OBEN
+    
+    
     // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
     {
@@ -893,15 +897,16 @@ public class MyWorld extends World
             craftingScreen = new CraftingScreen();
             addObject(craftingScreen, 400, 400);
 
-            downButton = new DownButton();
-            addObject(downButton, 309, 780);
+            drawDownButton();
+            drawUpButton();
 
             craftButtons = new TreeMap<String, CraftButtons>(Map.of(
-                    "Schwert",      new SwordButton(),
-                    "Axt",          new AxeButton(),
-                    "Spitzhacke",   new PicaxeButton(),
-                    "Seil",         new RopeButton()
-                )); 
+                "Schwert",      new SwordButton(),
+                "Axt",          new AxeButton(),
+                "Spitzhacke",   new PicaxeButton(),
+                "Seil",         new RopeButton(),
+                "Placeholder1", new PlaceholderButton1()
+            )); 
 
             drawCraftButtons(1);
 
@@ -915,6 +920,7 @@ public class MyWorld extends World
 
             removeObject(craftingScreen);
             removeObject(downButton);
+            removeObject(upButton);
             for(String i : craftButtons.keySet()){
                 removeObject(craftButtons.get(i));
             }
@@ -962,20 +968,6 @@ public class MyWorld extends World
         }
     }
 
-    public void drawCommitCraft(boolean pressable){
-        commitButton = new CommitButton(pressable);
-        addObject(commitButton, 550, 700);
-    }
-
-    public void deleteCommitCraft(){
-        removeObject(commitButton);
-    }
-
-    public void updateCommitCraft(boolean pressable){
-        deleteCommitCraft();
-        drawCommitCraft(pressable);
-    }
-
     public void changeCraftPage(){
         removeObject(craftingScreen);
         removeObject(downButton);
@@ -986,9 +978,31 @@ public class MyWorld extends World
         craftingScreenPage1 = new CraftingScreenPage1();
         addObject(craftingScreenPage1, 400, 400);
         
-        downButton = new DownButton();
-        addObject(downButton, 309, 780);
+        drawUpButton();
+        drawDownButton();
         
         updateCommitCraft(false);
+        
+        drawCraftButtons(2);
+    }
+    
+    public void drawCommitCraft(boolean pressable){
+        commitButton = new CommitButton(pressable);
+        addObject(commitButton, 550, 700);
+    }
+    public void deleteCommitCraft(){
+        removeObject(commitButton);
+    }
+    public void updateCommitCraft(boolean pressable){
+        deleteCommitCraft();
+        drawCommitCraft(pressable);
+    }    
+    public void drawUpButton(){
+        upButton = new UpButton();
+        addObject(upButton, 309, 20);
+    }
+    public void drawDownButton(){
+        downButton = new DownButton();
+        addObject(downButton, 309, 780);
     }
 }
