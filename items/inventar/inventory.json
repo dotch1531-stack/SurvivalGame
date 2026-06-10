@@ -1,9 +1,11 @@
 {
-    "Blatt": 99,
+    "Blatt": 55,
     "Eisen": 0,
     "Spitzhacke": 0,
-    "Holz": 99,
+    "Holz": 98,
+    "SteakGekocht": 90,
+    "SteakRoh": 1,
     "Axt": 0,
     "Schwert": 0,
-    "Stein": 35
+    "Stein": 34
 }

@@ -56,7 +56,7 @@ public class CraftingScreen extends Actor
         MyWorld world = (MyWorld)getWorld();
 
         if(Greenfoot.mousePressed(world.downButton)){
-            System.out.println("runter");
+            world.changeCraftPage();
         }
     }
 
