@@ -46,6 +46,6 @@ public class Duck extends Passiv_Entity
             super.act();          // Entity (Animation etc.)
             naturalMovement();    // Passiv_Entity Bewegung
 
-            //Animation("cow");
+            Animation("duck", 40, 40);
         }
 }
