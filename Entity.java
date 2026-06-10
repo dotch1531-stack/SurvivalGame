@@ -73,7 +73,7 @@ public abstract class Entity extends Actor
     // =========================
     // ANIMATION CONTROLLER
     // =========================
-    public void Animation(String entity)
+    public void Animation(String entity, int imageWidth, int imageHeight)
 {
     int dx = getX() - lastX;
     int dy = getY() - lastY;
@@ -86,32 +86,32 @@ public abstract class Entity extends Actor
     {
         // ===== DIAGONALS FIRST =====
         if (dx > 0 && dy < 0)
-            animate("UpRight", entity, 120, 120);
+            animate("UpRight", entity, imageWidth, imageHeight);
 
         else if (dx < 0 && dy < 0)
-            animate("UpLeft", entity, 120, 120);
+            animate("UpLeft", entity, imageWidth, imageHeight);
 
-        /*else if (dx > 0 && dy > 0)
-            animate("DownRight", entity, 120, 120);
+        else if (dx > 0 && dy > 0)
+            animate("DownRight", entity, imageWidth, imageHeight);
 
         else if (dx < 0 && dy > 0)
-            animate("DownLeft", entity, 120, 120);
-        */
+            animate("DownLeft", entity, imageWidth, imageHeight);
+        
         // ===== STRAIGHT DIRECTIONS =====
         else if (Math.abs(dx) > Math.abs(dy))
         {
             if (dx > 0)
-                animate("Right", entity, 120, 120);
+                animate("Right", entity, imageWidth, imageHeight);
             else
-                animate("Left", entity, 120, 120);
+                animate("Left", entity, imageWidth, imageHeight);
         }
-        /*else
+        else
         {
             if (dy > 0)
-                animate("DownLeft", entity, 120, 120);
+                animate("DownLeft", entity, imageWidth, imageHeight);
             else
-                animate("UpRight", entity, 120, 120);
-        }*/
+                animate("UpLeft", entity, imageWidth, imageHeight);
+        }
     }
 
     lastX = getX();
