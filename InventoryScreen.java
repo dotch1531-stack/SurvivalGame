@@ -181,12 +181,22 @@ public class InventoryScreen extends Actor
         if(current < 0){
             return false;
         }
+        return true;
+    }
+    
+    public void removeItem(String item, int amount){
+        if(checkIfItemCanBeRemoved(item, amount)){
+            removeItemsCrfating(item, amount);
+        }
         else{
-            return true;
+            System.out.println("item can't be removed");
         }
     }
     
-    public void removeItems(String item, int amount){
+    //!!! WICHTIG:
+    //Diese Methode nicht nutzen
+    //Aber auch nicht löschen(ist wichtig)
+    public void removeItemsCrfating(String item, int amount){
         getItemsInventory(false);
         
         int current = inventory.getOrDefault(item, 0);
@@ -267,7 +277,7 @@ public class InventoryScreen extends Actor
         }
 
         if(clicked != null){
-            removeItems(clicked.getName(), 1);
+            removeItemsCrfating(clicked.getName(), 1);
             world.updateInventoryScreen();
             
             //Items droppen lassen!!!

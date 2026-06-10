@@ -5,14 +5,31 @@ public class TentInteriorWorld extends World
     public static TentInteriorWorld instance;
 
     public TentInteriorWorld()
-    {
-		super(800, 800, 1);
-        instance = this;
+{
+    super(800, 800, 1);
+    instance = this;
 
-        GreenfootImage bg = getBackground();
+    GreenfootImage bg = getBackground();
 
-        drawRoom(bg);
-    }
+    drawRoom(bg);
+
+    addObject(new TentPlayer(), 400, 400);
+
+    int tileSize = 80;
+    int gridSize = 3 * tileSize;
+
+    int centerX = 400;
+    int centerY = 400;
+
+    int startX = centerX - gridSize / 2;
+    int startY = centerY - gridSize / 2;
+
+    addObject(
+        new Campfire(),
+        startX + 2 * tileSize + tileSize / 2,
+        startY + tileSize / 2
+    );
+}
 
     private void drawRoom(GreenfootImage bg)
     {

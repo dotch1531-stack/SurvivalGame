@@ -30,7 +30,7 @@ public class Player extends Actor
 
     public boolean breakable = true;
 
-    public double maxHealth = 15;
+    public double maxHealth = 15000000;
     public double health = maxHealth;
 
     public BreakProgress progress;

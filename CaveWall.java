@@ -12,8 +12,6 @@ public class CaveWall extends Structures
         getImage().setColor(Color.BLACK);
         getImage().fill();
 
-        
-
         solid = true;
     }
 }

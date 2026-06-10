@@ -1,0 +1,7 @@
+{
+    "name": "SteakRoh",
+    "schaden" : 5,
+    "stackSize" : 99,
+    "hungerValue" : 1,
+    "possibleEffects" : ["hunger", "nauser"]
+}
