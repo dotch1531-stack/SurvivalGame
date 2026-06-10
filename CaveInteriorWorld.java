@@ -8,9 +8,7 @@ public class CaveInteriorWorld extends MyWorld
     // ===== TILE SYSTEM =====
     private GreenfootImage tileSet;
     private GreenfootImage[] tiles;
-    private GreenfootImage StoneNode;
-
-    private int[][] caveMap = new int[100][100];
+    private GreenfootImage stoneNode;
     private boolean generated = false;
 
     public static final int TILE_SIZE = 40;
@@ -31,14 +29,16 @@ public class CaveInteriorWorld extends MyWorld
     public static final int WALL = 1;
     
     private static final int WALL_THICKNESS = 1;
+    
+    private int[][] caveMap = new int[MAP_WIDTH][MAP_HEIGHT];
+    
+    CaveWalls caveWalls = new CaveWalls();
 
     // =========================================================
     // CONSTRUCTOR
     // =========================================================
     public CaveInteriorWorld(Player playerCave)
     {
-        
-
         instance = this;
 
         tileSet = new GreenfootImage("tileset.png");
@@ -50,18 +50,20 @@ public class CaveInteriorWorld extends MyWorld
             tiles[i] = new GreenfootImage(TILE_SIZE, TILE_SIZE);
             tiles[i].drawImage(tileSet, -i * TILE_SIZE, 0);
         }
-
-        
-
+        generateCave();
     }
-    
     
     public void act()
     {
         handleMovement();
         renderWorld();
+        updateObjects();
+        
+        caveWalls.setLocation(
+        caveWalls.worldX - cameraX,
+        caveWalls.worldY - cameraY
+    );
     }
-    
     
     public void handleMovement()
     {
@@ -86,23 +88,15 @@ public class CaveInteriorWorld extends MyWorld
             );
     }
     
-    
-    
     public int getTile(int x, int y)
     {
-        if (x <10 || y < 9 || x >= MAP_WIDTH -10 || y >= MAP_HEIGHT - 9)        {
-            return WALL;
-        }
-    
-        if (x < WALL_THICKNESS ||
-            y < WALL_THICKNESS ||
-            x >= MAP_WIDTH - WALL_THICKNESS ||
-            y >= MAP_HEIGHT - WALL_THICKNESS)
+        if(x < 0 || y < 0 ||
+           x >= MAP_WIDTH  || y >= MAP_HEIGHT)
         {
             return WALL;
         }
     
-        return FLOOR;
+        return caveMap[x][y];
     }
     
     public void renderWorld()
@@ -128,15 +122,24 @@ public class CaveInteriorWorld extends MyWorld
     
                 int tile = getTile(worldTileX, worldTileY);
     
-                GreenfootImage img;
+                GreenfootImage img = tiles [1];
     
                 if (tile == WALL)
                 {
-                    img = tiles[2]; // rock tile
+                    img = null;
                 }
                 else
                 {
-                    img = tiles[0]; // cave floor tile
+                    img = tiles[1];
+                }
+                
+                if(img != null)
+                {
+                    getBackground().drawImage(
+                        img,
+                        x * TILE_SIZE + offsetX,
+                        y * TILE_SIZE + offsetY
+                    );
                 }
     
                 getBackground().drawImage(
@@ -147,6 +150,109 @@ public class CaveInteriorWorld extends MyWorld
             }
         }
     }
+    
+    private boolean isBorderWall(int x, int y)
+    {
+        if(caveMap[x][y] != WALL)
+            return false;
+    
+        for(int dx = -1; dx <= 1; dx++)
+        {
+            for(int dy = -1; dy <= 1; dy++)
+            {
+                int nx = x + dx;
+                int ny = y + dy;
+    
+                if(nx < 0 || ny < 0 ||
+                   nx >= MAP_WIDTH || ny >= MAP_HEIGHT)
+                    continue;
+    
+                if(caveMap[nx][ny] == FLOOR)
+                    return true;
+            }
+        }
+    
+        return false;
+    }
+    
+    private void generateStoneWalls()
+    {
+        for(int x = 0; x < MAP_WIDTH; x++)
+        {
+            for(int y = 0; y < MAP_HEIGHT; y++)
+            {
+                if(isBorderWall(x,y))
+                {
+                    CaveWalls wall = new CaveWalls();
+    
+                    wall.worldX = x * TILE_SIZE + TILE_SIZE/2;
+                    wall.worldY = y * TILE_SIZE + TILE_SIZE/2;
+    
+                    addObject(
+                        wall,
+                        wall.worldX - cameraX,
+                        wall.worldY - cameraY
+                    );
+                }
+            }
+        }
+    }
+    
+    
+    private void generateCave()
+    {
+        // Everything floor
+        for(int x = 0; x < MAP_WIDTH; x++)
+        {
+            for(int y = 0; y < MAP_HEIGHT; y++)
+            {
+                caveMap[x][y] = FLOOR;
+            }
+        }
+        
 
+    
+        generateBorders();
+        generateStoneWalls();
+
+    }
+    
+    private void generateBorders()
+    {
+        for(int x = 0; x < MAP_WIDTH; x++)
+        {
+            for(int y = 0; y < MAP_HEIGHT; y++)
+            {
+                int left =
+                    15 + (int)(Math.sin(y * 0.15) * 3);
+    
+                int right =
+                    MAP_WIDTH - 15 +
+                    (int)(Math.cos(y * 0.12) * 3);
+    
+                int top =
+                    15 + (int)(Math.sin(x * 0.12) * 3);
+    
+                int bottom =
+                    MAP_HEIGHT - 15 +
+                    (int)(Math.cos(x * 0.15) * 3);
+    
+                if(x < left ||
+                   x > right ||
+                   y < top ||
+                   y > bottom)
+                {
+                    caveMap[x][y] = WALL;
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 
 }
