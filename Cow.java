@@ -52,6 +52,6 @@ public class Cow extends Passiv_Entity
         super.act();          // Entity (Animation etc.)
         naturalMovement();    // Passiv_Entity Bewegung
 
-        Animation("cow", 120, 60);
+        Animation("cow", 120, 120);
     }
 }
