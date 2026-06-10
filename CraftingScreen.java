@@ -64,20 +64,12 @@ public class CraftingScreen extends Actor
         MyWorld world = (MyWorld)getWorld();
 
         //recipe button
-        if(Greenfoot.mousePressed(world.swordButton)){
-            selectedCraft = true;
-            selectedCraftItem("Schwert");
-            Greenfoot.delay(20);
-        }
-        if(Greenfoot.mousePressed(world.axeButton)){
-            selectedCraft = true;
-            selectedCraftItem("Axt");
-            Greenfoot.delay(20);
-        }
-        if(Greenfoot.mousePressed(world.picaxeButton)){
-            selectedCraft = true;
-            selectedCraftItem("Spitzhacke");
-            Greenfoot.delay(20);
+        for(String item : world.craftButtons.keySet()){
+            if(Greenfoot.mousePressed(world.craftButtons.get(item))){
+                selectedCraft = true;
+                selectedCraftItem(item);
+                Greenfoot.delay(20);
+            }
         }
 
         //craft button
@@ -121,7 +113,7 @@ public class CraftingScreen extends Actor
     private void craftItem(){        
         if(checkItemsAreInInventory()){
             for(String key : itemsNeeded.keySet()){
-                inventoryScreen.removeItems(key, itemsNeeded.get(key));
+                inventoryScreen.removeItemsCrfating(key, itemsNeeded.get(key));
             }
 
             //parameters = Item, amount

@@ -32,6 +32,7 @@ public class MyWorld extends World
     public CraftingScreen craftingScreen;
 
     public CraftingScreenPage1 craftingScreenPage1;
+    
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
