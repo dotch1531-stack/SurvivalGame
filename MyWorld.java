@@ -32,6 +32,7 @@ public class MyWorld extends World
     public CraftingScreen craftingScreen;
 
     public CraftingScreenPage1 craftingScreenPage1;
+    
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
@@ -902,27 +903,6 @@ public class MyWorld extends World
 
             drawCraftButtons(1);
 
-            swordButton = new SwordButton();
-            craftButtons.put("Schwert", swordButton);
-
-            axeButton = new AxeButton();
-            craftButtons.put("Axt", axeButton);
-
-            picaxeButton = new PicaxeButton();
-            craftButtons.put("Spitzhacke", picaxeButton);
-
-            int loop = 0;
-            for(String item : craftButtons.keySet()){
-                if(craftingScreen.checkIfItemsNeededWereFound(item)){
-                    if(loop > 5){
-                        currentButton = loop;
-                        break;
-                    }
-                    addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
-                    loop++;
-                }
-            }
-
             drawCommitCraft(false);
             Greenfoot.delay(20);
         }
@@ -997,8 +977,6 @@ public class MyWorld extends World
         for(CraftButtons buttonObject : alreadyDrawnCraftButtons){
             removeObject(buttonObject);
         }
-
-        int loop = currentButton;
 
         addObject(craftingScreenPage1, 400, 400);
     }
