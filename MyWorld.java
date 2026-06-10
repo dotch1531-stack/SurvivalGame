@@ -22,6 +22,8 @@ public class MyWorld extends World
     public Wood wood;
     public Leaf leaf;
     public Rope rope;
+    public SteakCooked steakCooked;
+    public SteakRaw steakRaw;
 
     public ArrayList<Item> itemsArray = new ArrayList<>();
 
@@ -931,7 +933,9 @@ public class MyWorld extends World
                 "Schwert", Sword::new,
                 "Holz", Wood::new,
                 "Blatt", Leaf::new,
-                "Seil", Rope::new
+                "Seil", Rope::new,
+                "SteakGekocht", SteakCooked::new,
+                "SteakRoh", SteakRaw::new
             );
 
         Supplier<Item> supplier = itemFactory.get(item);
@@ -974,10 +978,17 @@ public class MyWorld extends World
 
     public void changeCraftPage(){
         removeObject(craftingScreen);
+        removeObject(downButton);
         for(CraftButtons buttonObject : alreadyDrawnCraftButtons){
             removeObject(buttonObject);
         }
-
+        
+        craftingScreenPage1 = new CraftingScreenPage1();
         addObject(craftingScreenPage1, 400, 400);
+        
+        downButton = new DownButton();
+        addObject(downButton, 309, 780);
+        
+        updateCommitCraft(false);
     }
 }

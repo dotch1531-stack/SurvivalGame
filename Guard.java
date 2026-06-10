@@ -29,6 +29,6 @@ public class Guard extends Aggressiv_Entity
         super.act();          // Entity (Animation etc.)
 
 
-        Animation("guard");
+        //Animation("guard", 120, 150);
     }
 }

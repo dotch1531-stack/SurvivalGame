@@ -1,9 +1,9 @@
 #BlueJ class context
-comment0.target=Wood
+comment0.target=Campfire
 comment1.params=
-comment1.target=Wood()
+comment1.target=Campfire()
 comment2.params=
 comment2.target=void\ act()
 comment3.params=
-comment3.target=java.lang.String\ getName()
+comment3.target=void\ cook()
 numComments=4

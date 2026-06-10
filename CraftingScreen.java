@@ -20,16 +20,18 @@ public class CraftingScreen extends Actor
 
     private InventoryScreen inventoryScreen;
 
-    GreenfootImage zero = new GreenfootImage("Font/PixelBackground/0.png");
-    GreenfootImage one = new GreenfootImage("Font/PixelBackground/1.png");
-    GreenfootImage two = new GreenfootImage("Font/PixelBackground/2.png");
-    GreenfootImage three = new GreenfootImage("Font/PixelBackground/3.png");
-    GreenfootImage four = new GreenfootImage("Font/PixelBackground/4.png");
-    GreenfootImage five = new GreenfootImage("Font/PixelBackground/5.png");
-    GreenfootImage six = new GreenfootImage("Font/PixelBackground/6.png");
-    GreenfootImage seven = new GreenfootImage("Font/PixelBackground/7.png");
-    GreenfootImage eight = new GreenfootImage("Font/PixelBackground/8.png");
-    GreenfootImage nine = new GreenfootImage("Font/PixelBackground/9.png");
+    GreenfootImage zero = new GreenfootImage("Font/PixelTransparent/0.png");
+    GreenfootImage one = new GreenfootImage("Font/PixelTransparent/1.png");
+    GreenfootImage two = new GreenfootImage("Font/PixelTransparent/2.png");
+    GreenfootImage three = new GreenfootImage("Font/PixelTransparent/3.png");
+    GreenfootImage four = new GreenfootImage("Font/PixelTransparent/4.png");
+    GreenfootImage five = new GreenfootImage("Font/PixelTransparent/5.png");
+    GreenfootImage six = new GreenfootImage("Font/PixelTransparent/6.png");
+    GreenfootImage seven = new GreenfootImage("Font/PixelTransparent/7.png");
+    GreenfootImage eight = new GreenfootImage("Font/PixelTransparent/8.png");
+    GreenfootImage nine = new GreenfootImage("Font/PixelTransparent/9.png");
+    
+    GreenfootImage blankImg = new GreenfootImage("Crafting/removalBackground.png");
 
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
 
@@ -56,7 +58,7 @@ public class CraftingScreen extends Actor
         MyWorld world = (MyWorld)getWorld();
 
         if(Greenfoot.mousePressed(world.downButton)){
-            System.out.println("runter");
+            world.changeCraftPage();
         }
     }
 
@@ -87,7 +89,9 @@ public class CraftingScreen extends Actor
         }
     }
 
-    private void addNumbers(){       
+    private void addNumbers(){
+        getImage().drawImage(blankImg, 450, 30);
+        
         int loop = 0;
         for(String key : itemsNeeded.keySet()){
             if(itemsNeeded.getOrDefault(key, 0) > 0){
