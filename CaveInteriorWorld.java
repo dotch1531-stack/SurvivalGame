@@ -48,9 +48,32 @@ public class CaveInteriorWorld extends MyWorld
         generateCave();
         generateCaveWalls();
         spawnStoneNodes();
-        //spawnAtSafePosition();
+        findValidSpawn();
+        
+    }
+public void findValidSpawn()
+{
+    int attempts = 0;
+    int maxAttempts = 200; // Sicherheitslimit
+
+    while (collidesWithWall(cameraX, cameraY) && attempts < maxAttempts)
+    {
+        // Kamera leicht verschieben (z. B. in kleinen Schritten)
+        cameraX += 10;
+        cameraY += 10;
+
+        attempts++;
     }
 
+    if (attempts >= maxAttempts)
+    {
+        System.out.println("Kein gültiger Spawnpunkt gefunden!");
+    }
+    else
+    {
+        System.out.println("Gültiger Spawnpunkt gefunden nach " + attempts + " Versuchen.");
+    }
+}
     // =========================================================
     // CAVE GENERATION
     // =========================================================
@@ -415,6 +438,7 @@ public class CaveInteriorWorld extends MyWorld
     {
         int playerWorldX = newCameraX + 400;
         int playerWorldY = newCameraY + 400;
+        
 
         for (Structures s : getObjects(Structures.class))
         {
@@ -423,8 +447,10 @@ public class CaveInteriorWorld extends MyWorld
                 int dx = Math.abs(playerWorldX - s.worldX);
                 int dy = Math.abs(playerWorldY - s.worldY);
 
-                if (dx < 40 && dy < 40)
+                if (dx < 40 && dy < 40){
+                    System.out.print("Wand");
                     return true;
+                }
             }
         }
 
