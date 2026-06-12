@@ -17,9 +17,18 @@ public class Campfire extends Actor
     public void cook(){
         if (Greenfoot.mouseClicked(this)){
             InventoryScreen inventoryScreen = new InventoryScreen();
-            inventoryScreen.addItem("SteakGekocht", 1);
-            inventoryScreen.removeItem("SteakRoh", 1);
+            
+            if(!inventoryScreen.checkIfItemCanBeRemoved("SteakRoh", 1)){
+                return;
+            }
+            
+            inventoryScreen.removeItemsNoCheck("SteakRoh", 1);
+            
             Greenfoot.delay(5);
+            
+            //Textur feuer ändern
+            
+            inventoryScreen.addItem("SteakGekocht", 1);
         }
     }
 }
