@@ -6,7 +6,7 @@ public class Duck extends Passiv_Entity
     public Duck()
     {
         // ===== IMAGE =====
-        setImage("Animals/duck.png");
+        setImage("Animals/duck/duckWater/duckIdle.png");
 
         // ===== POSITION =====
         worldX = 0;
@@ -45,7 +45,7 @@ public class Duck extends Passiv_Entity
 
             super.act();          // Entity (Animation etc.)
             naturalMovement();    // Passiv_Entity Bewegung
-
+            
             Animation("duck", 40, 40);
         }
 }

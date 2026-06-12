@@ -3,6 +3,8 @@ import java.util.*;
 
 public abstract class Entity extends Actor
 {
+    
+    
     // ===== WORLD POSITION =====
     public int worldX;
     public int worldY;
@@ -42,13 +44,20 @@ public abstract class Entity extends Actor
     public List<String> drops = Collections.emptyList();
     public int dropAmount = 1;
     
+    int LocationX;
+    int LocationY;
+  
+    int tile;
     // =========================
     // SCREEN POSITION
     // =========================
     public void updateScreenPosition(int cameraX, int cameraY)
     {
+        
         setLocation(worldX - cameraX, worldY - cameraY);
-
+        LocationX=worldX - cameraX;
+        LocationY = worldY - cameraY;
+        
         if (progress != null)
         {
             progress.updateScreenPosition(cameraX, cameraY, worldX, worldY);
@@ -74,57 +83,75 @@ public abstract class Entity extends Actor
     // ANIMATION CONTROLLER
     // =========================
     public void Animation(String entity, int imageWidth, int imageHeight)
-{
-    int dx = getX() - lastX;
-    int dy = getY() - lastY;
-
-    if (dx == 0 && dy == 0)
     {
-        setIdle(entity);
-    }
-    else
-    {
-        // ===== DIAGONALS FIRST =====
-        if (dx > 0 && dy < 0)
-            animate("UpRight", entity, imageWidth, imageHeight);
-
-        else if (dx < 0 && dy < 0)
-            animate("UpLeft", entity, imageWidth, imageHeight);
-
-        else if (dx > 0 && dy > 0)
-            animate("DownRight", entity, imageWidth, imageHeight);
-
-        else if (dx < 0 && dy > 0)
-            animate("DownLeft", entity, imageWidth, imageHeight);
+        MyWorld world = (MyWorld)getWorld();
         
-        // ===== STRAIGHT DIRECTIONS =====
-        else if (Math.abs(dx) > Math.abs(dy))
+        int tileX = Math.floorDiv(LocationX, MyWorld.TILE_SIZE);
+        int tileY = Math.floorDiv(LocationY, MyWorld.TILE_SIZE);
+    
+        tile = world.getTile(tileX, tileY);
+        
+        int dx = getX() - lastX;
+        int dy = getY() - lastY;
+    
+        if (dx == 0 && dy == 0 && tile >= 3)
         {
-            if (dx > 0)
-                animate("Right", entity, imageWidth, imageHeight);
-            else
-                animate("Left", entity, imageWidth, imageHeight);
+            setIdle(entity, "Water");
+        }
+        if (dx == 0 && dy == 0 && tile < 3)
+        {
+            setIdle(entity, "");
         }
         else
         {
-            if (dy > 0)
-                animate("DownLeft", entity, imageWidth, imageHeight);
-            else
+            // ===== DIAGONALS FIRST =====
+            if (dx > 0 && dy < 0)
+                animate("UpRight", entity, imageWidth, imageHeight);
+    
+            else if (dx < 0 && dy < 0)
                 animate("UpLeft", entity, imageWidth, imageHeight);
+    
+            else if (dx > 0 && dy > 0)
+                animate("DownRight", entity, imageWidth, imageHeight);
+    
+            else if (dx < 0 && dy > 0)
+                animate("DownLeft", entity, imageWidth, imageHeight);
+            
+            // ===== STRAIGHT DIRECTIONS =====
+            else if (Math.abs(dx) > Math.abs(dy))
+            {
+                if (dx > 0)
+                    animate("Right", entity, imageWidth, imageHeight);
+                else
+                    animate("Left", entity, imageWidth, imageHeight);
+            }
+            else
+            {
+                if (dy > 0)
+                    animate("DownRight", entity, imageWidth, imageHeight);
+                else
+                    animate("UpRight", entity, imageWidth, imageHeight);
+            }
         }
+    
+        lastX = getX();
+        lastY = getY();
     }
-
-    lastX = getX();
-    lastY = getY();
-}
 
     // idle fallback
-    private void setIdle(String entity)
+    private void setIdle(String entity, String WaterOrNot)
     {
+
+        if(WaterOrNot == "Water"){
         setImage(new GreenfootImage(
-            "Animals/" + entity + "/" + entity + "Idle.png"
-        ));
+            "Animals/" + entity + "/" + entity + WaterOrNot + "/" + entity+ "Idle.png"
+        ));}
+        else{setImage(new GreenfootImage(
+            "Animals/" + entity + "/"  + entity+ "Idle.png"
+        ));}
     }
+    
+    
 
     // =========================
     // DAMAGE SYSTEM
@@ -189,7 +216,12 @@ public abstract class Entity extends Actor
     public void animate(String where, String image, int frameWidth, int frameHeight)
     {
         // Load sprite sheet ONCE per animation direction
-        String path = "Animals/" + image + "/" + image + where + ".png";
+        String path;
+        
+        if(tile >= 3){path = "Animals/" + image + "/" + image + "Water" + "/" + image + where + ".png";}
+        else{path = "Animals/" + image + "/" + image + where + ".png";}
+        if(image == "duck"){totalFrames=1;}
+        
 
         if (spriteSheet == null || !spriteSheet.getClass().equals(path))
         {
