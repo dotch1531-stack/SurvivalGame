@@ -1,0 +1,10 @@
+{
+    "name": "Pfeil",
+    "stackSize" : 99,
+    "schaden" : 4,
+    "recipe" : {
+        "Feder" : 3,
+        "Holz" : 1,
+        "Stein" : 1
+    }
+}

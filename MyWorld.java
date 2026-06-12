@@ -33,8 +33,6 @@ public class MyWorld extends World
     public int currentCraftingPage;
 
     public CraftingScreen craftingScreen;
-
-    public CraftingScreenPage1 craftingScreenPage1;
     
     public SwordButton swordButton;
     public AxeButton axeButton;
@@ -899,19 +897,17 @@ public class MyWorld extends World
             craftingScreen = new CraftingScreen();
             addObject(craftingScreen, 400, 400);
 
-            drawDownButton();
-            drawUpButton();
-
             craftButtons = new TreeMap<String, CraftButtons>(Map.of(
                 "Schwert",      new SwordButton(),
                 "Axt",          new AxeButton(),
                 "Spitzhacke",   new PicaxeButton(),
                 "Seil",         new RopeButton(),
-                "Placeholder1", new PlaceholderButton1()
+                "Placeholder1", new PlaceholderButton1(),
+                "Pfeil",        new ArrowButton()
             )); 
-
-            drawCraftButtons(currentCraftingPage);
-
+            
+            changeCraftPage();
+            
             drawCommitCraft(false);
             Greenfoot.delay(20);
         }
@@ -933,18 +929,20 @@ public class MyWorld extends World
     }
 
     public void drawInventoryItems(String item, int x, int y){
-        Map<String, Supplier<Item>> itemFactory = Map.of(
-                "Axt", Axe::new,
-                "Eisen", Iron::new,
-                "Spitzhacke", Pickaxe::new,
-                "Stein", Stone::new,
-                "Schwert", Sword::new,
-                "Holz", Wood::new,
-                "Blatt", Leaf::new,
-                "Seil", Rope::new,
-                "SteakGekocht", SteakCooked::new,
-                "SteakRoh", SteakRaw::new
-            );
+        Map<String, Supplier<Item>> itemFactory = Map.ofEntries(
+            Map.entry("Axt", Axe::new),
+            Map.entry("Eisen", Iron::new),
+            Map.entry("Spitzhacke", Pickaxe::new),
+            Map.entry("Stein", Stone::new),
+            Map.entry("Schwert", Sword::new),
+            Map.entry("Holz", Wood::new),
+            Map.entry("Blatt", Leaf::new),
+            Map.entry("Seil", Rope::new),
+            Map.entry("SteakGekocht", SteakCooked::new),
+            Map.entry("SteakRoh", SteakRaw::new),
+            Map.entry("Feder", Feather::new),
+            Map.entry("Pfeil", Arrow::new)
+        );
 
         Supplier<Item> supplier = itemFactory.get(item);
 
@@ -963,29 +961,34 @@ public class MyWorld extends World
                     currentButton = loop;
                     break;
                 }
-                addObject(craftButtons.get(item), 145, (70 + (145 * loop)));
+                int pageIndex = loop - ((pageNumber - 1) * 5);
+                addObject(craftButtons.get(item), 145, 70 + (145 * pageIndex));
                 alreadyDrawnCraftButtons.add(craftButtons.get(item));
                 loop++;
             }
         }
     }
 
-    public void changeCraftPage(int currentPage){
-        removeObject(craftingScreen);
+    public void changeCraftPage(){
+        removeObject(upButton);
         removeObject(downButton);
+
         for(CraftButtons buttonObject : alreadyDrawnCraftButtons){
             removeObject(buttonObject);
         }
+        if(currentCraftingPage > 1){
+            drawUpButton();
+        }
         
-        craftingScreenPage1 = new CraftingScreenPage1();
-        addObject(craftingScreenPage1, 400, 400);
-        
-        drawUpButton();
-        drawDownButton();
+        int maxPages = (int) Math.ceil(craftButtons.size() / 5.0);
+        if (currentCraftingPage < maxPages) {
+            drawDownButton();
+        }
         
         updateCommitCraft(false);
         
         drawCraftButtons(currentCraftingPage);
+        Greenfoot.delay(20);
     }
     
     public void drawCommitCraft(boolean pressable){
@@ -1004,6 +1007,7 @@ public class MyWorld extends World
         addObject(upButton, 309, 20);
     }
     public void drawDownButton(){
+        System.out.println("DownButton wird gezeichnet");
         downButton = new DownButton();
         addObject(downButton, 309, 780);
     }
