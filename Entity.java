@@ -142,7 +142,7 @@ public abstract class Entity extends Actor
     private void setIdle(String entity, String WaterOrNot)
     {
 
-        if(WaterOrNot == "Water"){
+        if ("Water".equals(WaterOrNot)){
         setImage(new GreenfootImage(
             "Animals/" + entity + "/" + entity + WaterOrNot + "/" + entity+ "Idle.png"
         ));}

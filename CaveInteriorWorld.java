@@ -69,10 +69,6 @@ public void findValidSpawn()
     {
         System.out.println("Kein gültiger Spawnpunkt gefunden!");
     }
-    else
-    {
-        System.out.println("Gültiger Spawnpunkt gefunden nach " + attempts + " Versuchen.");
-    }
 }
     // =========================================================
     // CAVE GENERATION
@@ -448,7 +444,6 @@ public void findValidSpawn()
                 int dy = Math.abs(playerWorldY - s.worldY);
 
                 if (dx < 40 && dy < 40){
-                    System.out.print("Wand");
                     return true;
                 }
             }
