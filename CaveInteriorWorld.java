@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class CaveInteriorWorld extends World
+public class CaveInteriorWorld extends MyWorld
 {
     public static CaveInteriorWorld instance;
 
@@ -25,7 +25,6 @@ public class CaveInteriorWorld extends World
     // =========================================================
     public CaveInteriorWorld(Player playerCave)
     {
-        super(800, 800, 1);
 
         instance = this;
 
@@ -209,6 +208,8 @@ public class CaveInteriorWorld extends World
 
     public void act()
     {
+        handleInventory();
+        handleCraftingMenu();
         handleMovement();
         updateObjects();
         renderWorld();
@@ -252,28 +253,76 @@ public class CaveInteriorWorld extends World
     // =========================================================
     public void updateObjects()
     {
-        for (Structures s : getObjects(Structures.class))
+        // ===== WORLD OBJECTS =====
+        java.util.List<WorldObject> objects = getObjects(WorldObject.class);
+
+        for(WorldObject obj : objects)
         {
-            s.setLocation(
-                s.worldX - cameraX,
-                s.worldY - cameraY
-            );
+            obj.updateScreenPosition(cameraX, cameraY);
+
+            if(obj.getX() >= 799 || obj.getX() <= 0 || obj.getY() >= 799 || obj.getY() <= 0)
+            {
+                obj.getImage().setTransparency(0);
+            }
+            else
+            {
+                obj.getImage().setTransparency(255);
+            }
         }
 
-        for (Entity e : getObjects(Entity.class))
+        // ===== ENTITIES =====
+        java.util.List<Entity> entities = getObjects(Entity.class);
+
+        for(Entity ent : entities)
         {
-            e.setLocation(
-                e.worldX - cameraX,
-                e.worldY - cameraY
-            );
+            ent.updateScreenPosition(cameraX, cameraY);
+
+            if(ent.getX() >= 799 || ent.getX() <= 0 || ent.getY() >= 799 || ent.getY() <= 0)
+            {
+                ent.getImage().setTransparency(0);
+            }
+            else
+            {
+                ent.getImage().setTransparency(255);
+            }
         }
 
-        for (WorldObject o : getObjects(WorldObject.class))
+        // ===== STRUCTURES =====
+        java.util.List<Structures> structures = getObjects(Structures.class);
+
+        for(Structures s : structures)
         {
-            o.setLocation(
-                o.worldX - cameraX,
-                o.worldY - cameraY
-            );
+            if(s != null)
+            {
+                s.setLocation(
+                    s.worldX - cameraX,
+                    s.worldY - cameraY
+                );
+
+                if(s.getX() >= 799 || s.getX() <= 0 || s.getY() >= 799 || s.getY() <= 0)
+                {
+                    s.getImage().setTransparency(0);
+                }
+                else
+                {
+                    s.getImage().setTransparency(255);
+                }
+            }
+        }
+
+        // ===== BREAK PROGRESS =====
+        java.util.List<BreakProgress> bars = getObjects(BreakProgress.class);
+
+        for(BreakProgress bar : bars)
+        {
+            if(bar.getX() >= 799 || bar.getX() <= 0 || bar.getY() >= 779 || bar.getY() <= 40)
+            {
+                bar.getImage().setTransparency(0);
+            }
+            else
+            {
+                bar.getImage().setTransparency(255);
+            }
         }
     }
     // =========================================================

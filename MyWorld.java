@@ -910,7 +910,7 @@ public class MyWorld extends World
                 "Placeholder1", new PlaceholderButton1()
             )); 
 
-            drawCraftButtons(1);
+            drawCraftButtons(currentCraftingPage);
 
             drawCommitCraft(false);
             Greenfoot.delay(20);
@@ -970,7 +970,7 @@ public class MyWorld extends World
         }
     }
 
-    public void changeCraftPage(){
+    public void changeCraftPage(int currentPage){
         removeObject(craftingScreen);
         removeObject(downButton);
         for(CraftButtons buttonObject : alreadyDrawnCraftButtons){

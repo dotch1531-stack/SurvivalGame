@@ -59,12 +59,12 @@ public class CraftingScreenPage1 extends Actor
 
         if(Greenfoot.mousePressed(world.downButton)){
             world.currentCraftingPage +=1;
-            world.changeCraftPage();
+            world.changeCraftPage(world.currentCraftingPage);
         }
         if(Greenfoot.mousePressed(world.upButton)){
             world.currentCraftingPage -=1;
             System.out.println("hoch");
-            world.changeCraftPage();
+            world.changeCraftPage(world.currentCraftingPage);
         }
     }
 
@@ -123,7 +123,7 @@ public class CraftingScreenPage1 extends Actor
     private void craftItem(){        
         if(checkItemsAreInInventory()){
             for(String key : itemsNeeded.keySet()){
-                inventoryScreen.removeItemsCrfating(key, itemsNeeded.get(key));
+                inventoryScreen.removeItemsNoCheck(key, itemsNeeded.get(key));
             }
 
             //parameters = Item, amount
