@@ -3,6 +3,7 @@ import greenfoot.*;
 public class CaveInteriorWorld extends MyWorld
 {
     public static CaveInteriorWorld instance;
+    private MyWorld returnWorld;
 
     // ===== TILE SYSTEM =====
     private GreenfootImage tileSet;
@@ -16,6 +17,8 @@ public class CaveInteriorWorld extends MyWorld
     // ===== CAMERA =====
     public int cameraX = 0;
     public int cameraY = 0;
+    private int spawnWorldX;
+    private int spawnWorldY;
 
     // ===== PLAYER =====
     public Player player;
@@ -23,30 +26,29 @@ public class CaveInteriorWorld extends MyWorld
     // =========================================================
     // CONSTRUCTOR
     // =========================================================
-    public CaveInteriorWorld(Player playerCave)
+    public CaveInteriorWorld(Player playerCave, MyWorld worldToReturnTo, int spawnX, int spawnY)
     {
+        returnWorld = worldToReturnTo;
+        player = playerCave;
 
-        instance = this;
+        spawnWorldX = spawnX;
+        spawnWorldY = spawnY;
 
         tileSet = new GreenfootImage("tileset.png");
         tiles = new GreenfootImage[6];
 
-        // TILE LOADING
-        for (int i = 0; i < 6; i++)
+        for(int i = 0; i < 6; i++)
         {
             tiles[i] = new GreenfootImage(TILE_SIZE, TILE_SIZE);
             tiles[i].drawImage(tileSet, -i * TILE_SIZE, 0);
         }
 
-        // PLAYER übernehmen
-        player = playerCave;
         addObject(player, 400, 400);
 
-        // CAVE GENERATION
-        generateCave(); 
+        generateCave();
         generateCaveWalls();
-
         spawnStoneNodes();
+        spawnAtSafePosition();
     }
 
     // =========================================================
@@ -78,6 +80,43 @@ public class CaveInteriorWorld extends MyWorld
         generated = true;
     }
 
+    private void spawnAtSafePosition()
+    {
+        int[] safe = findSafeSpawn(
+                spawnWorldX / TILE_SIZE,
+                spawnWorldY / TILE_SIZE
+            );
+
+        cameraX = safe[0] * TILE_SIZE - 400;
+        cameraY = safe[1] * TILE_SIZE - 400;
+    }
+
+    public int[] findSafeSpawn(int tileX, int tileY)
+    {
+        int radius = 10;
+
+        for(int r = 0; r <= radius; r++)
+        {
+            for(int dx = -r; dx <= r; dx++)
+            {
+                for(int dy = -r; dy <= r; dy++)
+                {
+                    int x = tileX + dx;
+                    int y = tileY + dy;
+
+                    if(x < 0 || y < 0 || x >= 100 || y >= 100)
+                        continue;
+
+                    if(caveMap[x][y] == 1) // 1 = DIRT / frei
+                    {
+                        return new int[]{x, y};
+                    }
+                }
+            }
+        }
+
+        return new int[]{tileX, tileY};
+    }
     // =========================================================
     // SOLID BORDER (OBJECTS)
     // =========================================================
@@ -213,12 +252,17 @@ public class CaveInteriorWorld extends MyWorld
         handleMovement();
         updateObjects();
         renderWorld();
-        if (Greenfoot.isKeyDown("e"))
+        if(Greenfoot.isKeyDown("e"))
         {
-            MyWorld.instance.addObject(player, 400, 400);
-            Greenfoot.setWorld(MyWorld.instance);
-            Greenfoot.delay(30);
 
+            returnWorld.cameraX = returnWorld.lastCameraX;
+            returnWorld.cameraY = returnWorld.lastCameraY;
+
+            Greenfoot.setWorld(returnWorld);
+
+            returnWorld.addObject(player, 400, 400);
+
+            Greenfoot.delay(30);
         }
     }
     // =========================================================
@@ -386,30 +430,31 @@ public class CaveInteriorWorld extends MyWorld
 
         return false;
     }
+
     private void spawnStoneNodes()
-{
-    for (int y = 0; y < 100; y++)
     {
-        for (int x = 0; x < 100; x++)
+        for (int y = 0; y < 100; y++)
         {
-            // nur in Steinbereichen
-            if (caveMap[x][y] == 2)
+            for (int x = 0; x < 100; x++)
             {
-                // kleine Chance damit es nicht komplett voll ist
-                if (Greenfoot.getRandomNumber(100) < 8)
+                // nur in Steinbereichen
+                if (caveMap[x][y] == 2)
                 {
-                    StoneNode stone = new StoneNode();
+                    // kleine Chance damit es nicht komplett voll ist
+                    if (Greenfoot.getRandomNumber(100) < 8)
+                    {
+                        StoneNode stone = new StoneNode();
 
-                    stone.worldX = x * TILE_SIZE + TILE_SIZE / 2;
-                    stone.worldY = y * TILE_SIZE + TILE_SIZE / 2;
+                        stone.worldX = x * TILE_SIZE + TILE_SIZE / 2;
+                        stone.worldY = y * TILE_SIZE + TILE_SIZE / 2;
 
-                    addObject(stone,
-                        stone.worldX - cameraX,
-                        stone.worldY - cameraY);
+                        addObject(stone,
+                            stone.worldX - cameraX,
+                            stone.worldY - cameraY);
+                    }
                 }
             }
         }
     }
-}
 }
 

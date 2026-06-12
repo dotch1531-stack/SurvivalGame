@@ -62,6 +62,7 @@ dependency22.from=MyWorld
 dependency22.to=DownButton
 dependency22.type=UsesDependency
 dependency23.from=MyWorld
+<<<<<<< Updated upstream
 dependency23.to=Player
 dependency23.type=UsesDependency
 dependency24.from=MyWorld
@@ -81,12 +82,38 @@ dependency28.to=Tent
 dependency28.type=UsesDependency
 dependency29.from=MyWorld
 dependency29.to=Cave
+=======
+dependency23.to=Guard
+dependency23.type=UsesDependency
+dependency24.from=Entity
+dependency24.to=BreakProgress
+dependency24.type=UsesDependency
+dependency25.from=Entity
+dependency25.to=MyWorld
+dependency25.type=UsesDependency
+dependency26.from=Aggressiv_Entity
+dependency26.to=Player
+dependency26.type=UsesDependency
+dependency27.from=Aggressiv_Entity
+dependency27.to=MyWorld
+dependency27.type=UsesDependency
+dependency28.from=WorldObject
+dependency28.to=BreakProgress
+dependency28.type=UsesDependency
+dependency29.from=WorldObject
+dependency29.to=MyWorld
+>>>>>>> Stashed changes
 dependency29.type=UsesDependency
 dependency3.from=MyWorld
 dependency3.to=Iron
 dependency3.type=UsesDependency
+<<<<<<< Updated upstream
 dependency30.from=MyWorld
 dependency30.to=EntityFactory
+=======
+dependency30.from=Player
+dependency30.to=MyWorld
+>>>>>>> Stashed changes
 dependency30.type=UsesDependency
 dependency31.from=MyWorld
 dependency31.to=ObjectFactory
@@ -268,7 +295,11 @@ readme.width=49
 readme.x=10
 readme.y=10
 shm.size=40000000
+<<<<<<< Updated upstream
 simulation.speed=51
+=======
+simulation.speed=53
+>>>>>>> Stashed changes
 target1.height=70
 target1.name=Entity
 target1.showInterface=false
