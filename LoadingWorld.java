@@ -18,22 +18,22 @@ public class LoadingWorld extends World
     }
 
     public void act()
+{
+    timer++;
+
+    if(timer > 1)
     {
-        timer++;
+        int spawnX = returnWorld.cameraX + 400;
+        int spawnY = returnWorld.cameraY + 400;
 
-        if(timer > 1)
-        {
-            int spawnX = returnWorld.cameraX + 400;
-            int spawnY = returnWorld.cameraY + 400;
-
-            Greenfoot.setWorld(
-                new CaveInteriorWorld(
-                    player,
-                    returnWorld,
-                    spawnX,
-                    spawnY
-                )
-            );
-        }
+        Greenfoot.setWorld(
+            new CaveInteriorWorld(
+                player,
+                returnWorld,
+                spawnX,
+                spawnY
+            )
+        );
     }
+}
 }

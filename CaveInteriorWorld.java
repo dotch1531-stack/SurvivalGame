@@ -43,12 +43,12 @@ public class CaveInteriorWorld extends MyWorld
             tiles[i].drawImage(tileSet, -i * TILE_SIZE, 0);
         }
 
-        addObject(player, 400, 400);
+        
 
         generateCave();
         generateCaveWalls();
         spawnStoneNodes();
-        spawnAtSafePosition();
+        //spawnAtSafePosition();
     }
 
     // =========================================================
@@ -441,7 +441,7 @@ public class CaveInteriorWorld extends MyWorld
                 if (caveMap[x][y] == 2)
                 {
                     // kleine Chance damit es nicht komplett voll ist
-                    if (Greenfoot.getRandomNumber(100) < 8)
+                    if (Greenfoot.getRandomNumber(1000) < 50)
                     {
                         StoneNode stone = new StoneNode();
 
