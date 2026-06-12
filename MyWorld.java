@@ -33,7 +33,7 @@ public class MyWorld extends World
     public int currentCraftingPage;
 
     public CraftingScreen craftingScreen;
-    
+
     public SwordButton swordButton;
     public AxeButton axeButton;
     public PicaxeButton picaxeButton;
@@ -564,11 +564,9 @@ public class MyWorld extends World
             lastCameraX = cameraX;
             lastCameraY = cameraY;
 
-            CaveInteriorWorld world = new CaveInteriorWorld(player);
-
-            Greenfoot.setWorld(world);
-
-            
+            Greenfoot.setWorld(
+                new LoadingWorld(player, this)
+            );
 
             Greenfoot.delay(20);
         }
@@ -833,11 +831,10 @@ public class MyWorld extends World
     }
 
     // UNTIL HERE EVERYTHING WORKS
-    
+
     // ^
     // | BODENLOSER KOMMENTAR DA OBEN
-    
-    
+
     // ===== INVENTORY & CRAFTING SYSTEM =====
     public void handleInventory()
     {
@@ -891,23 +888,23 @@ public class MyWorld extends World
         if(Greenfoot.isKeyDown("c") && !craftingMenuOpen)
         {
             craftingMenuOpen = true;
-            
+
             currentCraftingPage = 1;
 
             craftingScreen = new CraftingScreen();
             addObject(craftingScreen, 400, 400);
 
             craftButtons = new TreeMap<String, CraftButtons>(Map.of(
-                "Schwert",      new SwordButton(),
-                "Axt",          new AxeButton(),
-                "Spitzhacke",   new PicaxeButton(),
-                "Seil",         new RopeButton(),
-                "Placeholder1", new PlaceholderButton1(),
-                "Pfeil",        new ArrowButton()
-            )); 
-            
+                    "Schwert",      new SwordButton(),
+                    "Axt",          new AxeButton(),
+                    "Spitzhacke",   new PicaxeButton(),
+                    "Seil",         new RopeButton(),
+                    "Placeholder1", new PlaceholderButton1(),
+                    "Pfeil",        new ArrowButton()
+                )); 
+
             changeCraftPage();
-            
+
             drawCommitCraft(false);
             Greenfoot.delay(20);
         }
@@ -930,19 +927,19 @@ public class MyWorld extends World
 
     public void drawInventoryItems(String item, int x, int y){
         Map<String, Supplier<Item>> itemFactory = Map.ofEntries(
-            Map.entry("Axt", Axe::new),
-            Map.entry("Eisen", Iron::new),
-            Map.entry("Spitzhacke", Pickaxe::new),
-            Map.entry("Stein", Stone::new),
-            Map.entry("Schwert", Sword::new),
-            Map.entry("Holz", Wood::new),
-            Map.entry("Blatt", Leaf::new),
-            Map.entry("Seil", Rope::new),
-            Map.entry("SteakGekocht", SteakCooked::new),
-            Map.entry("SteakRoh", SteakRaw::new),
-            Map.entry("Feder", Feather::new),
-            Map.entry("Pfeil", Arrow::new)
-        );
+                Map.entry("Axt", Axe::new),
+                Map.entry("Eisen", Iron::new),
+                Map.entry("Spitzhacke", Pickaxe::new),
+                Map.entry("Stein", Stone::new),
+                Map.entry("Schwert", Sword::new),
+                Map.entry("Holz", Wood::new),
+                Map.entry("Blatt", Leaf::new),
+                Map.entry("Seil", Rope::new),
+                Map.entry("SteakGekocht", SteakCooked::new),
+                Map.entry("SteakRoh", SteakRaw::new),
+                Map.entry("Feder", Feather::new),
+                Map.entry("Pfeil", Arrow::new)
+            );
 
         Supplier<Item> supplier = itemFactory.get(item);
 
@@ -979,33 +976,37 @@ public class MyWorld extends World
         if(currentCraftingPage > 1){
             drawUpButton();
         }
-        
+
         int maxPages = (int) Math.ceil(craftButtons.size() / 5.0);
         if (currentCraftingPage < maxPages) {
             drawDownButton();
         }
-        
+
         updateCommitCraft(false);
-        
+
         drawCraftButtons(currentCraftingPage);
         Greenfoot.delay(20);
     }
-    
+
     public void drawCommitCraft(boolean pressable){
         commitButton = new CommitButton(pressable);
         addObject(commitButton, 550, 700);
     }
+
     public void deleteCommitCraft(){
         removeObject(commitButton);
     }
+
     public void updateCommitCraft(boolean pressable){
         deleteCommitCraft();
         drawCommitCraft(pressable);
     }    
+
     public void drawUpButton(){
         upButton = new UpButton();
         addObject(upButton, 309, 20);
     }
+
     public void drawDownButton(){
         System.out.println("DownButton wird gezeichnet");
         downButton = new DownButton();
