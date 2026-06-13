@@ -501,7 +501,6 @@ public class MyWorld extends World
         {
             if(!obj.solid)
                 continue;
-
             int dx = Math.abs(playerX - obj.worldX);
             int dy = Math.abs(playerY - obj.worldY);
 
@@ -530,12 +529,11 @@ public class MyWorld extends World
         {
             if(!s.solid)
                 continue;
-
             int dx = Math.abs(playerX - s.worldX);
             int dy = Math.abs(playerY - s.worldY);
 
-            if(dx < playerHitboxWidth + 60 &&
-            dy < playerHitboxHeight + 20)
+            if(dx < playerHitboxWidth + s.hitboxWidth &&
+            dy < playerHitboxHeight + s.hitboxHeight)
             {
                 return true;
             }

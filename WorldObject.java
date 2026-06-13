@@ -11,8 +11,8 @@ public abstract class WorldObject extends Actor
     
     public int collisionRadius = 30;
 
-    public int hitboxWidth = 240;
-    public int hitboxHeight = 120;
+    public int hitboxWidth;
+    public int hitboxHeight;
 
     // ===== BREAKING SYSTEM =====
     public boolean breakable = true;

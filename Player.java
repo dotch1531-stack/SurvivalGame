@@ -19,7 +19,7 @@ public class Player extends Actor
     String idle = "Idle";
 
     int hitboxWidth = 20;
-    int hitboxHeight = 90;
+    int hitboxHeight = 55;
 
     public int worldX;
     public int worldY;

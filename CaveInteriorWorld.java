@@ -43,33 +43,33 @@ public class CaveInteriorWorld extends MyWorld
             tiles[i].drawImage(tileSet, -i * TILE_SIZE, 0);
         }
 
-        
 
         generateCave();
         generateCaveWalls();
         spawnStoneNodes();
         findValidSpawn();
-        
-    }
-public void findValidSpawn()
-{
-    int attempts = 0;
-    int maxAttempts = 200; // Sicherheitslimit
 
-    while (collidesWithWall(cameraX, cameraY) && attempts < maxAttempts)
+    }
+
+    public void findValidSpawn()
     {
-        // Kamera leicht verschieben (z. B. in kleinen Schritten)
-        cameraX += 10;
-        cameraY += 10;
+        int attempts = 0;
+        int maxAttempts = 200; // Sicherheitslimit
 
-        attempts++;
-    }
+        while (collidesWithWall(cameraX, cameraY) && attempts < maxAttempts)
+        {
+            // Kamera leicht verschieben (z. B. in kleinen Schritten)
+            cameraX += 10;
+            cameraY += 10;
 
-    if (attempts >= maxAttempts)
-    {
-        System.out.println("Kein gültiger Spawnpunkt gefunden!");
+            attempts++;
+        }
+
+        if (attempts >= maxAttempts)
+        {
+            System.out.println("Kein gültiger Spawnpunkt gefunden!");
+        }
     }
-}
     // =========================================================
     // CAVE GENERATION
     // =========================================================
@@ -99,43 +99,6 @@ public void findValidSpawn()
         generated = true;
     }
 
-    private void spawnAtSafePosition()
-    {
-        int[] safe = findSafeSpawn(
-                spawnWorldX / TILE_SIZE,
-                spawnWorldY / TILE_SIZE
-            );
-
-        cameraX = safe[0] * TILE_SIZE - 400;
-        cameraY = safe[1] * TILE_SIZE - 400;
-    }
-
-    public int[] findSafeSpawn(int tileX, int tileY)
-    {
-        int radius = 10;
-
-        for(int r = 0; r <= radius; r++)
-        {
-            for(int dx = -r; dx <= r; dx++)
-            {
-                for(int dy = -r; dy <= r; dy++)
-                {
-                    int x = tileX + dx;
-                    int y = tileY + dy;
-
-                    if(x < 0 || y < 0 || x >= 100 || y >= 100)
-                        continue;
-
-                    if(caveMap[x][y] == 1) // 1 = DIRT / frei
-                    {
-                        return new int[]{x, y};
-                    }
-                }
-            }
-        }
-
-        return new int[]{tileX, tileY};
-    }
     // =========================================================
     // SOLID BORDER (OBJECTS)
     // =========================================================
@@ -300,13 +263,13 @@ public void findValidSpawn()
         if (Greenfoot.isKeyDown("d")) newCameraX += speed;
 
         // X check
-        if (!collidesWithWall(newCameraX, cameraY))
+        if (!collidesWithWall(newCameraX, cameraY) && !collidesWithSolid(newCameraX, cameraY))
         {
             cameraX = newCameraX;
         }
 
         // Y check
-        if (!collidesWithWall(cameraX, newCameraY))
+        if (!collidesWithWall(cameraX, newCameraY) && !collidesWithSolid(cameraX,newCameraY))
         {
             cameraY = newCameraY;
         }
@@ -434,7 +397,6 @@ public void findValidSpawn()
     {
         int playerWorldX = newCameraX + 400;
         int playerWorldY = newCameraY + 400;
-        
 
         for (Structures s : getObjects(Structures.class))
         {
