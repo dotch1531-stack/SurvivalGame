@@ -32,6 +32,8 @@ public class MyWorld extends World
     public int currentButton;
     public int currentCraftingPage;
 
+    private boolean cWasDown = false;
+
     public CraftingScreen craftingScreen;
 
     public SwordButton swordButton;
@@ -949,18 +951,23 @@ public class MyWorld extends World
     }
 
     public void drawCraftButtons(int pageNumber){
+        System.out.println("draw Buttons");
+
         int loop = 0;
+        int drawIndex = 0;
         for(String item : craftButtons.keySet()){
+            System.out.println("ITEM CHECK: " + item + " = " + craftingScreen.checkIfItemsNeededWereFound(item));
             if(craftingScreen.checkIfItemsNeededWereFound(item) && loop >= ((pageNumber * 5) - 5)){
-                if(loop > (pageNumber * 5)){
+                if(loop >= (pageNumber * 5)){
                     currentButton = loop;
+                    System.out.println("break");
                     break;
                 }
-                int pageIndex = loop - ((pageNumber - 1) * 5);
-                addObject(craftButtons.get(item), 145, 70 + (145 * pageIndex));
+                addObject(craftButtons.get(item), 145, 70 + (145 * drawIndex));
                 alreadyDrawnCraftButtons.add(craftButtons.get(item));
-                loop++;
+                drawIndex++;
             }
+            loop++;
         }
     }
 
@@ -1006,7 +1013,7 @@ public class MyWorld extends World
     }
 
     public void drawDownButton(){
-        System.out.println("DownButton wird gezeichnet");
+
         downButton = new DownButton();
         addObject(downButton, 309, 780);
     }

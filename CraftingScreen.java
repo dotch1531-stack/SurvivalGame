@@ -77,7 +77,7 @@ public class CraftingScreen extends Actor
                 selectedCraftItem(item);
                 Greenfoot.delay(20);
             }
-        }
+        }   
 
         //craft button
         if(Greenfoot.mousePressed(world.commitButton) && selectedCraft){
