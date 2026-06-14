@@ -956,7 +956,6 @@ public class MyWorld extends World
         int loop = 0;
         int drawIndex = 0;
         for(String item : craftButtons.keySet()){
-            System.out.println("ITEM CHECK: " + item + " = " + craftingScreen.checkIfItemsNeededWereFound(item));
             if(craftingScreen.checkIfItemsNeededWereFound(item) && loop >= ((pageNumber * 5) - 5)){
                 if(loop >= (pageNumber * 5)){
                     currentButton = loop;

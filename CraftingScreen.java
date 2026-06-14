@@ -56,13 +56,20 @@ public class CraftingScreen extends Actor
 
     public void handleDownButton(){
         MyWorld world = (MyWorld)getWorld();
-
-        if(Greenfoot.mousePressed(world.downButton)){
-            world.currentCraftingPage +=1;
-            world.changeCraftPage();
+        
+        if(world.upButton != null && world.upButton.getWorld() != null){
+            if(Greenfoot.mousePressed(world.upButton)){
+                System.out.println("Up Pressed");
+            
+                world.currentCraftingPage -=1;
+                world.changeCraftPage();
+            }
         }
-        if(Greenfoot.mousePressed(world.upButton)){
-            world.currentCraftingPage -=1;
+        
+        if(Greenfoot.mousePressed(world.downButton)){
+            System.out.println("Down Pressed");
+            
+            world.currentCraftingPage +=1;
             world.changeCraftPage();
         }
     }
