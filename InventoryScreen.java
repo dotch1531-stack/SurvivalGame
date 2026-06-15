@@ -34,14 +34,34 @@ public class InventoryScreen extends Actor
     GreenfootImage seven = new GreenfootImage("Font/PixelTransparent/7.png");
     GreenfootImage eight = new GreenfootImage("Font/PixelTransparent/8.png");
     GreenfootImage nine = new GreenfootImage("Font/PixelTransparent/9.png");
-    
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    int[] numbersX = {123, 140, 323, 340, 523, 540, 723, 740, 123, 140, 323, 340, 523, 540, 723, 740, 123, 140, 323, 340, 523, 540, 723, 740};
-    int[] numbersY = {130, 130, 130, 130, 130, 130, 130, 130, 310, 310, 310, 310, 310, 310, 310, 310, 490, 490, 490, 490, 490, 490, 490, 490};
+    
+    int[] numbersX = {
+        123, 140, 323, 340, 523, 540, 723, 740, 
+        123, 140, 323, 340, 523, 540, 723, 740, 
+        123, 140, 323, 340, 523, 540, 723, 740,
+        123, 140, 323, 340, 523, 540, 723, 740
+    };
+    int[] numbersY = {
+        130, 130, 130, 130, 130, 130, 130, 130, 
+        310, 310, 310, 310, 310, 310, 310, 310, 
+        490, 490, 490, 490, 490, 490, 490, 490,
+        670, 670, 670, 670, 670, 670, 670, 670 
+    };
     
 
-    int[] x = {100, 300, 500, 700, 100, 300, 500, 700, 100, 300, 500, 700};
-    int[] y = {75, 75, 75, 75, 260, 260, 260, 260, 445, 445, 445, 445};
+    int[] x = {
+        100, 300, 500, 700, 
+        100, 300, 500, 700, 
+        100, 300, 500, 700,
+        100, 300, 500, 700
+    };
+    int[] y = {
+        75, 75, 75, 75, 
+        260, 260, 260, 260, 
+        445, 445, 445, 445,
+        185, 185, 185, 185
+    };
 
     public void act()
     {

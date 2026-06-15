@@ -35,8 +35,20 @@ public class CraftingScreen extends Actor
 
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
 
-    int[] numbersX = {600, 617, 600, 617, 600, 617, 600, 617, 600, 617};
-    int[] numbersY = {100, 100, 200, 200, 300, 300, 400, 400, 500, 500};
+    int[] numbersX = {
+        600, 617, 
+        600, 617, 
+        600, 617, 
+        600, 617, 
+        600, 617
+    };
+    int[] numbersY = {
+        100, 100, 
+        200, 200, 
+        300, 300, 
+        400, 400, 
+        500, 500
+    };
 
     private GreenfootImage baseImage;
 
