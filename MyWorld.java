@@ -904,8 +904,7 @@ public class MyWorld extends World
                 )); 
 
             changeCraftPage();
-
-            drawCommitCraft(false);
+            
             Greenfoot.delay(20);
         }
         else if(Greenfoot.isKeyDown("c") && craftingMenuOpen)
@@ -916,10 +915,13 @@ public class MyWorld extends World
             removeObject(craftingScreen);
             removeObject(downButton);
             removeObject(upButton);
+            
+            deleteCommitCraft();
+            
             for(String i : craftButtons.keySet()){
                 removeObject(craftButtons.get(i));
             }
-            deleteCommitCraft();
+            
 
             Greenfoot.delay(20);
         }
@@ -951,15 +953,12 @@ public class MyWorld extends World
     }
 
     public void drawCraftButtons(int pageNumber){
-        System.out.println("draw Buttons");
-
         int loop = 0;
         int drawIndex = 0;
         for(String item : craftButtons.keySet()){
             if(craftingScreen.checkIfItemsNeededWereFound(item) && loop >= ((pageNumber * 5) - 5)){
                 if(loop >= (pageNumber * 5)){
                     currentButton = loop;
-                    System.out.println("break");
                     break;
                 }
                 addObject(craftButtons.get(item), 145, 70 + (145 * drawIndex));
@@ -1002,7 +1001,9 @@ public class MyWorld extends World
     }
 
     public void updateCommitCraft(boolean pressable){
-        deleteCommitCraft();
+        if(commitButton != null){
+            deleteCommitCraft();
+        }
         drawCommitCraft(pressable);
     }    
 
@@ -1012,7 +1013,6 @@ public class MyWorld extends World
     }
 
     public void drawDownButton(){
-
         downButton = new DownButton();
         addObject(downButton, 309, 780);
     }

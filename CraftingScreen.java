@@ -57,18 +57,14 @@ public class CraftingScreen extends Actor
     public void handleDownButton(){
         MyWorld world = (MyWorld)getWorld();
         
-        if(world.upButton != null && world.upButton.getWorld() != null){
-            if(Greenfoot.mousePressed(world.upButton)){
-                System.out.println("Up Pressed");
-            
+        if(world.upButton != null){
+            if(Greenfoot.mousePressed(world.upButton)){           
                 world.currentCraftingPage -=1;
                 world.changeCraftPage();
             }
         }
         
         if(Greenfoot.mousePressed(world.downButton)){
-            System.out.println("Down Pressed");
-            
             world.currentCraftingPage +=1;
             world.changeCraftPage();
         }
@@ -126,7 +122,9 @@ public class CraftingScreen extends Actor
         }
     }
 
-    private void craftItem(){        
+    private void craftItem(){  
+        MyWorld world = (MyWorld)getWorld();
+        
         if(checkItemsAreInInventory()){
             for(String key : itemsNeeded.keySet()){
                 inventoryScreen.removeItemsNoCheck(key, itemsNeeded.get(key));
@@ -136,8 +134,6 @@ public class CraftingScreen extends Actor
             inventoryScreen.addItem(itemToBeCrafted, 1);
 
             System.out.println("Item erfolgreich gecrafted");
-
-            MyWorld world = (MyWorld)getWorld();
             world.updateCommitCraft(false);
         }
     }
@@ -145,9 +141,7 @@ public class CraftingScreen extends Actor
     private boolean checkItemsAreInInventory(){
         boolean canCraft = true;
         for(String key : itemsNeeded.keySet()){
-            System.out.println(key + " " + itemsNeeded.get(key));
             if(!inventoryScreen.checkIfItemCanBeRemoved(key, itemsNeeded.get(key))){
-                System.out.println("Nicht genügend Items für dieses Rezept");
                 canCraft = false;
             }
         }
@@ -156,6 +150,8 @@ public class CraftingScreen extends Actor
 
     private void selectedCraftItem(String itemToCraft){
         MyWorld world = (MyWorld)getWorld();
+        world.updateCommitCraft(false);
+        
         boolean canCraft = true;
 
         getItemsNeeded(itemToCraft);
