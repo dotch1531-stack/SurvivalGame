@@ -131,7 +131,13 @@ public class Player extends Actor
         
     
     //ANIMATE WORKS - DO NOT TOUCH
-    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";}
+    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";
+    int timer = 10000;
+    timer--;
+    if(timer <= 0) {
+        damage(100); // pause the execution of the program if 'timer' is less than or equal to 0
+    }
+  }
     public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
     
     public void movementAnimation()
