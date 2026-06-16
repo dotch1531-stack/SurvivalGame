@@ -1,9 +1,9 @@
 import greenfoot.*;
 import java.util.*;
 
-public class Pig extends Passiv_Entity
+public class pig extends Passiv_Entity
 {
-    public Pig()
+    public pig()
     {
         // ===== IMAGE =====
         setImage("Animals/pig/pigIdle.png");

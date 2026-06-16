@@ -1,12 +1,16 @@
 import greenfoot.*;
 import java.util.*;
 
-public class Duck extends Passiv_Entity
+public class duck extends Passiv_Entity
 {
-    public Duck()
+    public duck()
     {
+        
+        drops = List.of("SteakRoh","Feder");
+        dropAmount = Greenfoot.getRandomNumber(1)+1;
+        
         // ===== IMAGE =====
-        setImage("Animals/duck/duckWater/duckIdle.png");
+        setImage("Animals/duck/duckIdle.png");
 
         // ===== POSITION =====
         worldX = 0;
@@ -32,8 +36,7 @@ public class Duck extends Passiv_Entity
         idleTimer = 0;
         allowedTiles = new int[]
         {
-            MyWorld.WATER,
-            MyWorld.GRASS
+            MyWorld.WATER
         };
     }
     
