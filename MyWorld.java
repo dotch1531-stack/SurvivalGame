@@ -277,13 +277,13 @@ public class MyWorld extends World
                 spawnObjects(biome,x,y,BIOME_GRASS,8000, Tree::new);
 
                 //COW HERDS
-                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, cow::new);
+                spawnFrendlyHerds(biome, x, y, BIOME_GRASS,3,1000, Cow::new);
 
                 //PIG HERDS
-                //spawnFrendlyHerds(biome, x, y, BIOME_GRASS,2,1000, pig::new);
+                //spawnFrendlyHerds(biome, x, y, BIOME_GRASS,2,1000, Pig::new);
 
                 //Duck
-                spawnFrendlyHerds(biome, x, y, BIOME_WATER,2,1000, duck::new);
+                spawnFrendlyHerds(biome, x, y, BIOME_WATER,2,1000, Duck::new);
 
                 //Fellow Survivor 
                 spawnFrendlyHerds(biome,x,y,BIOME_STONE,1,1000, Fellow_Survivor::new);

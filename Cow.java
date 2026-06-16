@@ -1,9 +1,9 @@
 import greenfoot.*;
 import java.util.*;
 
-public class cow extends Passiv_Entity
+public class Cow extends Passiv_Entity
 {
-    public cow()
+    public Cow()
     {
         
         drops = List.of("SteakRoh");
