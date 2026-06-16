@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 
 public class StoneNode extends WorldObject
 
@@ -6,6 +7,9 @@ public class StoneNode extends WorldObject
     
     public StoneNode()
     {
+        
+        drops = List.of("Stein");
+        dropAmount = 1;
         setImage("stoneNode.png");
         // ===== POSITION =====
         worldX = 0;
