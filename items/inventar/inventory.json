@@ -1,14 +1,14 @@
 {
-    "Seil": 0,
-    "Blatt": 40,
-    "Eisen": 83,
-    "Pfeil": 0,
-    "SteakGekocht": 1,
-    "Spitzhacke": 0,
+    "Seil": 8,
+    "Blatt": 10,
+    "Eisen": 63,
+    "Pfeil": 1,
+    "SteakGekocht": 9,
+    "Spitzhacke": 1,
     "Holz": 99,
-    "Feder": 36,
-    "SteakRoh": 6,
+    "Feder": 35,
+    "SteakRoh": 0,
     "Axt": 1,
     "Schwert": 0,
-    "Stein": 48
+    "Stein": 58
 }

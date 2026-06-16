@@ -425,7 +425,7 @@ public class CaveInteriorWorld extends MyWorld
                 if (caveMap[x][y] == 2)
                 {
                     // kleine Chance damit es nicht komplett voll ist
-                    if (Greenfoot.getRandomNumber(1000) < 50)
+                    if (Greenfoot.getRandomNumber(1000) < 25)
                     {
                         StoneNode stone = new StoneNode();
 
@@ -450,7 +450,7 @@ public class CaveInteriorWorld extends MyWorld
                 if (caveMap[x][y] == 2)
                 {
                     // kleine Chance damit es nicht komplett voll ist
-                    if (Greenfoot.getRandomNumber(1000) < 5)
+                    if (Greenfoot.getRandomNumber(1000) < 2)
                     {
                         IronNode iron = new IronNode();
 
