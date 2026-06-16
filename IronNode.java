@@ -1,16 +1,15 @@
 import greenfoot.*;
 import java.util.*;
 
-public class StoneNode extends WorldObject
+public class IronNode extends WorldObject
 
 {
     
-    public StoneNode()
+    public IronNode()
     {
-        
-        drops = List.of("Stein");
+        drops = List.of("Eisen");
         dropAmount = 1;
-        setImage("stoneNode.png");
+        setImage("ironNode.png");
         // ===== POSITION =====
         worldX = 0;
         worldY = 0;

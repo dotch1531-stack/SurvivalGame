@@ -47,6 +47,7 @@ public class CaveInteriorWorld extends MyWorld
         generateCave();
         generateCaveWalls();
         spawnStoneNodes();
+        spawnIronNodes();
         findValidSpawn();
 
     }
@@ -434,6 +435,31 @@ public class CaveInteriorWorld extends MyWorld
                         addObject(stone,
                             stone.worldX - cameraX,
                             stone.worldY - cameraY);
+                    }
+                }
+            }
+        }
+    }
+    private void spawnIronNodes()
+    {
+        for (int y = 0; y < 100; y++)
+        {
+            for (int x = 0; x < 100; x++)
+            {
+                // nur in Steinbereichen
+                if (caveMap[x][y] == 2)
+                {
+                    // kleine Chance damit es nicht komplett voll ist
+                    if (Greenfoot.getRandomNumber(1000) < 5)
+                    {
+                        IronNode iron = new IronNode();
+
+                        iron.worldX = x * TILE_SIZE + TILE_SIZE / 2;
+                        iron.worldY = y * TILE_SIZE + TILE_SIZE / 2;
+
+                        addObject(iron,
+                            iron.worldX - cameraX,
+                            iron.worldY - cameraY);
                     }
                 }
             }
