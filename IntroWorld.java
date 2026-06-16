@@ -7,11 +7,12 @@ public class IntroWorld extends World
 
     private Helicopter heli;
 
-    private GreenfootSound windSound = new GreenfootSound("wind.mp3");
-    private GreenfootSound engineSound = new GreenfootSound("heli_engine.mp3");
-    private GreenfootSound crashSound = new GreenfootSound("crash.mp3");
-    private GreenfootSound engineFailSound = new GreenfootSound("engine_fail.mp3");
-
+    private GreenfootSound windSound       =  new GreenfootSound("wind.mp3");
+    private GreenfootSound engineSound     =  new GreenfootSound("heli_engine.mp3");
+    private GreenfootSound crashSound      =  new GreenfootSound("crash.mp3");
+    private GreenfootSound engineFailSound =  new GreenfootSound("engine_fail.mp3");
+    private GreenfootSound wakeUpSound     =  new GreenfootSound("wake_up.mp3");
+    
     public IntroWorld()
     {
         super(800, 800, 1);
@@ -96,13 +97,12 @@ public class IntroWorld extends World
             windSound.stop();
         }
 
-        heli.setRotation(45);
-        heli.setLocation(heli.getX() + 3, heli.getY() + 5);
+        //heli.setRotation(45);
+        heli.setLocation(heli.getX() + 1, heli.getY() + 5);
 
-        getBackground().setColor(Color.DARK_GRAY);
+        getBackground().setColor(Color.BLACK);
         getBackground().fill();
 
-        drawText("CRASH!", 360, 200);
 
         if (timer > 120)
         {
@@ -116,12 +116,14 @@ public class IntroWorld extends World
     {
         crashSound.stop();
         engineFailSound.stop();
-        getBackground().setColor(Color.BLACK);
-        getBackground().fill();
+        
 
         if (timer == 1)
         {
             heli.getImage().setTransparency(0);
+            wakeUpSound.play();
+            getBackground().setColor(Color.BLACK);
+            getBackground().fill();
         }
 
             if (timer < 100)
@@ -140,7 +142,7 @@ public class IntroWorld extends World
     {
         if (timer == 1)
         {
-            //Greenfoot.playSound("wake_up.mp3");
+            
         }
 
         getBackground().setColor(Color.BLACK);
@@ -148,14 +150,18 @@ public class IntroWorld extends World
 
         if (timer < 80)
         {
+            getBackground().setColor(Color.DARK_GRAY);
             
         }
-        else if (timer < 160)
+        
+        
+        else if (timer < 640)
         {
             
         }
         else
         {
+            wakeUpSound.stop();
             Greenfoot.setWorld(new MyWorld());
         }
     }
