@@ -85,70 +85,62 @@ public abstract class Entity extends Actor
     public void Animation(String entity, int imageWidth, int imageHeight)
     {
         MyWorld world = (MyWorld)getWorld();
+    
+
         
-        int tileX = Math.floorDiv(LocationX, MyWorld.TILE_SIZE);
-        int tileY = Math.floorDiv(LocationY, MyWorld.TILE_SIZE);
-    
-        tile = world.getTile(tileX, tileY);
-        
-        int dx = getX() - lastX;
-        int dy = getY() - lastY;
-    
-        if (dx == 0 && dy == 0 && tile >= 3)
-        {
-            setIdle(entity, "Water");
-        }
-        if (dx == 0 && dy == 0 && tile < 3)
-        {
-            setIdle(entity, "");
-        }
-        else
-        {
-            // ===== DIAGONALS FIRST =====
-            if (dx > 0 && dy < 0)
-                animate("UpRight", entity, imageWidth, imageHeight);
-    
-            else if (dx < 0 && dy < 0)
-                animate("UpLeft", entity, imageWidth, imageHeight);
-    
-            else if (dx > 0 && dy > 0)
-                animate("DownRight", entity, imageWidth, imageHeight);
-    
-            else if (dx < 0 && dy > 0)
-                animate("DownLeft", entity, imageWidth, imageHeight);
             
-            // ===== STRAIGHT DIRECTIONS =====
-            else if (Math.abs(dx) > Math.abs(dy))
+            
+            
+            int tileX = Math.floorDiv(LocationX, MyWorld.TILE_SIZE);
+            int tileY = Math.floorDiv(LocationY, MyWorld.TILE_SIZE);
+        
+            tile = world.getTile(tileX, tileY);
+            
+            int dx = getX() - lastX;
+            int dy = getY() - lastY;
+        
+
+            if (dx == lastX && dy == lastY)
             {
-                if (dx > 0)
-                    animate("Right", entity, imageWidth, imageHeight);
-                else
-                    animate("Left", entity, imageWidth, imageHeight);
+                setImage(new GreenfootImage("Animals/" + entity + "/"  + entity+ "Idle.png"));
             }
             else
             {
-                if (dy > 0)
-                    animate("DownRight", entity, imageWidth, imageHeight);
-                else
+                // ===== DIAGONALS FIRST =====
+                if (dx > 0 && dy < 0)
                     animate("UpRight", entity, imageWidth, imageHeight);
-            }
+        
+                else if (dx < 0 && dy < 0)
+                    animate("UpLeft", entity, imageWidth, imageHeight);
+        
+                else if (dx > 0 && dy > 0)
+                    animate("DownRight",entity, imageWidth, imageHeight);
+        
+                else if (dx < 0 && dy > 0)
+                    animate("DownLeft",entity, imageWidth, imageHeight);
+                
+                // ===== STRAIGHT DIRECTIONS =====
+                else if (Math.abs(dx) > Math.abs(dy))
+                {
+                    if (dx > 0)
+                        animate("Right", entity, imageWidth, imageHeight);
+                    else
+                        animate("Left", entity, imageWidth, imageHeight);
+                }
+                else
+                {
+                    if (dy > 0)
+                        animate("DownRight", entity, imageWidth, imageHeight);
+                    else
+                        animate("UpRight", entity, imageWidth, imageHeight);
+                }
+            
+        
+            lastX = getX();
+            lastY = getY();
         }
+        
     
-        lastX = getX();
-        lastY = getY();
-    }
-
-    // idle fallback
-    private void setIdle(String entity, String WaterOrNot)
-    {
-
-        if ("Water".equals(WaterOrNot)){
-        setImage(new GreenfootImage(
-            "Animals/" + entity + "/" + entity + WaterOrNot + "/" + entity+ "Idle.png"
-        ));}
-        else{setImage(new GreenfootImage(
-            "Animals/" + entity + "/"  + entity+ "Idle.png"
-        ));}
     }
     
     
@@ -218,8 +210,7 @@ public abstract class Entity extends Actor
         // Load sprite sheet ONCE per animation direction
         String path;
         
-        if(tile >= 3){path = "Animals/" + image + "/" + image + "Water" + "/" + image + where + ".png";}
-        else{path = "Animals/" + image + "/" + image + where + ".png";}
+        path = "Animals/" + image + "/" + image + where + ".png";
         if(image == "duck"){totalFrames=1;}
         
 
