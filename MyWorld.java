@@ -112,6 +112,7 @@ public class MyWorld extends World
     public MyWorld()
     {
         super(800, 800, 1);
+        Greenfoot.setWorld(new IntroWorld());
         
         //hotbar
         Hotbar hotbar = new Hotbar();

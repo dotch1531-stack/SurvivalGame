@@ -9,7 +9,7 @@ public class IronNode extends WorldObject
     {
         drops = List.of("Eisen");
         dropAmount = 1;
-        setImage("ironNode.png");
+        setImage("IronOre.png");
         // ===== POSITION =====
         worldX = 0;
         worldY = 0;
