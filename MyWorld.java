@@ -112,6 +112,10 @@ public class MyWorld extends World
     public MyWorld()
     {
         super(800, 800, 1);
+        
+        //hotbar
+        Hotbar hotbar = new Hotbar();
+        addObject(hotbar, 400, 750);
 
         instance = this;
 
@@ -940,7 +944,8 @@ public class MyWorld extends World
                 Map.entry("SteakGekocht", SteakCooked::new),
                 Map.entry("SteakRoh", SteakRaw::new),
                 Map.entry("Feder", Feather::new),
-                Map.entry("Pfeil", Arrow::new)
+                Map.entry("Pfeil", Arrow::new),
+                Map.entry("SteinSpitzhacke", StonePickaxe::new)
             );
 
         Supplier<Item> supplier = itemFactory.get(item);

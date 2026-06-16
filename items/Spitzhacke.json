@@ -1,9 +1,10 @@
 {
     "name": "Spitzhacke",
-    "schaden" : 1,
+    "schaden" : 2,
     "stackSize" : 1,
     "recipe" : {
         "Eisen" : 4,
-        "Holz" : 2
+        "Holz" : 2,
+        "Seil" : 2
     }
 }

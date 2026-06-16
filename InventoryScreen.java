@@ -62,6 +62,8 @@ public class InventoryScreen extends Actor
         445, 445, 445, 445,
         185, 185, 185, 185
     };
+    
+    ArrayList<String> hotbarItems = new ArrayList<String>();
 
     public void act()
     {
@@ -297,10 +299,10 @@ public class InventoryScreen extends Actor
         }
 
         if(clicked != null){
-            removeItemsNoCheck(clicked.getName(), 1);
-            world.updateInventoryScreen();
+                removeItemsNoCheck(clicked.getName(), 1);
+                world.updateInventoryScreen();
             
-            //Items droppen lassen!!!
+                //Items droppen lassen!!!
         }
     }
     

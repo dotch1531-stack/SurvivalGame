@@ -1,11 +1,20 @@
 {
     "Seil": 0,
+<<<<<<< Updated upstream
     "Blatt": 25,
     "Eisen": 74,
     "Pfeil": 8,
     "SteakGekocht": 12,
     "Spitzhacke": 1,
     "Holz": 99,
+=======
+    "Blatt": 4,
+    "Eisen": 74,
+    "Pfeil": 8,
+    "SteakGekocht": 12,
+    "Spitzhacke": 0,
+    "Holz": 84,
+>>>>>>> Stashed changes
     "Feder": 32,
     "SteakRoh": 0,
     "Axt": 1,

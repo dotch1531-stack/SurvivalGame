@@ -1,23 +1,20 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Stone here.
+ * Write a description of class Hotbar here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Stone extends Item
+public class Hotbar extends InventoryScreen
 {
-    public Stone(){
-        GreenfootImage img = new GreenfootImage("InventorySprites/Stein.png");
-        img.scale(150, 150);
+    public Hotbar(){
+        GreenfootImage img = new GreenfootImage("hotbar.png");
+        img.scale(400, 50);
         setImage(img);
     }
     public void act()
     {
         // Add your action code here.
-    }
-    public String getName(){
-        return "Stein";
     }
 }
