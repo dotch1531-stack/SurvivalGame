@@ -96,11 +96,11 @@ public abstract class Entity extends Actor
         
             tile = world.getTile(tileX, tileY);
             
-            int dx = getX() - lastX;
-            int dy = getY() - lastY;
+            int dx = worldX - lastWorldX;
+            int dy = worldY - lastWorldY;
         
 
-            if (dx == lastX && dy == lastY)
+            if (dx == 0 && dy == 0)
             {
                 setImage(new GreenfootImage("Animals/" + entity + "/"  + entity+ "Idle.png"));
             }
@@ -136,8 +136,8 @@ public abstract class Entity extends Actor
                 }
             
         
-            lastX = getX();
-            lastY = getY();
+            lastWorldX = worldX;
+            lastWorldY = worldY;
         }
         
     
@@ -211,7 +211,7 @@ public abstract class Entity extends Actor
         String path;
         
         path = "Animals/" + image + "/" + image + where + ".png";
-        if(image == "duck"){totalFrames=1;}
+        if("duck".equals(image)){totalFrames=1;}
         
 
         if (spriteSheet == null || !spriteSheet.getClass().equals(path))

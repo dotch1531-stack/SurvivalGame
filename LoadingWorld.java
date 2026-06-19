@@ -26,8 +26,7 @@ public class LoadingWorld extends World
         int spawnX = returnWorld.cameraX + 400;
         int spawnY = returnWorld.cameraY + 400;
 
-        Greenfoot.setWorld(
-            new CaveInteriorWorld(
+        Greenfoot.setWorld(new CaveInteriorWorld(
                 player,
                 returnWorld,
                 spawnX,

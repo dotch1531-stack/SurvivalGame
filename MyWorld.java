@@ -113,10 +113,8 @@ public class MyWorld extends World
     {
         super(800, 800, 1);
         
-        
-        
-
         instance = this;
+
 
         worldSeed = Greenfoot.getRandomNumber(1000000);
 
@@ -144,6 +142,8 @@ public class MyWorld extends World
         Hotbar hotbar = new Hotbar();
         addObject(hotbar, 400, 750);
     }
+    
+    public void gonnaReturn(){instance = this;}
 
     public boolean playerNearTent()
     {
