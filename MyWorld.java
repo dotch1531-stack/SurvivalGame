@@ -112,11 +112,9 @@ public class MyWorld extends World
     public MyWorld()
     {
         super(800, 800, 1);
-        Greenfoot.setWorld(new IntroWorld());
         
-        //hotbar
-        Hotbar hotbar = new Hotbar();
-        addObject(hotbar, 400, 750);
+        
+        
 
         instance = this;
 
@@ -141,6 +139,10 @@ public class MyWorld extends World
 
         addObject(player, 400, 400);
         tentSpawned = false;
+        
+        //hotbar
+        Hotbar hotbar = new Hotbar();
+        addObject(hotbar, 400, 750);
     }
 
     public boolean playerNearTent()
@@ -600,8 +602,10 @@ public class MyWorld extends World
         // ===== WATER DETECTION =====
         if(getCurrentTile() == WATER)
             player.inWater();
-        else
-            player.notInWater();
+            
+        else player.notInWater();
+        
+        
     }
 
     // ===== MOVEMENT =====

@@ -63,11 +63,12 @@ public class InventoryScreen extends Actor
         185, 185, 185, 185
     };
     
-    ArrayList<String> hotbarItems = new ArrayList<String>();
+    String[] hotbarItems = {null, null, null, null};
 
     public void act()
     {
         itemPressed();
+        itemToHotbar();
     }
 
     public void getItemsInventory(boolean executedToShowItemsInInventory)
@@ -293,6 +294,7 @@ public class InventoryScreen extends Actor
 
         for(Item item : world.itemsArray){
             if(item != null && Greenfoot.mousePressed(item)){
+                
                 clicked = item;
                 break;
             }
@@ -303,6 +305,27 @@ public class InventoryScreen extends Actor
                 world.updateInventoryScreen();
             
                 //Items droppen lassen!!!
+        }
+    }
+    public void itemToHotbar(){
+        MyWorld world = (MyWorld)getWorld();
+        
+        for(Item item : world.itemsArray){
+            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("1")){
+                hotbarItems[0] = item.getName();
+            }
+            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("2")){
+                hotbarItems[1] = item.getName();
+            }
+            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("3")){
+                hotbarItems[2] = item.getName();
+            }
+            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("4")){
+                hotbarItems[3] = item.getName();
+            }
+            for(String i : hotbarItems){
+                System.out.println(i);
+            }
         }
     }
     
