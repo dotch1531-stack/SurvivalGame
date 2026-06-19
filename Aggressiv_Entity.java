@@ -34,13 +34,17 @@ public class Aggressiv_Entity extends Entity
     private int patrolRadius = 2 * 120;
     private int detectionRange = 3 * 120;
     
+    int hitTimer = 50;
+    
     
     protected void addedToWorld(World world)
     {
-        // ECHTE Spawnposition speichern
         homeX = worldX;
         homeY = worldY;
-
+    
+        lastWorldX = worldX;
+        lastWorldY = worldY;
+    
         chooseRandomTarget();
     }
 
@@ -73,7 +77,15 @@ public class Aggressiv_Entity extends Entity
         {
             patrol();
         }
-        if(distanceToPlayer <= 20){player.damage(2);justHit = true;}
+        if(distanceToPlayer <= 20){
+            hitTimer--;
+            
+            if (hitTimer <= 0) {
+                player.damage(1);
+                hitTimer = 50; // reset if you want repeated damage
+            }
+        
+        }
     
     }
 
