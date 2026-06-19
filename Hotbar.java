@@ -1,20 +1,37 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-/**
- * Write a description of class Hotbar here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Hotbar extends InventoryScreen
 {
-    public Hotbar(){
-        GreenfootImage img = new GreenfootImage("hotbar.png");
+    private int hotbarSelected = 0;
+    private GreenfootImage img;
+
+    public Hotbar()
+    {
+        img = new GreenfootImage("hotbar.png");
         img.scale(300, 75);
         setImage(img);
     }
+
+    public void changeSlot()
+    {
+        GreenfootImage newImg = new GreenfootImage("Hotbar/Hotbar_"+hotbarSelected+".png");
+        newImg.scale(300, 75);
+        setImage(newImg);
+    }
+
     public void act()
     {
-        // Add your action code here.
+        for (int i = 1; i <= 4; i++)
+        {
+            if (Greenfoot.isKeyDown(String.valueOf(i)))
+            {
+                if (hotbarSelected != i)
+                {
+                    hotbarSelected = i;
+                    changeSlot();
+                }
+                break;
+            }
+        }
     }
 }
