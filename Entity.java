@@ -230,7 +230,7 @@ public abstract class Entity extends Actor
 
             frameImage.drawImage(
                 spriteSheet,
-                -frame * frameHeight, // FIXED (was frameHeight)
+                -frame * frameWidth, // FIXED (was frameHeight)
                 0
             );
 
