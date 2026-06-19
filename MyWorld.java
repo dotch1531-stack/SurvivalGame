@@ -950,7 +950,8 @@ public class MyWorld extends World
                 Map.entry("SteakRoh", SteakRaw::new),
                 Map.entry("Feder", Feather::new),
                 Map.entry("Pfeil", Arrow::new),
-                Map.entry("SteinSpitzhacke", StonePickaxe::new)
+                Map.entry("SteinSpitzhacke", StonePickaxe::new),
+                Map.entry("HolzSchluessel", WoodKey::new)
             );
 
         Supplier<Item> supplier = itemFactory.get(item);
