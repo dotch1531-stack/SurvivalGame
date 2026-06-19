@@ -42,6 +42,8 @@ public class CaveInteriorWorld extends MyWorld
             tiles[i] = new GreenfootImage(TILE_SIZE, TILE_SIZE);
             tiles[i].drawImage(tileSet, -i * TILE_SIZE, 0);
         }
+        
+        
 
 
         generateCave();
@@ -49,6 +51,9 @@ public class CaveInteriorWorld extends MyWorld
         spawnStoneNodes();
         spawnIronNodes();
         findValidSpawn();
+        
+        Hotbar hotbar = new Hotbar();
+        addObject(hotbar, 400, 750);
 
     }
 
