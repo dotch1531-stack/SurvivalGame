@@ -1,6 +1,6 @@
 {
     "Seil": 8,
-    "Blatt": 23,
+    "Blatt": 25,
     "Eisen": 60,
     "Pfeil": 1,
     "SteakGekocht": 9,
@@ -10,5 +10,6 @@
     "SteakRoh": 10,
     "Axt": 1,
     "Schwert": 0,
-    "Stein": 58
+    "Stein": 58,
+    "HolzSchluessel": 1
 }

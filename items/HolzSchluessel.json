@@ -1,0 +1,10 @@
+{
+    "name": "HolzSchluessel",
+    "schaden" : 1,
+    "stackSize" : 1,
+    "recipe" : {
+        "Eisen" : 10,
+        "Holz" : 40,
+        "Seil" : 5
+    }
+}
