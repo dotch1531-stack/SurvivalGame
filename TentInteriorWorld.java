@@ -90,5 +90,9 @@ public class TentInteriorWorld extends World
         addObject(tentPlayer, 400, 400);
         
     }
+    
+    
+    
+    
 
 }
