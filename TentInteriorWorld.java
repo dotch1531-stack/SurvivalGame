@@ -1,35 +1,38 @@
 import greenfoot.*;
 
 public class TentInteriorWorld extends World
+
 {
     public static TentInteriorWorld instance;
+    
+    TentPlayer tentPlayer = new TentPlayer();
 
     public TentInteriorWorld()
-{
-    super(800, 800, 1);
-    instance = this;
-
-    GreenfootImage bg = getBackground();
-
-    drawRoom(bg);
-
-    addObject(new TentPlayer(), 400, 400);
-
-    int tileSize = 80;
-    int gridSize = 3 * tileSize;
-
-    int centerX = 400;
-    int centerY = 400;
-
-    int startX = centerX - gridSize / 2;
-    int startY = centerY - gridSize / 2;
-
-    addObject(
-        new Campfire(),
-        startX + 2 * tileSize + tileSize / 2,
-        startY + tileSize / 2
-    );
-}
+    {
+        super(800,800,1);
+        instance = this;
+    
+        GreenfootImage bg = getBackground();
+    
+        drawRoom(bg);
+        
+        
+    
+        int tileSize = 80;
+        int gridSize = 3 * tileSize;
+    
+        int centerX = 400;
+        int centerY = 400;
+    
+        int startX = centerX - gridSize / 2;
+        int startY = centerY - gridSize / 2;
+    
+        addObject(
+            new Campfire(),
+            startX + 2 * tileSize + tileSize / 2,
+            startY + tileSize / 2
+        );
+    }
 
     private void drawRoom(GreenfootImage bg)
     {
@@ -84,10 +87,8 @@ public class TentInteriorWorld extends World
         bg.setColor(Color.BLACK);
         bg.drawRect(startX, startY, gridSize, gridSize);
 
-        // =========================
-        // 🧍 PLAYER
-        // =========================
-        addObject(new TentPlayer(), 400, 400);
+        addObject(tentPlayer, 400, 400);
+        
     }
 
 }

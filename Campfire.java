@@ -29,6 +29,8 @@ public class Campfire extends Actor
             //Textur feuer ändern
             
             inventoryScreen.addItem("SteakGekocht", 1);
+            
+            solid = true;
         }
     }
 }

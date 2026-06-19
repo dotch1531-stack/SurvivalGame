@@ -30,10 +30,15 @@ public class Player extends Actor
 
     public boolean breakable = true;
 
-    public double maxHealth = 15000000;
+    public double maxHealth = 15;
     public double health = maxHealth;
 
     public BreakProgress progress;
+    
+    
+    public int waterTimer = 1000;
+    
+    public boolean inWaterStatement;
 
     Hitbox hitbox = new Hitbox();
 
@@ -52,6 +57,14 @@ public class Player extends Actor
         movementAnimation();
         updateHitbox();
         hitCheck();
+        
+        if (inWaterStatement){
+            waterTimer--;
+            
+            if (waterTimer <= 0) {
+                damage(1);
+                waterTimer = 100; // reset if you want repeated damage
+            }}
     }
     
     
@@ -130,15 +143,20 @@ public class Player extends Actor
     
         
     
-    //ANIMATE WORKS - DO NOT TOUCH
-    public void inWater(){up = "UpWater";down = "DownWater";left = "LeftWater";right = "RightWater";idle = "IdleWater";
-    int timer = 10000;
-    timer--;
-    if(timer <= 0) {
-        damage(100); // pause the execution of the program if 'timer' is less than or equal to 0
+    
+
+    public void inWater() {
+        up = "UpWater";
+        down = "DownWater";
+        left = "LeftWater";
+        right = "RightWater";
+        idle = "IdleWater";
+        inWaterStatement = true;
     }
-  }
-    public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";}
+        
+    public void notInWater(){up = "Up";down = "Down";left = "Left";right = "Right";idle = "Idle";waterTimer = 10000;inWaterStatement = false;}
+    
+    
     
     public void movementAnimation()
     {

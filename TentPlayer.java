@@ -17,6 +17,9 @@ public class TentPlayer extends Actor
     String left = "Left";
     String right = "Right";
     String idle = "Idle";
+    
+    
+    
 
     public TentPlayer()
     {
@@ -97,4 +100,6 @@ public class TentPlayer extends Actor
             }
         }
     }
+    
+
 }
