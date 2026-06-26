@@ -209,7 +209,7 @@ public class Player extends Actor
     {
         if(Greenfoot.mousePressed(null))
         {
-            hitbox.checkHits(1,1);
+            hitbox.checkHits(1,1,1,1,1);
         }
     }
     
