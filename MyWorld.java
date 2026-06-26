@@ -121,6 +121,8 @@ public class MyWorld extends World
         tileSet = new GreenfootImage("tileset.png");
 
         tiles = new GreenfootImage[6];
+        
+        setPaintOrder(Hotbar.class);
 
         // ===== LOAD TILES =====
         for(int i = 0; i < 6; i++)
