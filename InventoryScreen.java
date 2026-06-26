@@ -16,14 +16,10 @@ public class InventoryScreen extends Actor
      * 4. in MyWorld add item to array under the switch cases
      * 5. add new case to the switch case (name needs to be in german mit großen anfangsbuchstaben wie in backend)
      */
-    
-    
-    public boolean firstRead = false;
 
+    public boolean firstRead = false;
     protected TreeMap<String, Integer> inventory = new TreeMap<>();
-    
     private final String INVENTORY_PATH = "items/inventar/inventory.json";
-    
     GreenfootImage zero = new GreenfootImage("Font/PixelTransparent/0.png");
     GreenfootImage one = new GreenfootImage("Font/PixelTransparent/1.png");
     GreenfootImage two = new GreenfootImage("Font/PixelTransparent/2.png");
@@ -35,40 +31,41 @@ public class InventoryScreen extends Actor
     GreenfootImage eight = new GreenfootImage("Font/PixelTransparent/8.png");
     GreenfootImage nine = new GreenfootImage("Font/PixelTransparent/9.png");
     GreenfootImage[] numberArray = {zero, one, two, three, four, five, six, seven, eight, nine};
-    
+
     int[] numbersX = {
-        123, 140, 323, 340, 523, 540, 723, 740, 
-        123, 140, 323, 340, 523, 540, 723, 740, 
-        123, 140, 323, 340, 523, 540, 723, 740,
-        123, 140, 323, 340, 523, 540, 723, 740
-    };
+            123, 140, 323, 340, 523, 540, 723, 740, 
+            123, 140, 323, 340, 523, 540, 723, 740, 
+            123, 140, 323, 340, 523, 540, 723, 740,
+            123, 140, 323, 340, 523, 540, 723, 740
+        };
     int[] numbersY = {
-        130, 130, 130, 130, 130, 130, 130, 130, 
-        310, 310, 310, 310, 310, 310, 310, 310, 
-        490, 490, 490, 490, 490, 490, 490, 490,
-        670, 670, 670, 670, 670, 670, 670, 670 
-    };
-    
+            130, 130, 130, 130, 130, 130, 130, 130, 
+            310, 310, 310, 310, 310, 310, 310, 310, 
+            490, 490, 490, 490, 490, 490, 490, 490,
+            670, 670, 670, 670, 670, 670, 670, 670 
+        };
 
     int[] x = {
-        100, 300, 500, 700, 
-        100, 300, 500, 700, 
-        100, 300, 500, 700,
-        100, 300, 500, 700
-    };
+            100, 300, 500, 700, 
+            100, 300, 500, 700, 
+            100, 300, 500, 700,
+            100, 300, 500, 700
+        };
     int[] y = {
-        75, 75, 75, 75, 
-        260, 260, 260, 260, 
-        445, 445, 445, 445,
-        185, 185, 185, 185
-    };
-    
+            75, 75, 75, 75, 
+            260, 260, 260, 260, 
+            445, 445, 445, 445,
+            185, 185, 185, 185
+        };
+
     String[] hotbarItems = {null, null, null, null};
+
+    public InventoryScreen(){MyWorld world = (MyWorld)getWorld(); if(world!=null){System.out.println("nigga");}}
 
     public void act()
     {
         itemPressed();
-        itemToHotbar();
+        itemToHotbar();   
     }
 
     public void getItemsInventory(boolean executedToShowItemsInInventory)
@@ -93,7 +90,6 @@ public class InventoryScreen extends Actor
             }
 
             
-            
             firstRead = true;
         }
         catch(IOException e)
@@ -106,7 +102,7 @@ public class InventoryScreen extends Actor
             System.out.println("Inventory JSON invalid.");
             e.printStackTrace();
         }
-        
+
         if(executedToShowItemsInInventory){
             scaleImages();
             showInventoryBackground();
@@ -139,11 +135,10 @@ public class InventoryScreen extends Actor
     {
         getItemsInventory(false);
         int stackSize = getStackSize(item);
-        
+
         if((inventory.getOrDefault(item, 0) + amount) > stackSize){
             inventory.put(item, stackSize);
-            
-            
+
             
             //  überschuss muss hier ausgeworfen werden
             //  überschuss als neuen stack werten ist schwierig weil json parser keine doppelten werte zulassen und maps leider auch nicht   :(
@@ -164,20 +159,20 @@ public class InventoryScreen extends Actor
                 System.out.println("zu viele items im inventar");
             }
         }
-        
+
         setItemsInventory();
     }
+
     public int getStackSize(String item){
         try{
             String jsonText = new String(Files.readAllBytes(Paths.get("items/" + item + ".json")));
-            
+
             if(jsonText.trim().isEmpty()){
                 jsonText = "{}";
             }
-            
+
             JSONObject itemsJSON = new JSONObject(jsonText);
-            
-            
+
             return itemsJSON.getInt("stackSize");
         }
         catch(IOException e)
@@ -196,17 +191,17 @@ public class InventoryScreen extends Actor
     public boolean checkIfItemCanBeRemoved(String item, int amount)
     {
         getItemsInventory(false);
-        
+
         int current = inventory.getOrDefault(item, 0);
 
         current -= amount;
-        
+
         if(current < 0){
             return false;
         }
         return true;
     }
-    
+
     public void removeItem(String item, int amount){
         if(checkIfItemCanBeRemoved(item, amount)){
             removeItemsNoCheck(item, amount);
@@ -215,19 +210,19 @@ public class InventoryScreen extends Actor
             System.out.println("item can't be removed");
         }
     }
-    
+
     //!!! WICHTIG:
     //Diese Methode nicht nutzen
     //Aber auch nicht löschen(ist wichtig)
     public void removeItemsNoCheck(String item, int amount){
         getItemsInventory(false);
-        
+
         int current = inventory.getOrDefault(item, 0);
 
         current -= amount;
-        
+
         inventory.put(item, current);
-        
+
         setItemsInventory();
     }
 
@@ -235,7 +230,7 @@ public class InventoryScreen extends Actor
     {
         return inventory.getOrDefault(item, 0);
     }
-    
+
     public boolean itemExistsInInventory(String item){
         getItemsInventory(false);
         if(inventory.get(item) == null){
@@ -267,17 +262,17 @@ public class InventoryScreen extends Actor
             }
         }
     }
-    
+
     public void addNumbers(){
         int loop = 0;
         for(String key : inventory.keySet()){
             if(inventory.getOrDefault(key, 0) > 0){
                 String intToString = Integer.toString(inventory.getOrDefault(key, 0));
-                
+
                 if(intToString.length() < 2){
                     intToString = "0" + intToString;
                 }
-            
+
                 for(int i = 0; i < intToString.length(); i++){
                     int number = Integer.parseInt(String.valueOf(intToString.charAt(i)));
                     getImage().drawImage(numberArray[number], numbersX[loop], numbersY[loop]);
@@ -286,50 +281,54 @@ public class InventoryScreen extends Actor
             }
         }
     }
-    
-    public void itemPressed(){
-        MyWorld world = (MyWorld)getWorld();
-        
-        Item clicked = null;
 
-        for(Item item : world.itemsArray){
-            if(item != null && Greenfoot.mousePressed(item)){
-                
-                clicked = item;
+    public void itemPressed(){
+        // MyWorld world = (MyWorld)getWorld();
+
+        // Item clicked = null;
+
+        // for(Item item : world.itemsArray){
+        // if(item != null && Greenfoot.mousePressed(item)){
+
+        // clicked = item;
+        // break;
+        // }
+        // }
+
+        // if(clicked != null){
+        // removeItemsNoCheck(clicked.getName(), 1);
+        // world.updateInventoryScreen();
+
+        // //Items droppen lassen!!!
+        // }
+    }
+
+    public void itemToHotbar()
+    {
+        MyWorld world = (MyWorld)getWorld();
+
+        if (world == null) return;
+
+        int slot = -1;
+
+        if (Greenfoot.isKeyDown("1")) slot = 0;
+        else if (Greenfoot.isKeyDown("2")) slot = 1;
+        else if (Greenfoot.isKeyDown("3")) slot = 2;
+        else if (Greenfoot.isKeyDown("4")) slot = 3;
+
+        if (slot == -1) return; // Keine Taste gedrückt
+
+        for (Item item : world.itemsArray)
+        {
+            if (item != null && Greenfoot.mouseMoved(item))
+            {
+                hotbarItems[slot] = item.getName();
+                System.out.println(item.getName() + " -> Hotbar Slot " + (slot + 1));
                 break;
             }
         }
+    }
 
-        if(clicked != null){
-                removeItemsNoCheck(clicked.getName(), 1);
-                world.updateInventoryScreen();
-            
-                //Items droppen lassen!!!
-        }
-    }
-    public void itemToHotbar(){
-        MyWorld world = (MyWorld)getWorld();
-        
-        for(Item item : world.itemsArray){
-            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("1")){
-                hotbarItems[0] = item.getName();
-            }
-            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("2")){
-                hotbarItems[1] = item.getName();
-            }
-            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("3")){
-                hotbarItems[2] = item.getName();
-            }
-            if(item != null && Greenfoot.mouseMoved(item) && Greenfoot.isKeyDown("4")){
-                hotbarItems[3] = item.getName();
-            }
-            for(String i : hotbarItems){
-                System.out.println(i);
-            }
-            System.out.println("");
-        }
-    }
-    
     public void showInventoryBackground(){
         int countItems = 0;
         for(String key : inventory.keySet()){
@@ -338,7 +337,7 @@ public class InventoryScreen extends Actor
             }
         }
         String countItemsString = Integer.toString(countItems);
-        
+
         GreenfootImage img = new GreenfootImage("InventorySprites/inventarBackgrounds/" + countItemsString + ".png");
         setImage(img);
     }
