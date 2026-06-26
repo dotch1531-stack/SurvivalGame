@@ -58,9 +58,9 @@ public class InventoryScreen extends Actor
             185, 185, 185, 185
         };
 
-    String[] hotbarItems = {null, null, null, null};
+    public String[] hotbarItems = {null, null, null, null};
 
-    public InventoryScreen(){MyWorld world = (MyWorld)getWorld(); if(world!=null){System.out.println("nigga");}}
+    public InventoryScreen(){MyWorld world = (MyWorld)getWorld();}
 
     public void act()
     {

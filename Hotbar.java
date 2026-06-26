@@ -10,6 +10,7 @@ public class Hotbar extends InventoryScreen
         img = new GreenfootImage("hotbar.png");
         img.scale(300, 75);
         setImage(img);
+        changeSlot(1);
     }
 
     public void changeSlot(int slot)
