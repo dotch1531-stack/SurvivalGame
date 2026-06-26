@@ -8,9 +8,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Stone extends Item
 {
-    public Stone(){
+    public Stone(boolean forHotbar){
         GreenfootImage img = new GreenfootImage("InventorySprites/Stein.png");
-        img.scale(150, 150);
+        if(forHotbar){
+            img.scale(50, 50);
+        }
+        else{
+            img.scale(150, 150);    
+        }
         setImage(img);
     }
     public void act()

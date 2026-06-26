@@ -8,9 +8,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Leaf extends Item
 {
-    public Leaf(){
+    public Leaf(boolean forHotbar){
         GreenfootImage img = new GreenfootImage("InventorySprites/Blatt.png");
-        img.scale(150, 150);
+        if(forHotbar){
+            img.scale(50, 50);
+        }
+        else{
+            img.scale(150, 150);    
+        }
         setImage(img);
     }
     public void act()

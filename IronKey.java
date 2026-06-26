@@ -12,9 +12,14 @@ public class IronKey extends Item
      * Act - do whatever the Pickaxe wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public IronKey(){
+    public IronKey(boolean forHotbar){
         GreenfootImage img = new GreenfootImage("InventorySprites/EisenSchluessel.png");
-        img.scale(150, 150);
+        if(forHotbar){
+            img.scale(50, 50);
+        }
+        else{
+            img.scale(150, 150);    
+        }
         setImage(img);
     }
     public void act()
