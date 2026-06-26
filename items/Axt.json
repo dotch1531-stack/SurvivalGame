@@ -1,6 +1,9 @@
 {
     "name": "Axt",
-    "schaden" : 2,
+    "schaden" : {
+        "tree" : 2,
+        "entity" : 2
+    },
     "stackSize" : 1,
     "recipe" : {
         "Eisen" : 3,

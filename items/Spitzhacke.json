@@ -1,6 +1,10 @@
 {
     "name": "Spitzhacke",
-    "schaden" : 2,
+    "schaden" : {
+        "entity" : 2,
+        "stone" : 3,
+        "iron" : 3
+    },
     "stackSize" : 1,
     "recipe" : {
         "Eisen" : 4,

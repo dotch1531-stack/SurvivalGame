@@ -326,6 +326,7 @@ public class InventoryScreen extends Actor
             for(String i : hotbarItems){
                 System.out.println(i);
             }
+            System.out.println("");
         }
     }
     

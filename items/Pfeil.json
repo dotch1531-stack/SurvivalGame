@@ -1,7 +1,9 @@
 {
     "name": "Pfeil",
     "stackSize" : 99,
-    "schaden" : 4,
+    "schaden" : {
+        "entity" : 3
+    },
     "recipe" : {
         "Feder" : 3,
         "Holz" : 1,

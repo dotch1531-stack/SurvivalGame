@@ -1,6 +1,8 @@
 {
     "name": "Schwert",
-    "schaden" : 5,
+    "schaden" : {
+        "entity" : 3
+    },
     "stackSize" : 1,
     "recipe" : {
         "Eisen" : 3,
