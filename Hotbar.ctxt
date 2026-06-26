@@ -2,8 +2,8 @@
 comment0.target=Hotbar
 comment1.params=
 comment1.target=Hotbar()
-comment2.params=
-comment2.target=void\ changeSlot()
+comment2.params=slot
+comment2.target=void\ changeSlot(int)
 comment3.params=
 comment3.target=void\ act()
 numComments=4
