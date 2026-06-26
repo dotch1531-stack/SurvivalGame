@@ -36,7 +36,7 @@ public class Player extends Actor
     public BreakProgress progress;
     
     
-    public int waterTimer = 1000;
+    public int waterTimer = 500;
     
     public boolean inWaterStatement;
 
@@ -57,6 +57,8 @@ public class Player extends Actor
         movementAnimation();
         updateHitbox();
         hitCheck();
+        
+        if(Greenfoot.mousePressed(null) && getHolding() == "steak"){damage(-1);}
         
         if (inWaterStatement){
             waterTimer--;
@@ -202,16 +204,19 @@ public class Player extends Actor
         }
     }
     
-    public String getHolding(){return "AA";}
+    public String getHolding(){return "niga";}
     
     //HITTING WORKS - DO NOT TOUCH
     public void hitCheck()
     {
+        
         if(Greenfoot.mousePressed(null))
         {
-            hitbox.checkHits(1,1);
+            hitbox.checkHits(1,1,1,1,1);
         }
     }
+    
+
     
 
 }

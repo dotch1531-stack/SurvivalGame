@@ -27,6 +27,7 @@ public abstract class WorldObject extends Actor
     public List<String> drops = Collections.emptyList();
     public int dropAmount = 1;  
     
+    
 
 
     // ===== SCREEN POSITION =====
