@@ -202,6 +202,7 @@ public class Player extends Actor
         }
     }
     
+    public String getHolding(){return "AA";}
     
     //HITTING WORKS - DO NOT TOUCH
     public void hitCheck()
