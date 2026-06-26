@@ -8,19 +8,19 @@ public class Hitbox extends Actor
         setImage("attackHitbox.png");
     }
 
-    public void checkHits()
+    public void checkHits(int DamageEntity, int DamageObject)
     {
         List<Entity> entities = getIntersectingObjects(Entity.class);
         List<WorldObject> objects = getIntersectingObjects(WorldObject.class);
 
         for(Entity e : entities)
         {
-            e.damage(1);
+            e.damage(1 * DamageEntity);
         }
         
         for(WorldObject o : objects)
         {
-            o.damage(1);
+            o.damage(1 * DamageObject);
         }
     }
 }
