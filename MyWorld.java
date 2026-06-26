@@ -122,7 +122,7 @@ public class MyWorld extends World
 
         tiles = new GreenfootImage[6];
         
-        setPaintOrder(Hotbar.class);
+        setPaintOrder(CraftingScreen.class, Hotbar.class);
 
         // ===== LOAD TILES =====
         for(int i = 0; i < 6; i++)
