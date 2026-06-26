@@ -2,7 +2,6 @@ import greenfoot.*;
 
 public class Hotbar extends InventoryScreen
 {
-    private int hotbarSelected = 0;
     private GreenfootImage img;
 
     public Hotbar()
@@ -12,26 +11,19 @@ public class Hotbar extends InventoryScreen
         setImage(img);
     }
 
-    public void changeSlot()
+    public void changeSlot(int slot)
     {
-        GreenfootImage newImg = new GreenfootImage("Hotbar/Hotbar_"+hotbarSelected+".png");
+        GreenfootImage newImg = new GreenfootImage("Hotbar/Hotbar_"+slot+".png");
         newImg.scale(300, 75);
         setImage(newImg);
     }
 
     public void act()
     {
-        for (int i = 1; i <= 4; i++)
-        {
-            if (Greenfoot.isKeyDown(String.valueOf(i)))
-            {
-                if (hotbarSelected != i)
-                {
-                    hotbarSelected = i;
-                    changeSlot();
-                }
-                break;
-            }
-        }
+        if(Greenfoot.isKeyDown("1")){changeSlot(1);}
+        else if(Greenfoot.isKeyDown("2")){changeSlot(2);}
+        else if(Greenfoot.isKeyDown("3")){changeSlot(3);}
+        else if(Greenfoot.isKeyDown("3")){changeSlot(3);}
+        else if(Greenfoot.isKeyDown("4")){changeSlot(4);}
     }
 }
