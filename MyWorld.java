@@ -940,20 +940,20 @@ public class MyWorld extends World
 
     public void drawInventoryItems(String item, int x, int y){
         Map<String, Supplier<Item>> itemFactory = Map.ofEntries(
-                Map.entry("Axt", Axe::new),
-                Map.entry("Eisen", Iron::new),
-                Map.entry("Spitzhacke", Pickaxe::new),
-                Map.entry("Stein", Stone::new),
-                Map.entry("Schwert", Sword::new),
-                Map.entry("Holz", Wood::new),
-                Map.entry("Blatt", Leaf::new),
-                Map.entry("Seil", Rope::new),
-                Map.entry("SteakGekocht", SteakCooked::new),
-                Map.entry("SteakRoh", SteakRaw::new),
-                Map.entry("Feder", Feather::new),
-                Map.entry("Pfeil", Arrow::new),
-                Map.entry("SteinSpitzhacke", StonePickaxe::new),
-                Map.entry("HolzSchluessel", WoodKey::new)
+                Map.entry("Axt", () -> new Axe(false)),
+                Map.entry("Eisen", () -> new Iron(false)),
+                Map.entry("Spitzhacke", () -> new Pickaxe(false)),
+                Map.entry("Stein", () -> new Stone(false)),
+                Map.entry("Schwert", () -> new Sword(false)),
+                Map.entry("Holz", () -> new Wood(false)),
+                Map.entry("Blatt", () -> new Leaf(false)),
+                Map.entry("Seil", () -> new Rope(false)),
+                Map.entry("SteakGekocht", () -> new SteakCooked(false)),
+                Map.entry("SteakRoh", () -> new SteakRaw(false)),
+                Map.entry("Feder", () -> new Feather(false)),
+                Map.entry("Pfeil", () -> new Arrow(false)),
+                Map.entry("SteinSpitzhacke", () -> new StonePickaxe(false)),
+                Map.entry("HolzSchluessel", () -> new WoodKey(false))
             );
 
         Supplier<Item> supplier = itemFactory.get(item);
@@ -1002,6 +1002,14 @@ public class MyWorld extends World
 
         drawCraftButtons(currentCraftingPage);
         Greenfoot.delay(20);
+    }
+    
+    public void drawItemHotbar(String[] hotbarItems){
+        for(String item : hotbarItems){
+            if(item != null){
+                //draw Items on the hotbar (as actors)
+            }
+        }
     }
 
     public void drawCommitCraft(boolean pressable){
