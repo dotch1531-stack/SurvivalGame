@@ -2,8 +2,9 @@ import greenfoot.*;
 
 public class CaveInteriorWorld extends MyWorld
 {
-    public static CaveInteriorWorld instance;
     private MyWorld returnWorld;
+    
+    
 
     // ===== TILE SYSTEM =====
     private GreenfootImage tileSet;
@@ -28,6 +29,9 @@ public class CaveInteriorWorld extends MyWorld
     // =========================================================
     public CaveInteriorWorld(Player playerCave, MyWorld worldToReturnTo, int spawnX, int spawnY)
     {
+        
+        instance = this;
+
         returnWorld = worldToReturnTo;
         player = playerCave;
 
@@ -245,8 +249,11 @@ public class CaveInteriorWorld extends MyWorld
 
             returnWorld.cameraX = returnWorld.lastCameraX;
             returnWorld.cameraY = returnWorld.lastCameraY;
-
+            
+            returnWorld.gonnaReturn();
             Greenfoot.setWorld(returnWorld);
+            
+            
 
             returnWorld.addObject(player, 400, 400);
 

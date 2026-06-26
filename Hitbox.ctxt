@@ -2,6 +2,6 @@
 comment0.target=Hitbox
 comment1.params=
 comment1.target=Hitbox()
-comment2.params=
-comment2.target=void\ checkHits()
+comment2.params=DamageEntity\ DamageObject
+comment2.target=void\ checkHits(int,\ int)
 numComments=3
