@@ -41,6 +41,8 @@ public class Player extends Actor
     public boolean inWaterStatement;
 
     Hitbox hitbox = new Hitbox();
+    InventoryScreen invScreen = new InventoryScreen();
+    Hotbar hotbar = new Hotbar();
 
     public Player()
     {
@@ -204,7 +206,7 @@ public class Player extends Actor
         }
     }
     
-    public String getHolding(){return "niga";}
+    public String getHolding(){return invScreen.hotbarItems[hotbar.currentSlot - 1];}
     
     //HITTING WORKS - DO NOT TOUCH
     public void hitCheck()
